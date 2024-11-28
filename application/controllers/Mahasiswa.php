@@ -373,7 +373,6 @@ public function get_prodi_by_fakultas()
             /**
              * @var		mixed	$row->nim
              */
-            $nim = $row->nim;
             /**
              * @var		mixed	$row->nama_mhs
              */
@@ -430,7 +429,6 @@ public function get_prodi_by_fakultas()
              * @param	string	'nim'	
              * @return	void
              */
-            $lnim = form_label('NIM', 'nim');
             /**
              * $lnama_mhs.
              *. label nama mahasiswa 
@@ -438,7 +436,7 @@ public function get_prodi_by_fakultas()
              * @param	string	'nama_mhs'      	
              * @return	void
              */
-            $lnama_mhs = form_label('Nama Mahasiswa', 'nama_mhs');
+            $lnama_mhs = form_label('Nama Peserta', 'nama_mhs');
             /**
              * $lfakultas.
              * label program studi
@@ -446,7 +444,7 @@ public function get_prodi_by_fakultas()
              * @param	string	'fakultas'        	
              * @return	void
              */
-            $lfakultas = form_label('Fakultas', 'fakultas');
+            $lfakultas = form_label('Departemen', 'fakultas');
             /**
              * $lprodi.
              * label prodi 
@@ -454,7 +452,7 @@ public function get_prodi_by_fakultas()
              * @param	string	'prodi'	
              * @return	void
              */
-            $lprodi = form_label('Prodi', 'prodi');
+            $lprodi = form_label('Jurusan', 'prodi');
             /**
              * $lemail.
              *  
@@ -470,7 +468,7 @@ public function get_prodi_by_fakultas()
              * @param	string	'no_telp'     	
              * @return	void
              */
-            $lno_telp = form_label('Nomo Telepon', 'no_telp');
+            $lno_telp = form_label('Nomor Telepon', 'no_telp');
             // ATTRIBUTE INPUT TEXT     
             $ltanggal_lahir = form_label('Tanggal Lahir', 'tanggal_lahir');
             /**
@@ -489,16 +487,7 @@ public function get_prodi_by_fakultas()
             /**
              * @var		mixed	$inim
              */
-            $attrnim = array(
-                'type' => 'text',
-                'name' => 'nim',
-                'id' => 'nim',
-                'placeholder' => 'Masukkan nim',
-                'value' => set_value('nim', $nim),
-                'class' => 'form-control nim',
-                'required' => 'required'
-            );
-
+           
             /**
              * @var		mixed	$inama_mhs
              */
@@ -632,12 +621,7 @@ public function get_prodi_by_fakultas()
              * @param	mixed	$attrnim	
              * @return	void
              */
-            $inputnim = form_input($attrnim);
-            /**
-             * $inputnama.
-             * @param	mixed	$inama_mhs	
-             * @return	void
-             */
+           
             $inputnama_mhs = form_input($attrnama_mhs);
             /**
              * $inputemail.
@@ -684,13 +668,7 @@ $inputtanggal_lahir = form_input($attrtanggal_lahir);
              * @param	string	'nim'	
              * @return	void
              */
-            $fe_nim = form_error('nim');
-            /**
-             * $fe_namamhs.
-             *
-             * @param	string	'nama_mhs'	
-             * @return	void
-             */
+           
             $fe_namamhs = form_error('nama_mhs');
             /**
              * $fe_email.
@@ -729,10 +707,7 @@ $fe_tanggal_lahir = form_error('tanggal_lahir');
              *
              * @var		string	$ivnim
              */
-            $ivnim = 'NIM harus diisi!';
-            /**
-             * @var		string	$ivnama_mhs
-             */
+            
             $ivnama_mhs = 'Nama harus diisi!';
             /**
              * @var		string	$ivemail
@@ -757,7 +732,6 @@ $ivtanggal_lahir = 'Tanggal lahir harus diisi!';
                 'parent' => 'Data Mahasiswa',
                 'title' => 'Update Mahasiswa',
                 'prodi' => $prodi,
-                'lnim' => $lnim,
                 'lnama_mhs' => $lnama_mhs,
                 'lfakultas' => $lfakultas,
                 'lprodi' => $lprodi,
@@ -765,19 +739,17 @@ $ivtanggal_lahir = 'Tanggal lahir harus diisi!';
                 'lno_telp' => $lno_telp,
                 'ltanggal_lahir' => $ltanggal_lahir, // Tambahkan label tanggal lahir
                 'inputid' => $inputid_mahasiswa,
-                'inputnim' => $inputnim,
                 'inputnama_mhs' => $inputnama_mhs,
                 'iemail' => $inputemail,
                 'inputno_telp' => $inputno_telp,
                 'inputtanggal_lahir' => $inputtanggal_lahir, // Tambahkan input tanggal lahir
                 'ddfakultas' => $ddfakultas,
                 'ddprodi' => $ddprodi,
-                'fe_nim' => $fe_nim,
                 'fe_namamhs' => $fe_namamhs,
                 'fe_email' => $fe_email,
                 'fe_notelp' => $fe_notelp,
                 'fe_tanggal_lahir' => $fe_tanggal_lahir, // Tambahkan error tanggal lahir
-                'ivnim' => $ivnim,
+               
                 'ivnama_mhs' => $ivnama_mhs,
                 'ivemail' => $ivemail,
                 'ivnotelp' => $ivnotelp,
@@ -803,7 +775,6 @@ $ivtanggal_lahir = 'Tanggal lahir harus diisi!';
           $this->update();
       } else {
           $id = $this->input->post('id_mahasiswa', TRUE);
-          $nim = $this->input->post('nim', TRUE);
           $nama_mhs = $this->input->post('nama_mhs', TRUE);
           $fakultas = $this->input->post('fakultas', TRUE);
           $prodi = $this->input->post('prodi', TRUE);
@@ -826,7 +797,6 @@ $ivtanggal_lahir = 'Tanggal lahir harus diisi!';
           
           $data = array(
               'id_mahasiswa' => $id,
-              'nim' => $nim,
               'nama_mhs' => $nama_mhs,
               'id_fakultas' => $fakultas,
               'id_prodi' => $prodi,
@@ -852,12 +822,7 @@ $ivtanggal_lahir = 'Tanggal lahir harus diisi!';
     }
     public function _rules()
     {
-        $attrnim = array(
-            'required' => 'NIM harus diisi!',
-            'min_length' => 'NIM minimal 8 karakter!',
-            'max_length' => 'NIM melebihi 8 karakter!',
-            'numeric' => 'NIM tidak menggunakan huruf!'
-        );
+        
     
         $attrnama_mhs = array(
             'required' => 'Nama mahasiswa harus diisi!',
@@ -882,7 +847,6 @@ $ivtanggal_lahir = 'Tanggal lahir harus diisi!';
         );
     
         // Mengatur form validasi
-        $this->form_validation->set_rules('nim', 'NIM', 'trim|required|numeric|min_length[8]|max_length[8]', $attrnim);
         $this->form_validation->set_rules('nama_mhs', 'Nama Mahasiswa', 'required|min_length[5]|max_length[50]', $attrnama_mhs);
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email', $attremail);
         $this->form_validation->set_rules('no_telp', 'Nomor Telepon', 'trim|required|min_length[12]|max_length[15]', $attrno_telp);

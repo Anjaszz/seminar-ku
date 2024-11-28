@@ -35,7 +35,6 @@
                     </ul>
                 </li>
                 
-                <li data-username="pendaftaran" class="nav-item"><a href="<?= site_url('pendaftaran') ?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-book"></i></span><span class="pcoded-mtext">Pendaftaran Seminar</span></a></li>
                 <li data-username="extra components session timeout session idle timeout offline" class="nav-item pcoded-hasmenu">
                     <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-grid"></i></span><span class="pcoded-mtext">Data QR Code</span></a>
                     <ul class="pcoded-submenu">
@@ -44,6 +43,7 @@
                     </ul>
                 </li>
                 <li data-username="animations" class="nav-item"><a href="<?= site_url('laporan') ?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-clipboard"></i></span><span class="pcoded-mtext">Laporan Presensi</span></a></li>
+                <li data-username="animations" class="nav-item"><a href="<?= site_url('laporankeuangan') ?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-clipboard"></i></span><span class="pcoded-mtext">Laporan Keuangan</span></a></li>
 
                 <!-- Navbar Sertifikat dan File -->
                 <li data-username="uploads" class="nav-item pcoded-hasmenu">

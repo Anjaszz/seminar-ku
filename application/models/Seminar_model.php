@@ -4,6 +4,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Seminar_model extends CI_Model
 {
 
+    public function get_seminar_id($id)
+    {
+        return $this->db->get_where('seminar', ['id_seminar' => $id])->row_array();
+    }
+
+public function update_seminar($id, $data)
+{
+    $this->db->where('id_seminar', $id);
+    $this->db->update('seminar', $data);
+}
+
+
         public function get_nama_seminar_by_id($id_seminar)
         {
             $this->db->select('nama_seminar');
@@ -45,6 +57,18 @@ public function get_seminar_by_id($id_seminar) {
     public function insert_data($data)
     {
         return $this->db->insert('seminar', $data);
+    }
+
+    public function get_all_kategori() {
+        return $this->db->get('kategori_seminar')->result_array();
+    }
+
+    public function get_all_lokasi() {
+        return $this->db->get('lokasi_seminar')->result_array();
+    }
+
+    public function get_all_fakultas() {
+        return $this->db->get('fakultas')->result_array();
     }
 
     public function get_row($id)

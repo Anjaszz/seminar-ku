@@ -37,13 +37,7 @@
             </div>
             <div class="card-body">
                 <?= $formopen ?>
-                <div class="form-row">
-                    <?= $lnim ?>
-                    <?= $inputnim; ?>
-                    <?= $fe_nim ?>
-                    <div class="invalid-feedback"><?= $ivnim ?></div>
-                    <div class="valid-feedback"></div>
-                </div>
+                
                 <div class="form-row">
                     <?= $lnama_mhs ?>
                     <?= $inputnama_mhs ?>
