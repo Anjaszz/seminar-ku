@@ -7,9 +7,9 @@ class Sponsor extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-   if (!$this->ion_auth->logged_in()) {
-        redirect('auth');
-    }        $this->load->model('Sponsor_model', 'sp');
+        if (!$this->session->userdata('id_vendor')) {
+            redirect('auth'); // Redirect ke halaman login
+        }        $this->load->model('Sponsor_model', 'sp');
     }
 
     public function index()

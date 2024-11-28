@@ -60,10 +60,7 @@
                         <?= $lprodi ?>
                         <?= $ddprodi ?>
                     </div>
-                    <div class="form-group col-md-6">
-                        <?= $ljenjang ?>
-                        <?= $ddjenjang ?>
-                    </div>
+                    
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -123,23 +120,32 @@
             });
         <?php endif; ?>
 
-    // Dropdown dinamis fakultas & prodi
-    $('#fakultas').change(function() {
-        var fakultas_id = $(this).val();
-        if (fakultas_id != '') {
-            $.ajax({
-                url: "<?php echo base_url('mahasiswa/get_prodi_by_fakultas'); ?>",
-                method: "POST",
-                data: {fakultas_id: fakultas_id},
-                success: function(data) {
-                    $('#prodi').html(data);
-                }
-            });
-        }
+        // Dropdown dinamis fakultas & prodi
+        $('#fakultas').change(function() {
+            var fakultas_id = $(this).val();
+            if (fakultas_id != '') {
+                $.ajax({
+                    url: "<?php echo base_url('mahasiswa/get_prodi_by_fakultas'); ?>",
+                    method: "POST",
+                    data: {fakultas_id: fakultas_id},
+                    success: function(data) {
+                        $('#prodi').html(data);
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal!',
+                            text: 'Gagal mengambil data jurusan. Silakan coba lagi.',
+                            showConfirmButton: true,
+                        });
+                    }
+                });
+            } else {
+                $('#prodi').html('<option value="">Pilih Jurusan</option>'); // Reset dropdown jika fakultas tidak dipilih
+            }
+        });
     });
-});
 </script>
-
 
 <script>
     (function() {
@@ -158,4 +164,5 @@
         }, false);
     })();
 </script>
+
 

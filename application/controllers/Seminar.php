@@ -9,9 +9,9 @@ class Seminar extends CI_Controller
     {
        
         parent::__construct();
-   if (!$this->ion_auth->logged_in()) {
-        redirect('auth');
-    }        $this->load->model('Seminar_model', 'sm');
+        if (!$this->session->userdata('id_vendor')) {
+            redirect('auth'); // Redirect ke halaman login
+        }        $this->load->model('Seminar_model', 'sm');
     }
 
     public function index()

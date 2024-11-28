@@ -51,8 +51,8 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Prodi</th>
-                                <th>Kode Prodi</th>
+                                <th>Nama Jurusan</th>
+                                <th>Kode Jurusan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>

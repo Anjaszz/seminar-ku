@@ -7,12 +7,12 @@ class Mahasiswa_model extends CI_Model
 {
 
     function lihat_data()
-    {
-        $this->db->join('fakultas', 'fakultas.id_fakultas = mahasiswa.id_fakultas', 'left');
-        $this->db->join('prodi', 'prodi.id_prodi = mahasiswa.id_prodi', 'left');
-        $this->db->join('jenjang', 'jenjang.id_jenjang = mahasiswa.id_jenjang', 'left');
-        return $this->db->get('mahasiswa')->result();
-    }
+{
+    $this->db->join('fakultas', 'fakultas.id_fakultas = mahasiswa.id_fakultas', 'left');
+    $this->db->join('prodi', 'prodi.id_prodi = mahasiswa.id_prodi', 'left'); // Join dengan tabel prodi
+    return $this->db->get('mahasiswa')->result();
+}
+
     function get_prodi_by_fakultas($fakultas_id)
     {
         $this->db->where('id_fakultas', $fakultas_id);
@@ -27,10 +27,7 @@ class Mahasiswa_model extends CI_Model
     {
         return $this->db->get('prodi')->result();
     }
-    function get_jenjang()
-    {
-        return $this->db->get('jenjang')->result();
-    }
+    
 
     
     function insert_data($data)
@@ -94,7 +91,6 @@ public function check_email_exists_except_self($email, $id)
         $this->db->where('id_mahasiswa', $id);
         $this->db->join('fakultas', 'fakultas.id_fakultas = mahasiswa.id_fakultas', 'left');
         $this->db->join('prodi', 'prodi.id_prodi = mahasiswa.id_prodi', 'left');
-        $this->db->join('jenjang', 'jenjang.id_jenjang = mahasiswa.id_jenjang', 'left');
         return   $this->db->get('mahasiswa');
     }
 

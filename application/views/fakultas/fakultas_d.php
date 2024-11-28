@@ -64,8 +64,9 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Mahasiswa</th>
-                                    <th>Informasi Studi</th>
+                                    <th>Nama Peserta</th>
+                                    <th>Departemen</th>
+                                    <th>Jurusan</th>
                                     <th>Email</th>
                                     <th>No Telepon</th>
                                     <th>Aksi
@@ -76,38 +77,26 @@
                                 $no = 1;
                                 foreach ($fakultas as $r) { ?>
                                     <tr>
-                                        <td><?= $no++ ?></td>
-                                        <td>
-                                            <h6 class="m-0"><?= $r->nama_mhs ?></h6>
-                                            <p class="m-0">NIM : <?= $r->nim ?></p>
-                                        </td>
-                                        <td>
-                                            <?php if ($r->id_fakultas == 1) : ?>
-                                                <label class="badge badge-danger"><?= $r->kode_fakultas ?></label>
-                                            <?php elseif ($r->id_fakultas == 2) : ?>
-                                                <label class="badge badge-info"><?= $r->kode_fakultas ?></label>
-                                            <?php elseif ($r->id_fakultas == 3) : ?>
-                                                <label class="badge badge-warning"><?= $r->kode_fakultas ?></label>
-                                            <?php endif; ?>
-                                            <?php if ($r->id_prodi == 1) : ?>
-                                                <label class="badge badge-primary"><?= $r->kode_prodi ?></label>
-                                            <?php elseif ($r->id_prodi == 2) : ?>
-                                                <label class="badge badge-success"><?= $r->kode_prodi ?></label>
-                                            <?php elseif ($r->id_prodi == 3) : ?>
-                                                <label class="badge badge-secondary"><?= $r->kode_prodi ?></label>
-                                            <?php endif; ?>
-                                            <?php if ($r->id_jenjang == 1) : ?>
-                                                <label class="badge badge-primary"><?= $r->kode_jenjang ?></label>
-                                            <?php elseif ($r->id_jenjang == 2) : ?>
-                                                <label class="badge badge-success"><?= $r->kode_jenjang ?></label>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td><?= $r->email ?></td>
-                                        <td><?= $r->no_telp ?></td>
-                                        <td>
-                                            <?php echo anchor("mahasiswa/detail/{$r->id_mahasiswa}", "<i class='feather icon-eye'></i>Detail", ['class' => 'btn btn-sm btn-gradient-info']) ?>
-                                        </td>
-                                    </tr>
+            <td><?= $no++ ?></td>
+            <td>
+                <h6 class="m-0"><?= $r->nama_mhs ?></h6>
+            </td>
+            <td>
+                <label class="badge badge-info"><?= $r->kode_fakultas ?></label>
+            </td>
+            <td>
+                <label class="badge badge-success"><?= $r->nama_prodi ?></label> <!-- Tampilkan nama_prodi -->
+            </td>
+            <td><?= $r->email ?></td>
+            <td><?= $r->no_telp ?></td>
+            <td>
+                <?php echo anchor("mahasiswa/detail/{$r->id_mahasiswa}", "<i class='feather icon-eye'></i>Detail", ['class' => 'btn btn-sm btn-gradient-info']) ?>
+                <?php echo anchor("mahasiswa/update/{$r->id_mahasiswa}", "<i class='feather icon-edit'></i>Edit", ['class' => 'btn btn-sm btn-gradient-warning']) ?>
+                <a href="#" data-url="<?php echo site_url('mahasiswa/delete/' . $r->id_mahasiswa); ?>" class="btn btn-sm btn-gradient-danger remove-mahasiswa">
+                    <i class='feather icon-trash-2'></i>Hapus
+                </a>
+            </td>
+        </tr>
                                 <?php } ?>
                             </tbody>
                         </table>

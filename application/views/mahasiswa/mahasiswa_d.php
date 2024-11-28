@@ -13,7 +13,25 @@
         min-height: 100px;
         max-width: 100px;
     }
+
+    .edit-btn-container {
+        text-align: right; /* Align the button to the right */
+        margin-top: -50px; /* Adjust vertical position relative to card */
+        margin-right: 10px; /* Add some spacing on the right */
+    }
+
+    .btn-edit {
+        background-color: #f4c542;
+        color: white;
+        border: none;
+    }
+
+    .btn-edit:hover {
+        background-color: #e0b638;
+        color: white;
+    }
 </style>
+
 <div class="page-header">
     <div class="page-block">
         <div class="row align-items-center">
@@ -39,21 +57,12 @@
             </div>
             <div class="card-body text-center">
                 <h3><?= $nama_mhs ?></h3>
-                <p><?= $nim ?></p>
             </div>
             <div class="card-footer bg-inverse">
                 <div class="row text-center">
                     <div class="col">
-                        <h4><?= $kode_fakultas ?></h4>
-                        <span>Fakultas</span>
-                    </div>
-                    <div class="col">
-                        <h4><?= $kode_prodi ?></h4>
-                        <span>Program Studi</span>
-                    </div>
-                    <div class="col">
-                        <h4><?= $kode_jenjang ?></h4>
-                        <span>Jenjang</span>
+                        <h4><?= $nama_prodi ?></h4>
+                        <span>Departemen</span>
                     </div>
                 </div>
             </div>
@@ -64,6 +73,13 @@
         <div class="card" style="height:425px;">
             <div class="card-header">
                 <h5><?= $title ?></h5>
+                <div class="edit-btn-container">
+                    <?php echo anchor(
+                        "mahasiswa/update/{$id_mahasiswa}",
+                        "<i class='feather icon-edit'></i> Edit",
+                        ['class' => 'btn btn-edit btn-sm']
+                    ); ?>
+                </div>
                 <div class="card-header-right">
                     <div class="btn-group card-option">
                         <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -84,7 +100,7 @@
                         <a class="btn btn-outline-danger btn-icon" href="#!" role="button"><i class="fas fa-street-view"></i></a>
                     </div>
                     <div class="media-body">
-                        <div class="chat-header">Fakultas</div>
+                        <div class="chat-header">Departemen</div>
                         <p class="chat-header text-muted"><?= $nama_fakultas ?></p>
                     </div>
                 </div>
@@ -93,17 +109,8 @@
                         <a class="btn btn-outline-info btn-icon" href="#!" role="button"><i class="fas fa-tag"></i></a>
                     </div>
                     <div class="media-body">
-                        <div class="chat-header">Prodi</div>
+                        <div class="chat-header">Jurusan</div>
                         <p class="chat-header text-muted"><?= $nama_prodi ?></p>
-                    </div>
-                </div>
-                <div class="media">
-                    <div class="media-left">
-                        <a class="btn btn-outline-warning btn-icon" href="#!" role="button"><i class="fas fa-graduation-cap"></i></a>
-                    </div>
-                    <div class="media-body">
-                        <div class="chat-header">Jenjang</div>
-                        <p class="chat-header text-muted"><?= $nama_jenjang ?></p>
                     </div>
                 </div>
                 <div class="media">
@@ -124,17 +131,16 @@
                         <p class="chat-header text-muted"><?= $no_telp ?></p>
                     </div>
                 </div>
-                <div class="media"> <!-- Added Tanggal Lahir section -->
+                <div class="media">
                     <div class="media-left">
-                        <a class="btn btn-outline-info btn-icon" href="#!" role="button"><i class="fas fa-birthday-cake"></i></a> <!-- Icon for birthday -->
+                        <a class="btn btn-outline-info btn-icon" href="#!" role="button"><i class="fas fa-birthday-cake"></i></a>
                     </div>
                     <div class="media-body">
                         <div class="chat-header">Tanggal Lahir</div>
-                        <p class="chat-header text-muted"><?= $tanggal_lahir ?></p> <!-- Display Tanggal Lahir -->
+                        <p class="chat-header text-muted"><?= $tanggal_lahir ?></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-

@@ -6,9 +6,9 @@ class Tiket extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-   if (!$this->ion_auth->logged_in()) {
-        redirect('auth');
-    }        $this->load->model('Tiket_model', 'tkt');
+        if (!$this->session->userdata('id_vendor')) {
+            redirect('auth'); // Redirect ke halaman login
+        }        $this->load->model('Tiket_model', 'tkt');
     }
 
     public function index()

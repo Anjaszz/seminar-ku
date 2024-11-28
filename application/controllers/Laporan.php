@@ -9,9 +9,9 @@ class Laporan extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-   if (!$this->ion_auth->logged_in()) {
-        redirect('auth');
-    }        $this->load->model(
+        if (!$this->session->userdata('id_vendor')) {
+            redirect('auth'); // Redirect ke halaman login
+        }         $this->load->model(
             [
                 'Pendaftaran_model' => 'pf',
                 'Seminar_model' => 'sm',

@@ -46,13 +46,7 @@
             <div class="card-header">
                 <h5><?= $title ?></h5>
                 <div class="card-header-right">
-                    <div class="float-right">
-                        <?php echo $btnadd ?>
-                    </div>
-                    <div class="float-right">
-                        <?php echo $btnsadd ?>
-                    </div>
-
+                    
                     <div class="btn-group card-option">
                         <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="feather icon-more-horizontal"></i>
@@ -74,7 +68,10 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Peserta</th>
+                                        <th>ID User</th>
+                                        <th>Nama Peserta</th>
+                                        
+
                                         <th>Email</th>
                                         <th>No Telepon</th>
                                         <th>Tanggal Daftar</th>
@@ -90,10 +87,11 @@
                                     foreach ($pendaftaran as $r) { ?>
                                         <tr>
                                             <td><?= $no++ ?></td>
+                                            <td><?= $r->nim ?></td>
                                             <td>
                                                 <h6 class="m-0"><?= $r->nama_mhs ?></h6>
-                                                <p class="m-0">NIM : <?= $r->nim ?></p>
                                             </td>
+                                            
                                             <td><?= $r->email ?></td>
                                             <td><?= $r->no_telp ?></td>
                                             <td><?= $r->tgl_daftar ?></td>
@@ -115,6 +113,7 @@
                                                 <?php endif; ?>
                                             </td>
                                             <td>
+                                            <?php echo anchor("mahasiswa/detail/{$r->id_mahasiswa}", "<i class='feather icon-eye'></i>Detail", ['class' => 'btn btn-sm btn-gradient-info']) ?>
                                                 <?php echo anchor("pendaftaran/update/{$r->id_pendaftaran}", "<i class='feather icon-edit'></i>Edit", ['class' => 'btn btn-sm btn-gradient-warning']) ?>
                                                 <?php echo anchor("pendaftaran/delete/{$r->id_pendaftaran}", "<i class='feather icon-trash-2'></i>Hapus", ['class' => 'btn btn-sm btn-gradient-danger remove-data']) ?>
                                             </td>

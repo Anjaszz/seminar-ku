@@ -6,9 +6,9 @@ class Scan extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if (!$this->ion_auth->logged_in()) {
-            redirect('auth');
-        }
+        if (!$this->session->userdata('id_vendor')) {
+            redirect('auth'); // Redirect ke halaman login
+        } 
         $this->load->model([
             'Seminar_model' => 'sm',
             'Scan_model' => 'sc',

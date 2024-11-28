@@ -49,8 +49,8 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Kode Fakultas</th>
-                                <th>Nama Fakultas</th>
+                                <th>Kode Departemen</th>
+                                <th>Nama Departemen</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>

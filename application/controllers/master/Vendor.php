@@ -35,6 +35,9 @@ class vendor extends CI_Controller
         $this->template->load('master/template/template_v', 'master/vendor/vendor_v', $data);
     }
 
+    
+
+
     public function add()
 {
     // Aturan validasi
@@ -266,6 +269,8 @@ public function aktifkan($id_vendor)
     // Redirect kembali ke halaman vendor
     redirect('master/vendor/vendor_nonaktif');
 }
+
+
 
 
 

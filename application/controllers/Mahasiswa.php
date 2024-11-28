@@ -9,9 +9,11 @@ class Mahasiswa extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-   if (!$this->ion_auth->logged_in()) {
-        redirect('auth');
-    }      
+
+        // Pastikan pengguna sudah login
+        if (!$this->session->userdata('id_vendor')) {
+            redirect('auth'); // Redirect ke halaman login
+        } 
         $this->load->model('Mahasiswa_model', 'mhs');
     }
 
@@ -42,13 +44,10 @@ class Mahasiswa extends CI_Controller
         $nama_mhs = $row->nama_mhs;
         $id_fakultas = $row->id_fakultas;
         $id_prodi = $row->id_prodi;
-        $id_jenjang = $row->id_jenjang;
         $kode_fakultas = $row->kode_fakultas;
         $kode_prodi = $row->kode_prodi;
-        $kode_jenjang = $row->kode_jenjang;
         $nama_fakultas = $row->nama_fakultas;
         $nama_prodi = $row->nama_prodi;
-        $nama_jenjang = $row->nama_jenjang;
         $email = $row->email;
         $no_telp = $row->no_telp;
         $tanggal_lahir = $row->tanggal_lahir;  // Tambahkan ini
@@ -61,13 +60,10 @@ class Mahasiswa extends CI_Controller
             'nama_mhs' => $nama_mhs,
             'id_fakultas' => $id_fakultas,
             'id_prodi' => $id_prodi,
-            'id_jenjang' => $id_jenjang,
             'kode_fakultas' => $kode_fakultas,
-            'kode_jenjang' => $kode_jenjang,
             'kode_prodi' => $kode_prodi,
             'nama_fakultas' => $nama_fakultas,
             'nama_prodi' => $nama_prodi,
-            'nama_jenjang' => $nama_jenjang,
             'email' => $email,
             'no_telp' => $no_telp,
             'tanggal_lahir' => $tanggal_lahir,  // Tambahkan ini
@@ -79,24 +75,30 @@ class Mahasiswa extends CI_Controller
     }
 }
 
-    public function get_prodi_by_fakultas()
-    {
-        $fakultas_id = $this->input->post('fakultas_id');
+public function get_prodi_by_fakultas()
+{
+    $fakultas_id = $this->input->post('fakultas_id');
+
+    // Validasi input
+    if (!empty($fakultas_id)) {
         $prodi = $this->mhs->get_prodi_by_fakultas($fakultas_id);
-        
-        $options = '';
+        $options = '<option value="">Pilih jurusan</option>'; // Default option
+
         foreach ($prodi as $p) {
             $options .= '<option value="' . $p->id_prodi . '">' . $p->nama_prodi . '</option>';
         }
-        
+
         echo $options;
+    } else {
+        echo '<option value="">Pilih jurusan</option>';
     }
+}
+
     
     public function add()
 {
     $fakultas = $this->mhs->get_fakultas();
     $prodi = $this->mhs->get_prodi();
-    $jenjang = $this->mhs->get_jenjang();
 
     $attrform = array(
         'class' => 'needs-validation',
@@ -109,10 +111,9 @@ class Mahasiswa extends CI_Controller
     $formclose  = form_close();
 
     $lnim = form_label('NIM', 'nim');
-    $lnama_mhs = form_label('Nama Mahasiswa', 'nama_mhs');
-    $lfakultas = form_label('Fakultas', 'fakultas');
-    $lprodi = form_label('Prodi', 'prodi');
-    $ljenjang = form_label('Jenjang', 'jenjang');
+    $lnama_mhs = form_label('Nama Peserta', 'nama_mhs');
+    $lfakultas = form_label('Departemen', 'fakultas');
+    $lprodi = form_label('Jurusan', 'prodi');
     $lemail = form_label('Email', 'email');
     $lno_telp = form_label('Nomor Telepon', 'no_telp');
     $ltanggal_lahir = form_label('Tanggal Lahir', 'tanggal_lahir'); // Label Tanggal Lahir
@@ -198,20 +199,8 @@ class Mahasiswa extends CI_Controller
         'class' => 'form-control'
     );
 
-    $getjng = $this->mhs->get_jenjang();
-    $jenjang = array();
-    foreach ($getjng as $j) {
-        $jenjang[$j->id_jenjang] = $j->nama_jenjang;
-    }
-
-    $optjenjang = array(
-        'id' => 'jenjang',
-        'class' => 'form-control'
-    );
-
     $ddfakultas = form_dropdown('fakultas', $fakultas, set_value('fakultas'), $optfakultas);
     $ddprodi = form_dropdown('prodi', $prodi, set_value('prodi'), $optprodi);
-    $ddjenjang = form_dropdown('jenjang', $jenjang, set_value('jenjang'), $optjenjang);
 
     // FORM INPUT
     $inputid_mahasiswa = form_input($attrid_mahasiswa);
@@ -248,12 +237,10 @@ class Mahasiswa extends CI_Controller
         'parent' => 'Data Mahasiswa',
         'title' => 'Tambah Mahasiswa',
         'prodi' => $prodi,
-        'jenjang' => $jenjang,
         'lnim' => $lnim,
         'lnama_mhs' => $lnama_mhs,
         'lfakultas' => $lfakultas,
         'lprodi' => $lprodi,
-        'ljenjang' => $ljenjang,
         'lemail' => $lemail,
         'lno_telp' => $lno_telp,
         'ltanggal_lahir' => $ltanggal_lahir, // Data Label Tanggal Lahir
@@ -265,7 +252,6 @@ class Mahasiswa extends CI_Controller
         'inputtanggal_lahir' => $inputtanggal_lahir, // Data Input Tanggal Lahir
         'ddfakultas' => $ddfakultas,
         'ddprodi' => $ddprodi,
-        'ddjenjang' => $ddjenjang,
         'fe_nim' => $fe_nim,
         'fe_namamhs' => $fe_namamhs,
         'fe_email' => $fe_email,
@@ -295,7 +281,6 @@ class Mahasiswa extends CI_Controller
       $nama_mhs = $this->input->post('nama_mhs', TRUE);
       $fakultas = $this->input->post('fakultas', TRUE);
       $prodi = $this->input->post('prodi', TRUE);
-      $jenjang = $this->input->post('jenjang', TRUE);
       $email = $this->input->post('email', TRUE);
       
       $no_telp = $this->input->post('no_telp', TRUE);
@@ -324,7 +309,6 @@ class Mahasiswa extends CI_Controller
           'nama_mhs' => $nama_mhs,
           'id_fakultas' => $fakultas,
           'id_prodi' => $prodi,
-          'id_jenjang' => $jenjang,
           'email' => $email,
           'no_telp' => $notelp,
           'tanggal_lahir' => $tanggal_lahir,
@@ -372,13 +356,8 @@ class Mahasiswa extends CI_Controller
          */
         $fakultas = $this->mhs->get_fakultas();
         $prodi = $this->mhs->get_prodi();
-        /**
-         * ambil method dari model untuk menampilkan data jenjang
-         *
-         * @var		mixed	$this->mhs->get_jenjang()
-         */
+        
 
-        $jenjang = $this->mhs->get_jenjang();
         if ($cek_row->num_rows() > 0) {
             /**
              * data yang di return berupa row()
@@ -407,10 +386,6 @@ class Mahasiswa extends CI_Controller
              * @var		mixed	$row->id_prodi
              */
             $id_prodi = $row->id_prodi;
-            /**
-             * @var		mixed	$row->id_jenjang
-             */
-            $id_jenjang = $row->id_jenjang;
             /**
              * @var		mixed	$row->email
              */
@@ -480,14 +455,6 @@ class Mahasiswa extends CI_Controller
              * @return	void
              */
             $lprodi = form_label('Prodi', 'prodi');
-            /**
-             * $ljenjang.
-             *
-             * @param	string	'Jenjang'	
-             * @param	string	'jenjang'	
-             * @return	void
-             */
-            $ljenjang = form_label('Jenjang', 'jenjang');
             /**
              * $lemail.
              *  
@@ -628,24 +595,6 @@ class Mahasiswa extends CI_Controller
                 'class' => 'form-control'
             );
 
-            $getjng = $this->mhs->get_jenjang();
-            /**
-             * $jenjang.
-             *
-             * @return	void
-             */
-            $jenjang = array();
-            foreach ($getjng as $j) {
-                $jenjang[$j->id_jenjang] = $j->nama_jenjang;
-            }
-
-            /**
-             * @var		mixed	$optjenjang
-             */
-            $optjenjang = array(
-                'id' => 'jenjang',
-                'class' => 'form-control'
-            );
 
             /**
              * $ddfakultas.
@@ -671,18 +620,7 @@ class Mahasiswa extends CI_Controller
              * @var		mixed	$inputnim
              */
             /**
-             * $ddjenjang.
-             *
-             * @param	string	'jenjang'           	
-             * @param	mixed 	$jenjang            	
-             * @param	mixed 	set_value('jenjang')	
-             * @param	mixed 	$optjenjang         	
-             * @return	void
-             */
-            $ddjenjang = form_dropdown('jenjang', $jenjang, set_value('jenjang', $id_jenjang), $optjenjang);
-            /**
-             * $inputnim.
-             *
+            
              * @param	mixed	$attrnim	
              * @return	void
              */
@@ -819,12 +757,10 @@ $ivtanggal_lahir = 'Tanggal lahir harus diisi!';
                 'parent' => 'Data Mahasiswa',
                 'title' => 'Update Mahasiswa',
                 'prodi' => $prodi,
-                'jenjang' => $jenjang,
                 'lnim' => $lnim,
                 'lnama_mhs' => $lnama_mhs,
                 'lfakultas' => $lfakultas,
                 'lprodi' => $lprodi,
-                'ljenjang' => $ljenjang,
                 'lemail' => $lemail,
                 'lno_telp' => $lno_telp,
                 'ltanggal_lahir' => $ltanggal_lahir, // Tambahkan label tanggal lahir
@@ -836,7 +772,6 @@ $ivtanggal_lahir = 'Tanggal lahir harus diisi!';
                 'inputtanggal_lahir' => $inputtanggal_lahir, // Tambahkan input tanggal lahir
                 'ddfakultas' => $ddfakultas,
                 'ddprodi' => $ddprodi,
-                'ddjenjang' => $ddjenjang,
                 'fe_nim' => $fe_nim,
                 'fe_namamhs' => $fe_namamhs,
                 'fe_email' => $fe_email,
@@ -872,7 +807,6 @@ $ivtanggal_lahir = 'Tanggal lahir harus diisi!';
           $nama_mhs = $this->input->post('nama_mhs', TRUE);
           $fakultas = $this->input->post('fakultas', TRUE);
           $prodi = $this->input->post('prodi', TRUE);
-          $jenjang = $this->input->post('jenjang', TRUE);
           $email = $this->input->post('email', TRUE);
           $no_telp = $this->input->post('no_telp', TRUE);
           $tanggal_lahir = $this->input->post('tanggal_lahir', TRUE); // Tambahkan ini
@@ -896,7 +830,6 @@ $ivtanggal_lahir = 'Tanggal lahir harus diisi!';
               'nama_mhs' => $nama_mhs,
               'id_fakultas' => $fakultas,
               'id_prodi' => $prodi,
-              'id_jenjang' => $jenjang,
               'email' => $email,
               'no_telp' => $no_telp,
               'tanggal_lahir' => $tanggal_lahir, // Tambahkan ini
@@ -905,7 +838,7 @@ $ivtanggal_lahir = 'Tanggal lahir harus diisi!';
   
           $this->mhs->update_data($id, $data);
           $this->session->set_flashdata('success', 'Data berhasil diubah');
-          redirect('mahasiswa', 'refresh');
+          redirect("mahasiswa/detail/{$id}");
       }
   }
   

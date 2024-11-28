@@ -4,9 +4,9 @@ class Pendaftaran extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-   if (!$this->ion_auth->logged_in()) {
-        redirect('auth');
-    }        $this->load->model(
+        if (!$this->session->userdata('id_vendor')) {
+            redirect('auth'); // Redirect ke halaman login
+        }      $this->load->model(
             [
                 'Pendaftaran_model' => 'pf',
                 'Seminar_model' => 'sm',
@@ -60,125 +60,7 @@ class Pendaftaran extends CI_Controller
         }
     }
 
-    public function add($id)
-    {
-        $get_row = $this->sm->get_sm_row($id);
-        if ($get_row->num_rows() > 0) {
-            $row = $get_row->row();
-            $id_seminar = $row->id_seminar;
-            $nama_seminar = $row->nama_seminar;
-            $title = "Tambah Data Pendaftaran";
-            $parent = "Pendaftaran Seminar";
-            $form = "Formulir Pendaftaran Seminar {$nama_seminar}";
-            $attrform = array(
-                'class' => 'needs-validation',
-                'novalidate' => 'novalidate'
-            );
-
-            $attr_seminar = array(
-                'type' => 'hidden',
-                'name' => 'seminar',
-                'value' => set_value('seminar', $id_seminar)
-            );
-
-            $attr_peserta = array(
-                'name' => 'peserta',
-                'id' => 'peserta',
-                'class' => 'js-example-basic-single form-control',
-                'value' => set_value('peserta'),
-            );
-
-            $attr_statusbyr = array(
-                'name' => 'sts_byr',
-                'id' => 'sts_byr',
-                'class' => 'form-control',
-            );
-
-            $attr_metode = array(
-                'name' => 'metode_pembayaran',
-                'id' => 'metode_pembayaran',
-                'class' => 'form-control',
-            );
-
-            $attrsubmit = array(
-                'id' => 'submit',
-                'class' => 'btn btn-gradient-info'
-            );
-
-            $attr_id = array(
-                'type' => 'hidden',
-                'name' => 'id_pendaftaran',
-                'id' => 'id_pendaftaran',
-                'value' => set_value('id_pendaftaran'),
-            );
-
-            $get_peserta = $this->pf->get_pst($id_seminar);
-            $getStatusBayar = $this->pf->get_stsbyr();
-            $getMetodeByr = $this->pf->get_metode();
-
-            $label_peserta = form_label('Peserta', 'peserta');
-            $label_statusbyr = form_label('Status Pembayaran', 'stsbyr');
-            $label_metodebyr = form_label('Metode', 'mtdbyr');
-
-            $action  = 'pendaftaran/addaction';
-            $formopen = form_open($action, $attrform);
-            $formclose = form_close();
-
-            $peserta = array();
-            foreach ($get_peserta as $p) {
-                if ($p->id_seminar == NULL) {
-                    $res = 'Belum Terdaftar';
-                } else {
-                    $res = "Sudah Terdaftar di seminar {$p->nama_seminar}";
-                }
-                $peserta[$p->id_mahasiswa] = $p->nama_mhs . " || {$p->email} ($res)";
-            }
-
-            $status_bayar = array();
-            foreach ($getStatusBayar as $s) {
-                $status_bayar[$s->id_stsbyr] = $s->nama_stsbyr;
-            }
-
-            $metode_bayar = array();
-            foreach ($getMetodeByr as $m) {
-                $metode_bayar[$m->id_metode] = $m->nama_metode;
-            }
-
-            $input_id = form_input($attr_id);
-            $input_seminar = form_input($attr_seminar);
-
-
-            $ddpeserta = form_dropdown('peserta', $peserta, set_value('peserta'), $attr_peserta);
-            $ddstatusbyr = form_dropdown('stsbyr', $status_bayar, set_value('stsbyr'), $attr_statusbyr);
-            $ddmetodebyr = form_dropdown('mtdbyr', $metode_bayar, set_value('mtdbyr'), $attr_metode);
-            $submit = form_submit('submit', 'Simpan', $attrsubmit);
-
-            $data = array(
-                'title' => $title,
-                'id_seminar' => $id_seminar,
-                'nama_seminar' => $nama_seminar,
-                'get_peserta' => $get_peserta,
-                'parent' => $parent,
-                'formopen' => $formopen,
-                'formclose' => $formclose,
-                'form' => $form,
-                'label_peserta' => $label_peserta,
-                'label_statusbyr' => $label_statusbyr,
-                'label_metodebyr' => $label_metodebyr,
-                'ddpeserta' => $ddpeserta,
-                'ddstatusbyr' => $ddstatusbyr,
-                'ddmetodebyr' => $ddmetodebyr,
-                'inputid' => $input_id,
-                'input_seminar' => $input_seminar,
-                'submit' => $submit,
-            );
-            $this->template->load('template/template_v', 'pendaftaran/pendaftaran_form', $data);
-            
-        } else {
-            $this->session->set_flashdata('danger', 'Data tidak ditemukan!');
-            redirect('pendaftaran');
-        }
-    }
+    
     public function register_all_students_to_seminar($id)
     {
         $get_row = $this->sm->get_sm_row($id);

@@ -8,6 +8,9 @@ class Payment extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        if (!$this->session->userdata('id_vendor')) {
+            redirect('auth'); // Redirect ke halaman login
+        } 
         $this->load->model('ModelPayment');
         \Midtrans\Config::$serverKey = 'SB-Mid-server-ay9QYxNzmuxRlfXu4ntFRNd8';
         \Midtrans\Config::$isProduction = false;
