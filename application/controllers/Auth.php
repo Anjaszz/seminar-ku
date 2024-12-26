@@ -96,6 +96,7 @@ class Auth extends CI_Controller
 }
 
 
+
 	public function logout()
 	{
 		$this->data['title'] = "Logout";
