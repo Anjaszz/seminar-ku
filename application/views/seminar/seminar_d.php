@@ -104,7 +104,7 @@
                                         <a class="btn btn-outline-warning btn-icon" href="#!" role="button"><i class="fas fa-calendar"></i></a>
                                     </div>
                                     <div class="media-body">
-                                        <div class="chat-header">Tanggal Pelaksanaan</div>
+                                        <div class="chat-header">Tangg Pelaksanaan</div>
                                         <p class="chat-header text-muted"><?= $tgl_pelaksanaan ?></p>
                                     </div>
                                 </div>
