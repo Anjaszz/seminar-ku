@@ -3,16 +3,35 @@
 class Pembicara_model extends CI_Model
 {
     
-    function get_data()
-    {
-        return $this->db->join('seminar', 'seminar.id_seminar = pembicara.id_seminar', 'left')
-            ->get('pembicara')->result();
-    }
+    public function get_data()
+{
+    // Ambil id_vendor dari session
+    $id_vendor = $this->session->userdata('id_vendor');
 
-    function get_seminar()
-    {
-        return $this->db->get('seminar')->result();
-    }
+    // Lakukan join antara tabel pembicara dan seminar, serta users
+    $this->db->select('pembicara.*, seminar.*, users.nama_vendor'); // Ambil semua kolom dari pembicara dan seminar, serta nama_vendor dari users
+    $this->db->from('pembicara');
+    $this->db->join('seminar', 'seminar.id_seminar = pembicara.id_seminar', 'left'); // Join dengan tabel seminar
+    $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left'); // Join dengan tabel users
+    $this->db->where('seminar.id_vendor', $id_vendor); // Filter berdasarkan id_vendor
+
+    return $this->db->get()->result();
+}
+
+public function get_seminar()
+{
+    // Ambil id_vendor dari session
+    $id_vendor = $this->session->userdata('id_vendor');
+
+    // Lakukan join antara tabel seminar dan users
+    $this->db->select('seminar.*, users.nama_vendor'); // Ambil semua kolom dari seminar dan nama_vendor dari users
+    $this->db->from('seminar');
+    $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left'); // Join dengan tabel users
+    $this->db->where('seminar.id_vendor', $id_vendor); // Filter berdasarkan id_vendor
+
+    return $this->db->get()->result();
+}
+
 
     function insert_data($data)
     {

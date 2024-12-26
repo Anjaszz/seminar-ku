@@ -27,6 +27,8 @@ class Pendaftaran extends CI_Controller
         $this->template->load('template/template_v', 'pendaftaran/pendaftaran_v', $data);
     }
 
+    
+
     public function detail($id)
     {
         $cu = current_url();

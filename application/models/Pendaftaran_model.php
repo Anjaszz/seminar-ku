@@ -14,6 +14,21 @@ class Pendaftaran_model extends CI_Model
         return $this->db->get('pendaftaran_seminar')->result();
     }
 
+    public function get_all_data()
+    {
+        // Melakukan join dengan tabel yang diperlukan
+        $this->db->select('pendaftaran_seminar.*, mahasiswa.nama_mhs, mahasiswa.nim, mahasiswa.email, mahasiswa.no_telp, status_pembayaran.nama_stsbyr, metode_pembayaran.nama_metode, seminar.nama_seminar');
+        $this->db->from('pendaftaran_seminar');
+        $this->db->join('mahasiswa', 'mahasiswa.id_mahasiswa = pendaftaran_seminar.id_mahasiswa', 'left');
+        $this->db->join('seminar', 'seminar.id_seminar = pendaftaran_seminar.id_seminar', 'left');
+        $this->db->join('status_pembayaran', 'status_pembayaran.id_stsbyr = pendaftaran_seminar.id_stsbyr', 'left');
+        $this->db->join('metode_pembayaran', 'metode_pembayaran.id_metode = pendaftaran_seminar.id_metode', 'left');
+        
+        return $this->db->get()->result(); // Mengambil semua data dari tabel pendaftaran_seminar
+    }
+
+
+
     function get_stsbyr()
     {
         return $this->db->get('status_pembayaran')->result();

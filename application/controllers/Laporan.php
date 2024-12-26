@@ -33,6 +33,19 @@ class Laporan extends CI_Controller
         $this->template->load('template/template_v', 'laporan/laporan_v', $data);
     }
 
+   
+    public function peserta()
+    {
+        // Ambil semua data peserta tanpa memfilter berdasarkan id_seminar
+        $data['pendaftaran'] = $this->pf->get_all_data(); // Mengambil semua data peserta
+        $data['title'] = "Data Peserta"; // Judul halaman
+
+        // Load view dengan data peserta
+        $this->template->load('template/template_v', 'laporan/laporanpeserta', $data);
+    }
+
+
+
     public function detail($id)
     {
         $cu = current_url();

@@ -8,8 +8,8 @@ class Fakultas extends CI_Controller
         parent::__construct();
 
         // Pastikan pengguna sudah login
-        if (!$this->session->userdata('id_vendor')) {
-            redirect('auth'); // Redirect ke halaman login
+        if (!$this->session->userdata('admin_id')) {
+            redirect('master/auth'); // Redirect ke halaman login
         }
         $this->load->model('Fakultas_model', 'fakultas');
     }
@@ -22,7 +22,7 @@ class Fakultas extends CI_Controller
             'title' => $title,
             'fakultas' => $loaddata,
         );
-        $this->template->load('template/template_v', 'fakultas/fakultas_v', $data);
+        $this->template->load('master/template/template_v', 'fakultas/fakultas_v', $data);
     }
 
     public function detail($id = NULL)
@@ -59,7 +59,7 @@ class Fakultas extends CI_Controller
                 'title' => $title,
                 'fakultas' => $fakultas,
             );
-            $this->template->load('template/template_v', 'fakultas/fakultas_d', $data);
+            $this->template->load('master/template/template_v', 'fakultas/fakultas_d', $data);
         } else {
             $this->session->set_flashdata('warning', 'Data masih kosong!');
             redirect('fakultas');

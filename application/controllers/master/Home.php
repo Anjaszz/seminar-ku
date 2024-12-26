@@ -11,7 +11,8 @@ class Home extends CI_Controller
             redirect('master/auth');
         }
         // Load model untuk mengambil data total
-        $this->load->model('Home_model'); // Pastikan model sudah diload
+        $this->load->model('Home_model');
+        $this->load->model('Laporan_master_model'); // Pastikan model sudah diload
     }
 
     public function index()
@@ -39,28 +40,29 @@ class Home extends CI_Controller
             [
                 'color'         => 'facebook',
                 'total'     => $this->Home_model->total('mahasiswa'), // Memanggil method total dari model
-                'title'        => 'Total Mahasiswa',
+                'title'        => 'Total Peserta',
                 'icon'        => 'users',
                 'link' => site_url('mahasiswa')
             ],
             [
                 'color'         => 'success',
-                'total'     => $this->Home_model->total('fakultas'), // Memanggil method total dari model
-                'title'        => 'Total Fakultas',
+                'total'     => $this->Home_model->total('users'), // Memanggil method total dari model
+                'title'        => 'Total Vendor',
                 'icon'        => 'poll',
-                'link' => site_url('fakultas')
+                'link' => site_url('master/vendor')
             ],
-            [
-                'color'         => 'warning',
-                'total'     => $this->Home_model->total('prodi'), // Memanggil method total dari model
-                'title'        => 'Total Prodi',
-                'icon'        => 'book',
-                'link' => site_url('prodi')
-            ],
+            
             [
                 'color'         => 'googleplus',
                 'total'     => $this->Home_model->total('seminar'), // Memanggil method total dari model
                 'title'        => 'Total Seminar',
+                'icon'        => 'layer-group',
+                'link' => site_url('seminar')
+            ],
+            [
+                'color'         => 'googleplus',
+                'total'     => $this->Laporan_master_model->total_pemasukan(), // Memanggil method total dari model
+                'title'        => 'Total Pemasukan',
                 'icon'        => 'layer-group',
                 'link' => site_url('seminar')
             ],

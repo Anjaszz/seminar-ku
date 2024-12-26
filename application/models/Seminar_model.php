@@ -47,12 +47,21 @@ public function get_seminar_by_id($id_seminar) {
         return $query->row();
     }
     
-        public function get_data()
-        {
+    public function get_data()
+    {
+        // Ambil id_vendor dari session
+        $id_vendor = $this->session->userdata('id_vendor');
     
-            $this->db->join('tiket', 'tiket.id_seminar = seminar.id_seminar', 'left');
-            return $this->db->get('seminar')->result();
-        }
+        // Lakukan join antara tabel seminar, tiket, dan users
+        $this->db->select('seminar.*, tiket.*, users.nama_vendor'); // Ambil semua kolom dari seminar dan tiket, serta nama_vendor dari users
+        $this->db->from('seminar');
+        $this->db->join('tiket', 'tiket.id_seminar = seminar.id_seminar', 'left'); // Join dengan tabel tiket
+        $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left'); // Join dengan tabel users
+        $this->db->where('seminar.id_vendor', $id_vendor); // Filter berdasarkan id_vendor
+    
+        return $this->db->get()->result();
+    }
+    
         
     public function insert_data($data)
     {

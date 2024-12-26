@@ -11,8 +11,8 @@ class Mahasiswa extends CI_Controller
         parent::__construct();
 
         // Pastikan pengguna sudah login
-        if (!$this->session->userdata('id_vendor')) {
-            redirect('auth'); // Redirect ke halaman login
+        if (!$this->session->userdata('admin_id')) {
+            redirect('master/auth'); // Redirect ke halaman login
         } 
         $this->load->model('Mahasiswa_model', 'mhs');
     }
@@ -30,7 +30,7 @@ class Mahasiswa extends CI_Controller
             'title' => 'Data Mahasiswa',
             'btntambah' => $tambahdata,
         );
-        $this->template->load('template/template_v', 'mahasiswa/mahasiswa_v', $data);
+        $this->template->load('master/template/template_v', 'mahasiswa/mahasiswa_v', $data);
     }
     public function detail($id)
 {
@@ -68,7 +68,7 @@ class Mahasiswa extends CI_Controller
             'no_telp' => $no_telp,
             'tanggal_lahir' => $tanggal_lahir,  // Tambahkan ini
         );
-        $this->template->load('template/template_v', 'mahasiswa/mahasiswa_d', $data);
+        $this->template->load('master/template/template_v', 'mahasiswa/mahasiswa_d', $data);
     } else {
         $this->session->set_flashdata('warning', 'Data tidak ditemukan!');
         redirect('mahasiswa');
@@ -262,7 +262,7 @@ public function get_prodi_by_fakultas()
         'ivnotelp' => $ivnotelp,
         'submit' => $submit
     );
-    $this->template->load('template/template_v', 'mahasiswa/mahasiswa_form', $data);
+    $this->template->load('master/template/template_v', 'mahasiswa/mahasiswa_form', $data);
 }
 
 
@@ -757,7 +757,7 @@ $ivtanggal_lahir = 'Tanggal lahir harus diisi!';
                 'submit' => $submit
             );
             
-            $this->template->load('template/template_v', 'mahasiswa/mahasiswa_form', $data);
+            $this->template->load('master/template/template_v', 'mahasiswa/mahasiswa_form', $data);
         } else {
             $this->session->set_flashdata('warning', 'gagal edit karna ada kesamaan data');
             redirect('mahasiswa');

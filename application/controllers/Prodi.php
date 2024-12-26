@@ -9,8 +9,8 @@ class Prodi extends CI_Controller
         parent::__construct();
 
         // Pastikan pengguna sudah login
-        if (!$this->session->userdata('id_vendor')) {
-            redirect('auth'); // Redirect ke halaman login
+        if (!$this->session->userdata('admin_id')) {
+            redirect('master/auth'); // Redirect ke halaman login
         }
         
            $this->load->model('Prodi_model', 'ksi');
@@ -27,7 +27,7 @@ class Prodi extends CI_Controller
             'title' => $title,
             'prodi' => $loaddata,
         );
-        $this->template->load('template/template_v', 'prodi/prodi_v', $data);
+        $this->template->load('master/template/template_v', 'prodi/prodi_v', $data);
     }
     public function detail($id = NULL)
     {
@@ -63,7 +63,7 @@ class Prodi extends CI_Controller
                 'title' => $title,
                 'prodi' => $prodi,
             );
-            $this->template->load('template/template_v', 'prodi/prodi_d', $data);
+            $this->template->load('master/template/template_v', 'prodi/prodi_d', $data);
         } else {
             $this->session->set_flashdata('warning', 'Data masih kosong!');
             redirect('prodi');

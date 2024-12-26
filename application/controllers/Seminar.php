@@ -7,32 +7,31 @@ class Seminar extends CI_Controller
 
     public function __construct()
     {
-       
         parent::__construct();
         if (!$this->session->userdata('id_vendor')) {
             redirect('auth'); // Redirect ke halaman login
-        }        $this->load->model('Seminar_model', 'sm');
+        }
+        $this->load->model('Seminar_model', 'sm');
     }
-
+    
     public function index()
     {
-      
-        $attradd = array('class' => 'btn  btn-gradient-success');
-  
+        $attradd = array('class' => 'btn btn-gradient-success');
         $tambahdata = anchor('seminar/add', '<i class="feather icon-user-plus"></i>Tambah Data', $attradd);
-      
+        
+        // Ambil data seminar berdasarkan id_vendor
         $seminar = $this->sm->get_data();
-       
+        
         $title = "Data Seminar";
-
     
         $data = array(
-            'seminar' =>  $seminar,
+            'seminar' => $seminar,
             'title' => $title,
             'btntambah' => $tambahdata,
         );
         $this->template->load('template/template_v', 'seminar/seminar_v', $data);
     }
+    
 
     public function detail($id)
     {

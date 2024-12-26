@@ -35,11 +35,16 @@
                     </ul>
                 </li>
                 
-                <li data-username="extra components session timeout session idle timeout offline" class="nav-item pcoded-hasmenu">
-                    <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-grid"></i></span><span class="pcoded-mtext">Data QR Code</span></a>
+                
+                <li data-username="animations" class="nav-item"><a href="<?= site_url('scan') ?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-clipboard"></i></span><span class="pcoded-mtext">Scan Presensi</span></a></li>
+
+                <li data-username="widget statistic data chart" class="nav-item pcoded-hasmenu">
+                    <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-layers"></i></span><span class="pcoded-mtext">Laporan dan Cetak</span>
+                    </a>
                     <ul class="pcoded-submenu">
-                        <li class=""><a href="<?= site_url('genqr') ?>" class="">Ambil QR Code</a></li>
-                        <li class=""><a href="<?= site_url("scan") ?>" class="">Scan QR Code</a></li>
+                        <li class=""><a href="<?= site_url('laporan/peserta') ?>" class="">Peserta Seminar</a></li>
+                        <li class=""><a href="<?= site_url('laporan') ?>" class="">Presensi Seminar</a></li>
+                        <li class=""><a href="<?= site_url('laporankeuangan') ?>" class="">Keuangan</a></li>
                     </ul>
                 </li>
                 <li data-username="animations" class="nav-item"><a href="<?= site_url('laporan') ?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-clipboard"></i></span><span class="pcoded-mtext">Laporan Presensi</span></a></li>

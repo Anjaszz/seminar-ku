@@ -14,7 +14,16 @@
                 <li class="nav-item pcoded-menu-caption">
                     <label>Menu Navigasi</label>
                 </li>
-                <li data-username="home" class="nav-item"><a href="<?= site_url('home') ?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a></li>
+                <li data-username="home" class="nav-item"><a href="<?= site_url('master/home') ?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a></li>
+                <li data-username="widget statistic data chart" class="nav-item pcoded-hasmenu">
+                    <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-layers"></i></span><span class="pcoded-mtext">Manajemen Peserta</span>
+                    </a>
+                    <ul class="pcoded-submenu">
+                        <li class=""><a href="<?= site_url('mahasiswa') ?>" class="">Peserta Terdaftar</a></li>
+                        <li class=""><a href="<?= site_url('fakultas') ?>" class="">Data Per Departemen</a></li>
+                        <li class=""><a href="<?= site_url('prodi') ?>" class="">Data Per Jurusan</a></li>
+                    </ul>
+                </li>
                 <li data-username="widget statistic data chart" class="nav-item pcoded-hasmenu">
                     <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-layers"></i></span><span class="pcoded-mtext">Manajemen Vendor</span>
                     </a>
@@ -26,11 +35,12 @@
                     </ul>
                 </li>
                 <li data-username="widget statistic data chart" class="nav-item pcoded-hasmenu">
-                    <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-mic"></i></span><span class="pcoded-mtext">Laporan keuangan</span>
+                    <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-mic"></i></span><span class="pcoded-mtext">Laporan dan Cetak</span>
                     </a>
                     <ul class="pcoded-submenu">
-                        <li class=""><a href="<?= site_url('seminar') ?>" class="">Keuangan Master</a></li>
-                        <li class=""><a href="<?= site_url('tiket') ?>" class="">Keuangan Vendor</a></li>
+                        <li class=""><a href="<?= site_url('master/laporan/keuangan') ?>" class="">Data Keuangan</a></li>
+                        <li class=""><a href="<?= site_url('master/laporan/peserta') ?>" class=""> Data Peserta</a></li>
+                        <li class=""><a href="<?= site_url('master/laporan/vendor') ?>" class=""> Data Vendor</a></li>
             
                     </ul>
                 </li>
