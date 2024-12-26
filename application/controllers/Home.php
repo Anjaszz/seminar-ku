@@ -55,33 +55,48 @@ class Home extends CI_Controller
 
     public function info_box()
     {
+        $id_vendor = $this->session->userdata('id_vendor'); // Ambil id_vendor dari session
+
+        // Hitung total mahasiswa berdasarkan id_vendor
+        $total_mahasiswa = $this->home->total_mahasiswa_by_vendor($id_vendor);
+        $total_mhs = count($total_mahasiswa); // Hitung jumlah mahasiswa
+
+        $total_sponsor = $this->home->total_sponsor_by_vendor($id_vendor);
+        $total_sp = count($total_sponsor);
+
+        $total_seminar = $this->home->total_seminar_by_vendor($id_vendor);
+        $total_sm = count($total_seminar);
+
+        $total_tiket_terjual = $this->home->total_tiket_by_vendor($id_vendor); // Ambil total tiket terjual
+
+
         // Data untuk info box
         $box = [
             [
                 'color' => 'facebook',
-                'total' => $this->home->total('mahasiswa'),
-                'title' => 'Total Mahasiswa',
+                'total' => $total_mhs,
+                'title' => 'Total Peserta',
                 'icon' => 'users',
                 'link' => site_url('mahasiswa'),
             ],
             [
                 'color' => 'success',
-                'total' => $this->home->total('fakultas'),
-                'title' => 'Total Fakultas',
+                'total' => $total_sp,
+                'title' => 'Total Sponsor',
                 'icon' => 'poll',
                 'link' => site_url('fakultas'),
             ],
             [
                 'color' => 'warning',
-                'total' => $this->home->total('prodi'),
-                'title' => 'Total Prodi',
+                'total' => $total_sm,
+                'title' => 'Total Seminar',
                 'icon' => 'book',
                 'link' => site_url('prodi'),
             ],
             [
                 'color' => 'googleplus',
-                'total' => $this->home->total('seminar'),
-                'title' => 'Total Seminar',
+                'total' => $total_tiket_terjual,
+                'title' => 'Total Tiket Terjual',
                 'icon' => 'layer-group',
                 'link' => site_url('seminar'),
             ],

@@ -35,16 +35,10 @@ class Seminar extends CI_Controller
 
     public function detail($id)
     {
-
         $id = $this->uri->segment(3);
-        /**
-         * @var		mixed	$this->sm->get_row($id)
-         */
-        $get_row  = $this->sm->get_row($id);
+        $get_row = $this->sm->get_row($id);
+        
         if ($get_row->num_rows() > 0) {
-            /**
-             * @var		mixed	$get_row->row()
-             */
             $seminar_box = $this->seminar_box();
             $row = $get_row->row();
             $get_pembicara = $this->sm->get_pembicara($id);
@@ -59,6 +53,12 @@ class Seminar extends CI_Controller
             $parent = "Data Seminar";
             $title = "Detail Seminar";
             $tiket = "Tiket Seminar";
+
+            // Ambil lokasi berdasarkan id_lokasi
+            $lokasi = $this->sm->get_lokasi_by_id($row->id_lokasi); // Ambil lokasi
+            $nama_provinsi = $lokasi ? $lokasi->nama_provinsi : 'Tidak Diketahui'; // Nama provinsi
+            $detail_lokasi = $row->lokasi; // Detail lokasi dari tabel seminar
+
             $data = array(
                 'id_seminar' => $id_seminar,
                 'nama_seminar' => $nama_seminar,
@@ -73,13 +73,17 @@ class Seminar extends CI_Controller
                 'seminar_box' => $seminar_box,
                 'parent' => $parent,
                 'tiket' => $tiket,
+                'nama_provinsi' => $nama_provinsi, // Tambahkan nama provinsi
+                'detail_lokasi' => $detail_lokasi, // Tambahkan detail lokasi
             );
+
             $this->template->load('template/template_v', 'seminar/seminar_d', $data);
         } else {
             $this->session->set_flashdata('warning', 'Data tidak tersedia!');
             redirect('seminar');
         }
     }
+
 
     public function seminar_box()
     {

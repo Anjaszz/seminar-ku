@@ -70,8 +70,8 @@
                                             <td>
                                                 <h6 class="m-0"><?= $r->nama_mhs ?></h6>
                                             </td>
-                                            <td><?= $r->email ?></td> <!-- Mengambil email dari tabel mahasiswa -->
-                                            <td><?= $r->no_telp ?></td> <!-- Mengambil no_telp dari tabel mahasiswa -->
+                                            <td><?= $r->email ?></td>
+                                            <td><?= $r->no_telp ?></td>
                                             <td><?= $r->tgl_daftar ?></td>
                                             <td><?= $r->jam_daftar ?></td>
                                             <td>

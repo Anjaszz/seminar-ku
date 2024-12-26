@@ -7,14 +7,31 @@ class Laporan_keuangan_model extends CI_Model
 {
 
     public function get_keuangan($id_seminar, $id_admin)
-{
-    $this->db->select('transaksi_user.tgl_transaksi, transaksi_user.jumlah, mahasiswa.nama_mhs, mahasiswa.email');
-    $this->db->from('transaksi_user');
-    $this->db->join('mahasiswa', 'mahasiswa.id_mahasiswa = transaksi_user.id_mahasiswa');
-    $this->db->where('transaksi_user.id_seminar', $id_seminar);
-    $this->db->where('transaksi_user.id_admin', $id_admin);
-    return $this->db->get()->result();
-}
+    {
+        // Ambil data transaksi dan informasi mahasiswa
+        $this->db->select('transaksi_user.tgl_transaksi, transaksi_user.jumlah, mahasiswa.nama_mhs, mahasiswa.email, mahasiswa.nim'); // Tambahkan nim
+        $this->db->from('transaksi_user');
+        $this->db->join('mahasiswa', 'mahasiswa.id_mahasiswa = transaksi_user.id_mahasiswa');
+        $this->db->where('transaksi_user.id_seminar', $id_seminar);
+        $this->db->where('transaksi_user.id_admin', $id_admin);
+        
+        $query = $this->db->get();
+        
+        // Ambil total transaksi
+        $total_transaksi = $this->db->select_sum('jumlah')
+                                      ->from('transaksi_user')
+                                      ->where('id_seminar', $id_seminar)
+                                      ->where('id_admin', $id_admin)
+                                      ->get()
+                                      ->row()
+                                      ->jumlah;
+    
+        return [
+            'laporan' => $query->result(),
+            'total_transaksi' => $total_transaksi // Kembalikan total transaksi
+        ];
+    }
+    
 
 
     public function get_p()

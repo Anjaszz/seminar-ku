@@ -38,16 +38,19 @@ class Laporankeuangan extends CI_Controller
     $id_admin = $this->session->userdata('id_vendor'); // Mendapatkan id_admin dari session
     $title = 'Laporan Keuangan Seminar';
     
-    $laporan = $this->lk->get_keuangan($id_seminar, $id_admin);
-
+    // Ambil laporan dan total transaksi
+    $data_keuangan = $this->lk->get_keuangan($id_seminar, $id_admin);
+    
     $data = array(
         'title' => $title,
         'id_seminar' => $id_seminar,
-        'laporan' => $laporan,
+        'laporan' => $data_keuangan['laporan'],
+        'total_transaksi' => $data_keuangan['total_transaksi'], // Tambahkan total transaksi
     );
 
     $this->template->load('template/template_v', 'laporan-keuangan/laporan-keuangan_d', $data);
 }
+
 
 
     public function hapus($id_mahasiswa, $id_seminar)

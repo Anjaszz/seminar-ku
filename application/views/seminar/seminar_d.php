@@ -11,10 +11,6 @@
         min-height: 500px;
     }
 
-    ximg {
-        left: 0px;
-    }
-
     .imgA1 {
         height: auto;
         position: relative;
@@ -66,7 +62,6 @@
     <div class="col-md-5 col-xl-5">
         <div class="card" style="height:630px;">
             <img class="img-fluid img-thumbnail" src="<?php echo base_url() ?>uploads/poster/<?= $lampiran ?>" alt="Profile-user">
-
             <div class="card-body text-center">
                 <h3><?= $nama_seminar ?></h3>
             </div>
@@ -84,8 +79,7 @@
                             <div class="col-sm-6">
                                 <div class="media">
                                     <div class="media-left">
-                                        <a class="btn btn-outline-primary btn-icon" href="#!" role="button"><i class="fas fa-at"></i>
-                                        </a>
+                                        <a class="btn btn-outline-primary btn-icon" href="#!" role="button"><i class="fas fa-at"></i></a>
                                     </div>
                                     <div class="media-body">
                                         <div class="chat-header">Nama Seminar</div>
@@ -96,8 +90,18 @@
                             <div class="col-sm-6">
                                 <div class="media">
                                     <div class="media-left">
-                                        <a class="btn btn-outline-warning btn-icon" href="#!" role="button"><i class="fas fa-calendar"></i>
-                                        </a>
+                                        <a class="btn btn-outline-success btn-icon" href="#!" role="button"><i class="fas fa-map-marker-alt"></i></a>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="chat-header">Lokasi</div>
+                                        <p class="chat-header text-muted"><?= $nama_provinsi ?></p> <!-- Menampilkan nama provinsi -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a class="btn btn-outline-warning btn-icon" href="#!" role="button"><i class="fas fa-calendar"></i></a>
                                     </div>
                                     <div class="media-body">
                                         <div class="chat-header">Tanggal Pelaksanaan</div>
@@ -108,8 +112,18 @@
                             <div class="col-sm-6">
                                 <div class="media">
                                     <div class="media-left">
-                                        <a class="btn btn-outline-danger btn-icon" href="#!" role="button"><i class="fas fa-money"></i>
-                                        </a>
+                                        <a class="btn btn-outline-secondary btn-icon" href="#!" role="button"><i class="fas fa-info-circle"></i></a>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="chat-header">Detail Lokasi</div>
+                                        <p class="chat-header text-muted"><?= $detail_lokasi ?></p> <!-- Menampilkan detail lokasi -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a class="btn btn-outline-danger btn-icon" href="#!" role="button"><i class="fas fa-money"></i></a>
                                     </div>
                                     <div class="media-body">
                                         <div class="chat-header">Harga Tiket</div>
@@ -120,8 +134,7 @@
                             <div class="col-sm-6">
                                 <div class="media">
                                     <div class="media-left">
-                                        <a class="btn btn-outline-info btn-icon" href="#!" role="button"><i class="fas fa-list"></i>
-                                        </a>
+                                        <a class="btn btn-outline-info btn-icon" href="#!" role="button"><i class="fas fa-list"></i></a>
                                     </div>
                                     <div class="media-body">
                                         <div class="chat-header">Slot Tiket</div>
@@ -129,33 +142,31 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            
                         </div>
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>
 </div>
 
 <div class="row">
-
     <?php foreach ($seminar_box as $sb) { ?>
         <div class="col-xl-3 col-md-6">
-        <div class="card ticket-card">
-            <div class="card-body">
-                <p class="m-b-25 bg-c-<?= $sb->color ?> lbl-card"><i class="fa fa-<?= $sb->icon ?> m-r-5"></i>
-                    <?= $sb->title ?></p>
-                <div class="text-center">
-                    <h2 class="m-b-0 d-inline-block text-c-<?= $sb->color ?>"><?= $sb->total ?></h2>
-                    <p class="m-b-0 d-inline-block">Tickets</p>
+            <div class="card ticket-card">
+                <div class="card-body">
+                    <p class="m-b-25 bg-c-<?= $sb->color ?> lbl-card"><i class="fa fa-<?= $sb->icon ?> m-r-5"></i>
+                        <?= $sb->title ?></p>
+                    <div class="text-center">
+                        <h2 class="m-b-0 d-inline-block text-c-<?= $sb->color ?>"><?= $sb->total ?></h2>
+                        <p class="m-b-0 d-inline-block">Tickets</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
     <?php } ?>
-
 
     <div class="col-sm-12 stastic-slider-full-card">
         <div id="stastic-slider-full4" class="carousel slide" data-ride="carousel">
@@ -207,8 +218,7 @@
                 <div class="card-body pt-0">
                     <div class="user-about-block text-center">
                         <div class="row align-items-end">
-                            <div class="col text-left pb-3"><a href="#!"><i class="icon feather icon-star-on text-c-yellow f-20"></i></a>
-                            </div>
+                            <div class="col text-left pb-3"><a href="#!"><i class="icon feather icon-star-on text-c-yellow f-20"></i></a></div>
                             <div class="col">
                                 <div class="position-relative d-inline-block">
                                     <img class="img-radius img-fluid wid-80 pembicara" src="<?php echo base_url("uploads/pembicara/{$p->foto}") ?>" alt="User image">
@@ -218,8 +228,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col text-right pb-3">
-                            </div>
+                            <div class="col text-right pb-3"></div>
                         </div>
                     </div>
                     <div class="text-center">
@@ -231,7 +240,4 @@
             </div>
         </div>
     <?php } ?>
-
-
-
 </div>

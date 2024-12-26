@@ -16,13 +16,9 @@
                 </li>
                 <li data-username="home" class="nav-item"><a href="<?= site_url('home') ?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a></li>
                 <li data-username="widget statistic data chart" class="nav-item pcoded-hasmenu">
-                    <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-layers"></i></span><span class="pcoded-mtext">Data Peserta</span>
-                    </a>
-                    <ul class="pcoded-submenu">
-                        <li class=""><a href="<?= site_url('pendaftaran') ?>" class="">Peserta Terdaftar</a></li>
-                        <li class=""><a href="<?= site_url('fakultas') ?>" class="">Data Per Departemen</a></li>
-                        <li class=""><a href="<?= site_url('prodi') ?>" class="">Data Per Jurusan</a></li>
-                    </ul>
+                    
+                    <li data-username="animations" class="nav-item"><a href="<?= site_url('pendaftaran') ?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-clipboard"></i></span><span class="pcoded-mtext">Data Peserta</span></a></li>
+
                 </li>
                 <li data-username="widget statistic data chart" class="nav-item pcoded-hasmenu">
                     <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-mic"></i></span><span class="pcoded-mtext">Data Seminar</span>
@@ -47,9 +43,7 @@
                         <li class=""><a href="<?= site_url('laporankeuangan') ?>" class="">Keuangan</a></li>
                     </ul>
                 </li>
-                <li data-username="animations" class="nav-item"><a href="<?= site_url('laporan') ?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-clipboard"></i></span><span class="pcoded-mtext">Laporan Presensi</span></a></li>
-                <li data-username="animations" class="nav-item"><a href="<?= site_url('laporankeuangan') ?>" class="nav-link"><span class="pcoded-micon"><i class="feather icon-clipboard"></i></span><span class="pcoded-mtext">Laporan Keuangan</span></a></li>
-
+                
                 <!-- Navbar Sertifikat dan File -->
                 <li data-username="uploads" class="nav-item pcoded-hasmenu">
                     <a href="#!" class="nav-link"><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">Upload</span></a>

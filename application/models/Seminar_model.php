@@ -88,6 +88,11 @@ public function get_seminar_by_id($id_seminar) {
         $this->db->where('seminar.id_seminar', $id);
         return $this->db->get('seminar');
     }
+    public function get_lokasi_by_id($id_lokasi)
+    {
+        $this->db->where('id_lokasi', $id_lokasi);
+        return $this->db->get('lokasi_seminar')->row(); // Mengembalikan satu baris data lokasi
+    }
 
     public function get_sm_row($id)
     {
