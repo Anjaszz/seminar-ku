@@ -1,0 +1,157 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-image: url(https://user-images.githubusercontent.com/13468728/233847739-219cb494-c265-4554-820a-bd3424c59065.jpg);
+    background-size: cover;
+    background-position: center;
+    font-family: "Open Sans", sans-serif;
+}
+
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.forgot {
+    color: #1129ff;
+    text-decoration: none;
+    /* Tidak ada garis bawah awal */
+    font-size: 14px;
+    /* Ukuran kecil agar proporsional */
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: block;
+    letter-spacing: 2px;
+}
+
+.forgot:hover {
+    text-decoration: underline;
+    /* Garis bawah saat hover */
+    color: #0512d1;
+    /* Warna biru yang lebih gelap */
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 750px;
+    height: 600px;
+
+
+}
+
+.card-body {
+    margin-top: 2rem;
+}
+
+.welcome-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #3ABEF9;
+    font-family: "Lato", sans-serif;
+    font-style: italic;
+    justify-items: end;
+    text-align: end;
+    align-items: end;
+}
+
+.img-logo {
+    max-width: 300px;
+    height: auto;
+}
+
+.input-field {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.input-field input {
+    width: 100%;
+    padding: 10px 0;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    color: #fff;
+    font-size: 16px;
+}
+
+.input-field input:focus {
+    border-bottom-color: #37AFE1;
+    outline: none;
+}
+
+.input-field label {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+.input-field input:focus~label,
+.input-field input:valid~label {
+    top: -5px;
+    font-size: 14px;
+    color: #37AFE1;
+}
+
+.password-field {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+
+.btn-login {
+    background-color: #37AFE1;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 16px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.btn-login:hover {
+    background-color: #4CC9FE;
+}
+
+.form-container {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .welcome-title {
+        font-size: 2rem;
+    }
+
+    .img-logo {
+        max-width: 200px;
+    }
+
+    .card {
+        padding: 1.5rem;
+    }
+}
