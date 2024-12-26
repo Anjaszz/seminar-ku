@@ -81,6 +81,60 @@ class vendor extends CI_Controller
         }
     }
 }
+public function daftar()
+{
+    // Aturan validasi
+    $this->form_validation->set_rules('nama_vendor', 'Nama Vendor', 'required');
+    $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+    $this->form_validation->set_rules('no_telp', 'No Telepon', 'required|numeric');
+    $this->form_validation->set_rules('id_bank', 'Nama Bank', 'required');
+    $this->form_validation->set_rules('no_rekening', 'Nomor Rekening', 'required|numeric');
+    $this->form_validation->set_rules('password', 'Password', 'required');
+    $this->form_validation->set_rules('confirm_password', 'Konfirmasi Password', 'required|matches[password]');
+
+    if ($this->form_validation->run() == FALSE) {
+        // Jika validasi gagal, tampilkan form pendaftaran
+        $data['title'] = 'Tambah Data Vendor';
+        $data['parent'] = 'Data Vendor';
+        $data['banks'] = $this->vnd->get_all_banks(); // Ambil data bank
+
+        // Memuat view tanpa template
+        $this->load->view('master/vendor/daftar', $data);
+    } else {
+        // Jika validasi berhasil
+        // Generate id_vendor
+        $month_year = date('my');
+        $last_id = $this->vnd->get_last_vendor_id();
+        $new_id = $month_year . str_pad($last_id + 1, 4, '0', STR_PAD_LEFT);
+
+        // Hash password
+        $hashed_password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+
+        $data = [
+            'id_vendor' => $new_id,
+            'nama_vendor' => $this->input->post('nama_vendor'),
+            'email' => $this->input->post('email'),
+            'no_telp' => $this->input->post('no_telp'),
+            'id_bank' => $this->input->post('id_bank'),
+            'no_rekening' => $this->input->post('no_rekening'),
+            'password' => $hashed_password,
+            'tgl_subs' => date('Y-m-d'),
+            'tgl_berakhir' => date('Y-m-d', strtotime('+1 year')),
+            'active' => 0 // Status default: tidak aktif
+        ];
+
+        // Simpan data ke database
+        if ($this->vnd->insert_data($data)) {
+            $this->session->set_flashdata('success', 'Data vendor berhasil ditambahkan!');
+            redirect('master/vendor/daftar');
+        } else {
+            $this->session->set_flashdata('error', 'Gagal menambahkan data vendor!');
+            redirect('master/vendor/daftar');
+        }
+    }
+}
+
+
 
     
 

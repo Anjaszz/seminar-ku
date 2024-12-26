@@ -4,19 +4,20 @@ class Sponsor_model extends CI_Model
 {
     
     public function get_data()
-{
-    // Ambil id_vendor dari session
-    $id_vendor = $this->session->userdata('id_vendor');
-
-    // Lakukan join antara tabel sponsor dan seminar, serta users
-    $this->db->select('sponsor.*, seminar.*, users.nama_vendor'); // Ambil semua kolom dari sponsor dan seminar, serta nama_vendor dari users
-    $this->db->from('sponsor');
-    $this->db->join('seminar', 'seminar.id_seminar = sponsor.id_seminar', 'left'); // Join dengan tabel seminar
-    $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left'); // Join dengan tabel users
-    $this->db->where('seminar.id_vendor', $id_vendor); // Filter berdasarkan id_vendor
-
-    return $this->db->get()->result();
-}
+    {
+        // Ambil id_vendor dari session
+        $id_vendor = $this->session->userdata('id_vendor');
+    
+        // Lakukan join antara tabel sponsor dan seminar, serta users
+        $this->db->select('sponsor.*, seminar.*, users.nama_vendor'); // Ambil semua kolom dari sponsor dan seminar, serta nama_vendor dari users
+        $this->db->from('sponsor');
+        $this->db->join('seminar', 'seminar.id_seminar = sponsor.id_seminar', 'left'); // Join dengan tabel seminar
+        $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left'); // Join dengan tabel users
+        $this->db->where('sponsor.id_vendor', $id_vendor); // Filter berdasarkan id_vendor di tabel sponsor
+    
+        return $this->db->get()->result();
+    }
+    
 
 public function get_seminar()
 {

@@ -43,6 +43,20 @@ class Home_model extends CI_Model
         return $query->row()->tiket_terjual; // Mengembalikan total tiket terjual
     }
 
+    
+    public function total_transaksi_by_vendor($id_vendor)
+    {
+        // Menghitung total jumlah dari transaksi_user berdasarkan id_vendor
+        $this->db->select_sum('jumlah'); // Mengambil jumlah dari kolom jumlah
+        $this->db->from('transaksi_user'); // Tabel transaksi_user
+        $this->db->where('id_admin', $id_vendor); // Filter berdasarkan id_vendor
+        
+        $query = $this->db->get(); // Eksekusi query
+        return $query->row()->jumlah; // Mengembalikan total jumlah
+    }
+
+
+
 
 
     public function get_vendor_by_id($id_vendor) {
