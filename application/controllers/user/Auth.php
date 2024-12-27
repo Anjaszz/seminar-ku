@@ -18,14 +18,14 @@ class Auth extends CI_Controller {
     public function index() {
         // Cek apakah form dikirim
         if ($this->input->post()) {
-            $nim = $this->input->post('nim');
+            $email = $this->input->post('email');
             $password = $this->input->post('password');
     
             // Log input untuk debugging
-            log_message('debug', 'NIM: ' . $nim . ', Password: ' . $password);
+            log_message('debug', 'Email: ' . $email . ', Password: ' . $password);
     
             // Validasi login menggunakan model
-            $user = $this->User_model->validate_login($nim, $password);
+            $user = $this->User_model->validate_login($email, $password);
     
             // Log hasil validasi
             log_message('debug', 'User: ' . json_encode($user));
@@ -34,16 +34,12 @@ class Auth extends CI_Controller {
                 // Set session data
                 $this->session->set_userdata('user_data', $user);
                 $this->session->set_userdata('id_mahasiswa', $user->id_mahasiswa);
-                $this->session->set_userdata('nim', $nim); 
+                $this->session->set_userdata('nim', $user->nim);
+                $this->session->set_userdata('email', $email); 
     
-                // Cek apakah user harus mengganti password (id_reset = 0)
-                if ($user->id_reset == 0) {
-                    // Arahkan ke halaman ganti password jika id_reset masih 0
-                    redirect('user/auth/ganti_password');
-                } else {
                     // Arahkan ke home jika id_reset sudah 1
-                    redirect('user/home');
-                }
+                redirect('user/home');
+                
             } else {
                 // Set flashdata untuk error
                 $this->session->set_flashdata('login_error', 'NIM atau Password salah. Silahkan coba lagi.');

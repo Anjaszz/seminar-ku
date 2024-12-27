@@ -48,7 +48,7 @@ class Auth extends CI_Controller
         $user = $this->ion_auth_model->get_user_by_email($email);
 
         if ($user) {
-            // Verifikasi password ha
+            // Verifikasi password hash
             if (password_verify($password, $user->password)) {
                 // Simpan data ke session
                 $this->session->set_userdata([
@@ -94,7 +94,6 @@ class Auth extends CI_Controller
         $this->_render_page('auth' . DIRECTORY_SEPARATOR . 'login', $this->data);
     }
 }
-
 
 
 	public function logout()

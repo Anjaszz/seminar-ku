@@ -16,12 +16,6 @@ class Daftar extends CI_Controller {
 
     public function simpan() {
         // Set validasi
-        $this->form_validation->set_rules('nim', 'NIM', 'required|numeric|is_unique[mahasiswa.nim]', [
-            'required' => 'NIM wajib diisi!',
-            'numeric' => 'NIM tidak valid',
-            'is_unique' => 'NIM sudah digunakan!'
-        ]);
-        
         $this->form_validation->set_rules('nama_mhs', 'Nama', 'required|callback_alpha_space', [
             'required' => 'Nama mahasiswa wajib diisi!',
             'alpha_space' => 'Inputan nama tidak valid'
@@ -42,11 +36,16 @@ class Daftar extends CI_Controller {
         $this->form_validation->set_rules('id_fakultas', 'Fakultas', 'required', [
             'required' => 'Fakultas wajib dipilih!'
         ]);
-        $this->form_validation->set_rules('id_jenjang', 'Jenjang', 'required', [
-            'required' => 'Jenjang wajib dipilih!'
-        ]);
         $this->form_validation->set_rules('id_prodi', 'Prodi', 'required', [
             'required' => 'Program studi wajib dipilih!'
+        ]);
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]', [
+            'required' => 'Password wajib diisi!',
+            'min_length' => 'Password minimal 6 karakter!'
+        ]);
+        $this->form_validation->set_rules('confirm_password', 'Konfirmasi Password', 'required|matches[password]', [
+            'required' => 'Konfirmasi password wajib diisi!',
+            'matches' => 'Password dan konfirmasi password tidak cocok!'
         ]);
     
         // Jika validasi gagal
@@ -62,13 +61,12 @@ class Daftar extends CI_Controller {
         } else {
             // Jika validasi berhasil
             $dataMahasiswa = [
-                'nim' => $this->input->post('nim'),
+                'nim' => $this->generate_nim(), // Menghasilkan NIM
                 'nama_mhs' => strip_tags($this->input->post('nama_mhs')), // Hapus tag HTML
                 'email' => $this->input->post('email'),
                 'no_telp' => $this->input->post('no_telp'),
                 'tanggal_lahir' => $this->input->post('tanggal_lahir'),
                 'id_fakultas' => $this->input->post('id_fakultas'),
-                'id_jenjang' => $this->input->post('id_jenjang'),
                 'id_prodi' => $this->input->post('id_prodi')
             ];
     
@@ -79,9 +77,9 @@ class Daftar extends CI_Controller {
                 // Menyimpan data ke user_mhs
                 $dataUserMhs = [
                     'id_mahasiswa' => $insertMahasiswa, // ID dari tabel mahasiswa yang baru saja dimasukkan
-                    'nim' => $this->input->post('nim'),
+                    'nim' => $dataMahasiswa['nim'], // Menggunakan NIM yang dihasilkan
                     'email' => $this->input->post('email'),
-                    'password' => md5($this->input->post('tanggal_lahir')), // Hash MD5 dari tanggal lahir
+                    'password' => md5($this->input->post('password')), // Hash MD5 dari password yang diinput
                     'id_reset' => 0
                 ];
     
@@ -111,7 +109,16 @@ class Daftar extends CI_Controller {
         // Kirim response JSON
         echo json_encode($response);
     }
-    
+
+    // Fungsi untuk menghasilkan NIM
+    private function generate_nim() {
+        $year = date('y'); // Tahun dua digit
+        $month = date('m'); // Bulan dua digit
+        $count = $this->daftar_model->get_last_nim_count($year, $month); // Ambil angka urut berdasarkan tahun dan bulan
+        $new_nim = $year . $month . str_pad($count + 1, 3, '0', STR_PAD_LEFT); // Format NIM
+        return $new_nim;
+    }
+
     // Custom validation function untuk nama
     public function alpha_space($str) {
         if (preg_match('/^[a-zA-Z ]+$/', $str)) {
@@ -121,7 +128,7 @@ class Daftar extends CI_Controller {
             return FALSE;
         }
     }
-    
+
     
     public function get_prodi_by_fakultas() {
         $id_fakultas = $this->input->post('id_fakultas');

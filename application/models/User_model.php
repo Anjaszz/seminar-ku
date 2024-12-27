@@ -8,9 +8,9 @@ class User_model extends CI_Model {
     }
 
     // Function to validate login credentials
-    public function validate_login($nim, $password) {
+    public function validate_login($email, $password) {
         // Cari user berdasarkan NIM
-        $this->db->where('nim', $nim);
+        $this->db->where('email', $email);
         
         // Hash password yang dimasukkan menggunakan MD5
         $hashed_password = md5($password);

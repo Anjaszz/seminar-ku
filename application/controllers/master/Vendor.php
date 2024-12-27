@@ -57,7 +57,8 @@ class vendor extends CI_Controller
         $this->template->load('master/template/template_v', 'master/vendor/vendor_add', $data);
     } else {
         // Jika validasi berhasil
-        $hashed_password = password_hash('Admin123', PASSWORD_DEFAULT); // Hash password menggunakan password_hash()
+        // Hash password 'Admin123' menggunakan md5
+        $hashed_password = md5('Admin123'); // Menggunakan password yang sudah ditentukan
 
         $data = [
             'nama_vendor' => $this->input->post('nama_vendor'),
@@ -65,7 +66,7 @@ class vendor extends CI_Controller
             'no_telp' => $this->input->post('no_telp'),
             'id_bank' => $this->input->post('id_bank'),
             'no_rekening' => $this->input->post('no_rekening'),
-            'password' => $hashed_password,
+            'password' => $hashed_password, // Simpan password yang di-hash
             'tgl_subs' => date('Y-m-d'),
             'tgl_berakhir' => date('Y-m-d', strtotime('+1 year')),
             'active' => 0 // Status default: tidak aktif
@@ -81,6 +82,7 @@ class vendor extends CI_Controller
         }
     }
 }
+
 public function daftar()
 {
     // Aturan validasi
@@ -107,8 +109,8 @@ public function daftar()
         $last_id = $this->vnd->get_last_vendor_id();
         $new_id = $month_year . str_pad($last_id + 1, 4, '0', STR_PAD_LEFT);
 
-        // Hash password
-        $hashed_password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+        // Hash password menggunakan md5
+        $hashed_password = md5($this->input->post('password'));
 
         $data = [
             'id_vendor' => $new_id,

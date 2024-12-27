@@ -253,7 +253,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
             </div>
-            <?php echo form_input(['name' => 'nim', 'class' => 'form-control', 'placeholder' => 'Masukkan NIM', 'required' => 'required']); ?>
+            <?php echo form_input(['name' => 'email', 'class' => 'form-control', 'placeholder' => 'Masukkan Email', 'required' => 'required']); ?>
         </div>
 
         <div class="input-group mb-3">

@@ -8,6 +8,9 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
@@ -69,6 +72,10 @@
             margin-bottom: 20px;
             text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
+
+        .input-group-text {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -77,11 +84,6 @@
         <div class="card shadow-lg">
             <div class="card-body">
                 <form id="form-daftar" action="<?= base_url('daftar/simpan'); ?>" method="post" class="row g-3">
-                    <div class="col-md-6">
-                        <label for="nim" class="form-label">NIM</label>
-                        <input type="text" id="nim" name="nim" class="form-control" value="<?= set_value('nim') ?>" placeholder="Masukkan NIM" required>
-                    </div>
-
                     <div class="col-md-6">
                         <label for="nama_mhs" class="form-label">Nama</label>
                         <input type="text" id="nama_mhs" name="nama_mhs" class="form-control" value="<?= set_value('nama_mhs') ?>" placeholder="Masukkan nama lengkap" required>
@@ -98,24 +100,14 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                        <input type="date" id="tanggal_lahir" name="tanggal_lahir" class="form-control" value="<?= set_value('tanggal_lahir') ?>" required>
+                        <label for="tanggal_lahir" class="form-label">Usia Saat Ini (Tahun)</label>
+                        <input type="number" id="tanggal_lahir" name="tanggal_lahir" class="form-control" min="0" max="120" placeholder="Masukkan umur" required>
                     </div>
 
                     <div class="col-md-6">
-                        <label for="id_jenjang" class="form-label">Jenjang</label>
-                        <select id="id_jenjang" name="id_jenjang" class="form-select" required>
-                            <option value="">Pilih Jenjang</option>
-                            <?php foreach ($jenjang as $j): ?>
-                                <option value="<?= $j->id_jenjang ?>"><?= $j->nama_jenjang ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label for="id_fakultas" class="form-label">Fakultas</label>
+                        <label for="id_fakultas" class="form-label">Departemen</label>
                         <select id="id_fakultas" name="id_fakultas" class="form-select" required>
-                            <option value="">Pilih Fakultas</option>
+                            <option value="">Pilih Departemen</option>
                             <?php foreach ($fakultas as $f): ?>
                                 <option value="<?= $f->id_fakultas ?>"><?= $f->nama_fakultas ?></option>
                             <?php endforeach; ?>
@@ -123,14 +115,30 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label for="id_prodi" class="form-label">Program Studi</label>
+                        <label for="id_prodi" class="form-label">Jurusan</label>
                         <select id="id_prodi" name="id_prodi" class="form-select" required>
-                            <option value="">Pilih Program Studi</option>
+                            <option value="">Jurusan</option>
                         </select>
                     </div>
 
+                    <div class="col-md-6">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-group">
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan password" required>
+                            <span class="input-group-text" id="togglePassword"><i class="bi bi-eye-slash"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="confirm_password" class="form-label">Konfirmasi Password</label>
+                        <div class="input-group">
+                            <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Konfirmasi password" required>
+                            <span class="input-group-text" id="toggleConfirmPassword"><i class="bi bi-eye-slash"></i></span>
+                        </div>
+                    </div>
+
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Daftar</button>
+                        <button type="submit" class="btn btn-primary">Daftar Sekarang</button>
                     </div>
                 </form>
             </div>
@@ -191,6 +199,22 @@
                     }
                 });
             }
+        });
+
+        // Toggle password visibility
+        $('#togglePassword').on('click', function () {
+            const passwordField = $('#password');
+            const type = passwordField.attr('type') === 'password' ? 'text' : 'password';
+            passwordField.attr('type', type);
+            $(this).find('i').toggleClass('bi-eye bi-eye-slash');
+        });
+
+        // Toggle confirm password visibility
+        $('#toggleConfirmPassword').on('click', function () {
+            const confirmPasswordField = $('#confirm_password');
+            const type = confirmPasswordField.attr('type') === 'password' ? 'text' : 'password';
+            confirmPasswordField.attr('type', type);
+            $(this).find('i').toggleClass('bi-eye bi-eye-slash');
         });
     });
 </script>

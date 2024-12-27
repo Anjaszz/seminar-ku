@@ -49,7 +49,7 @@
                         </a>
                     </div>
                     <div class="media-body">
-                        <div class="chat-header">Nomor Induk Mahasiswa</div>
+                        <div class="chat-header">ID User</div>
                         <p class="chat-header text-muted"><?= $nomor_induk ?></p>
                     </div>
                 </div>
@@ -95,10 +95,5 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-sm-12">
-                <img class="img-responsive imgB1" src="<?php echo base_url('uploads/qr_image/') . $nomor_induk . 'code.png'; ?>" />
-            </div>
-        </div>
     </div>
 </div>
