@@ -38,14 +38,14 @@ class Home extends CI_Controller
     {
         $box = [
             [
-                'color'         => 'facebook',
+                'color'         => 'green',
                 'total'     => $this->Home_model->total('mahasiswa'), // Memanggil method total dari model
                 'title'        => 'Total Peserta',
                 'icon'        => 'users',
                 'link' => site_url('mahasiswa')
             ],
             [
-                'color'         => 'success',
+                'color'         => 'blue',
                 'total'     => $this->Home_model->total('users'), // Memanggil method total dari model
                 'title'        => 'Total Vendor',
                 'icon'        => 'poll',
@@ -53,14 +53,14 @@ class Home extends CI_Controller
             ],
             
             [
-                'color'         => 'googleplus',
+                'color'         => 'yellow',
                 'total'     => $this->Home_model->total('seminar'), // Memanggil method total dari model
                 'title'        => 'Total Seminar',
                 'icon'        => 'layer-group',
                 'link' => site_url('seminar')
             ],
             [
-                'color'         => 'googleplus',
+                'color'         => 'red',
                 'total'     => $this->Laporan_master_model->total_pemasukan(), // Memanggil method total dari model
                 'title'        => 'Total Pemasukan',
                 'icon'        => 'layer-group',

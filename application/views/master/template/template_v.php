@@ -13,7 +13,7 @@
 </head>
 <style>
 	.bg{
-		background-color: #E5CFF7;
+		background-color: #fffff;
 	}
 	
 </style>
