@@ -38,10 +38,13 @@ public function get_row($id_vendor)
 
    
     
-    function insert_data($data)
-    {
-        return $this->db->insert('users', $data);
-    }
+public function insert_data($data)
+{
+    // Insert data into the users table
+    $this->db->insert('users', $data);
+    // Return the last inserted id
+    return $this->db->insert_id(); // This will return the auto-incremented id
+}
 
     public function get_all_banks()
     {
