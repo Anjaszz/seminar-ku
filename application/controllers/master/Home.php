@@ -23,6 +23,7 @@ class Home extends CI_Controller
         $prodi = anchor('prodi', 'Data Prodi');
         $jenjang = anchor('jenjang', 'Data Jenjang');
         $box = $this->info_box();
+        $monthly_income = $this->Laporan_master_model->get_monthly_income();
         $data = array(
             'mahasiswa' => $mahasiswa,
             'fakultas' => $fakultas,
@@ -30,6 +31,7 @@ class Home extends CI_Controller
             'jenjang' => $jenjang,
             'title' => $title,
             'box' => $box,
+            'monthly_income' => $monthly_income,
         );
         $this->template->load('master/template/template_v', 'master/home', $data);
     }
@@ -63,7 +65,7 @@ class Home extends CI_Controller
                 'color'         => 'red',
                 'total'     => $this->Laporan_master_model->total_pemasukan(), // Memanggil method total dari model
                 'title'        => 'Total Pemasukan',
-                'icon'        => 'layer-group',
+                'icon'        => 'money',
                 'link' => site_url('seminar')
             ],
         ];

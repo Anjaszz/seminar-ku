@@ -16,4 +16,13 @@ class Laporan_master_model extends CI_Model {
         $query = $this->db->get('transaksi_master');
         return $query->row()->jumlah_masuk;
     }
+
+    public function get_monthly_income() {
+        $this->db->select('MONTH(tgl_transaksi) as month, YEAR(tgl_transaksi) as year, SUM(jumlah_masuk) as total');
+        $this->db->from('transaksi_master');
+        $this->db->group_by('YEAR(tgl_transaksi), MONTH(tgl_transaksi)');
+        $this->db->order_by('YEAR(tgl_transaksi), MONTH(tgl_transaksi)');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 }

@@ -31,12 +31,26 @@ class Laporan extends CI_Controller {
 
     public function vendor()
     {
+       // Pagination configuration
+       $items_per_page = 10;
+       $current_page = $this->input->get('page') ? (int)$this->input->get('page') : 1;
+       $start = ($current_page - 1) * $items_per_page;
        
+       // Load model dulu sebelum menggunakannya
+       $this->load->model('Vendor_model', 'vnd');
+       
+       // Get total records and paginated data
+       $total_items = $this->vnd->count_all_vendors();
+       $vendor = $this->vnd->get_paginated_vendors($start, $items_per_page);
+
         $vnd = $this->vnd->lihat_data();
        
         $data = array(
             'vendor' =>  $vnd,
             'title' => 'Data Vendor Seminar',
+            'total_items' => $total_items,
+            'items_per_page' => $items_per_page,
+            'current_page' => $current_page
         );
         $this->template->load('master/template/template_v', 'master/laporan/laporanvendor', $data);
     }

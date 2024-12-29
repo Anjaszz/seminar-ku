@@ -5,6 +5,7 @@
 	<title>Sistem Manajemen Seminar</title>
 
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/fav.png') ?>" />
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">

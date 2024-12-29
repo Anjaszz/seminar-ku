@@ -1,105 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?></title>
-    <style>
-        table,
-        tr,
-        td,
-        th {
-            text-align: center;
-            border: 1px solid #ddd; /* Tambahkan border untuk tabel */
-        }
-
-        th {
-            background-color: #f2f2f2; /* Warna latar belakang header tabel */
-        }
-
-        .badge {
-            display: inline-block;
-            padding: .25em .4em;
-            font-size: 100%;
-            font-weight: 00;
-            line-height: 1;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: baseline;
-            border-radius: .25rem;
-            transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-        }
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
-<body>
-
-<div class="page-header">
-    <div class="page-block">
-        <div class="row align-items-center">
-            <div class="col-md-12">
-                <div class="page-header-title">
-                    <h5 class="m-b-10"><?= $title ?></h5>
-                </div>
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?php echo site_url('home') ?>"><i class="feather icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="#!"><?= $title ?></a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-header">
-                <h5><?= $title ?></h5>
-            </div>
-            <div class="card-body p-3 mt-2">
-                <div class="">
-                    <div class="customer-scroll" style="height:auto;position:relative;">
-                        <div class="table-responsive">
-                            <table id="table-style-hover" class="table table-hover m-b-0">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama Peserta</th>
-                                        <th>Departemen</th>
-                                        <th>Jurusan</th> <!-- Kolom untuk nama_prodi -->
-                                        <th>Email</th>
-                                        <th>No Telepon</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($mahasiswa as $r) { ?>
-                                        <tr>
-                                            <td><?= $no++ ?></td>
-                                            <td>
-                                                <h6 class="m-0"><?= $r->nama_mhs ?></h6>
-                                            </td>
-                                            <td>
-                                                <label class="badge badge-info"><?= $r->kode_fakultas ?></label>
-                                            </td>
-                                            <td>
-                                                <label class="badge badge-success"><?= $r->nama_prodi ?></label> <!-- Tampilkan nama_prodi -->
-                                            </td>
-                                            <td><?= $r->email ?></td>
-                                            <td><?= $r->no_telp ?></td>
-                                        </tr>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
+<!-- Header Section -->
+<div class="bg-white rounded-xl shadow-sm mb-6 p-6">
+    <div class="flex flex-col md:flex-row md:items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800"><?= $title ?></h1>
+            <nav class="flex mt-2" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-2">
+                    <li class="inline-flex items-center">
+                        <a href="<?php echo site_url('home') ?>" class="text-gray-500 hover:text-blue-600">
+                            <i class="feather icon-home mr-2"></i>
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <i class="feather icon-chevron-right text-gray-400 text-sm mx-2"></i>
+                            <span class="text-gray-500"><?= $title ?></span>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </li>
+                </ol>
+            </nav>
         </div>
     </div>
 </div>
 
+<!-- Table Section -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+    <div class="p-6">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                    <tr class="bg-gray-50">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Peserta</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Departemen</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jurusan</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No Telepon</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <?php 
+                    $no = 1;
+                    foreach ($mahasiswa as $r) { ?>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= $no++ ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900"><?= $r->nama_mhs ?></div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                    <?= $r->kode_fakultas ?>
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    <?= $r->nama_prodi ?>
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $r->email ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?= $r->no_telp ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+
+            <!-- Jika ada pagination, tambahkan disini dengan format yang sama seperti tabel vendor -->
+            <?php if (isset($total_items) && isset($items_per_page)): ?>
+            <?php
+            $total_pages = ceil($total_items / $items_per_page);
+            
+            if ($total_pages > 1): ?>
+            <div class="mt-6 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+                <!-- Pagination content -->
+            </div>
+            <?php endif; ?>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+<!-- SweetAlert2 Script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function confirmDelete(url) {
         Swal.fire({
@@ -107,9 +88,15 @@
             text: "Data ini akan dihapus",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, Hapus!'
+            confirmButtonColor: '#EF4444',
+            cancelButtonColor: '#3B82F6',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal',
+            customClass: {
+                popup: '!rounded-lg',
+                confirmButton: '!rounded-lg !px-4 !py-2',
+                cancelButton: '!rounded-lg !px-4 !py-2'
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location.href = url;
@@ -117,6 +104,3 @@
         });
     }
 </script>
-
-</body>
-</html>

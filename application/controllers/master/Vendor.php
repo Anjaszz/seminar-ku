@@ -20,20 +20,33 @@ class vendor extends CI_Controller
         \Midtrans\Config::$serverKey = 'SB-Mid-server-ay9QYxNzmuxRlfXu4ntFRNd8'; // Ganti dengan server key Anda
         \Midtrans\Config::$isProduction = false; // Set true jika di production
     }
-
     public function index()
     {
-        $attradd = array('class' => 'btn  btn-gradient-success');
-       
+        // Pagination configuration
+        $items_per_page = 10;
+        $current_page = $this->input->get('page') ? (int)$this->input->get('page') : 1;
+        $start = ($current_page - 1) * $items_per_page;
+        
+        // Load model dulu sebelum menggunakannya
+        $this->load->model('Vendor_model', 'vnd');
+        
+        // Get total records and paginated data
+        $total_items = $this->vnd->count_all_vendors();
+        $vendor = $this->vnd->get_paginated_vendors($start, $items_per_page);
+        
+        // Button add
+        $attradd = array('class' => 'btn btn-gradient-success');
         $tambahdata = anchor('master/vendor/add', '<i class="feather icon-user-plus"></i>Tambah Data', $attradd);
-       
-        $vnd = $this->vnd->lihat_data();
-       
+        
         $data = array(
-            'vendor' =>  $vnd,
+            'vendor' => $vendor,  // Gunakan $vendor dari pagination, bukan $vnd
             'title' => 'Data Vendor Seminar',
             'btntambah' => $tambahdata,
+            'total_items' => $total_items,
+            'items_per_page' => $items_per_page,
+            'current_page' => $current_page
         );
+        
         $this->template->load('master/template/template_v', 'master/vendor/vendor_v', $data);
     }
 
@@ -331,30 +344,51 @@ public function success()
         }
     }
     
-public function vendor_aktif()
-{
-
-
-    // Ambil data vendor yang aktif
-    $vnd = $this->vnd->get_active_vendors();
-
-    $data = array(
-        'vendor' => $vnd,
-        'title' => 'Data Vendor Aktif/Langganan',
-    );
-
-    $this->template->load('master/template/template_v', 'master/vendor/vendor_aktif', $data);
-}
+    public function vendor_aktif()
+    {
+        // Pagination configuration
+        $items_per_page = 10;
+        $current_page = $this->input->get('page') ? (int)$this->input->get('page') : 1;
+        $start = ($current_page - 1) * $items_per_page;
+        
+        // Load model
+        $this->load->model('Vendor_model', 'vnd');
+        
+        // Get total records dan paginated data khusus vendor aktif
+        $total_items = $this->vnd->count_active_vendors();
+        $vendor = $this->vnd->get_paginated_active_vendors($start, $items_per_page);
+        
+        $data = array(
+            'vendor' => $vendor,
+            'title' => 'Data Vendor Aktif/Langganan',
+            'total_items' => $total_items,
+            'items_per_page' => $items_per_page,
+            'current_page' => $current_page
+        );
+    
+        $this->template->load('master/template/template_v', 'master/vendor/vendor_aktif', $data);
+    }
 
 public function vendor_nonaktif()
 {
-
-
-    $vnd = $this->vnd->get_nonaktif_vendor();
-
+    // Pagination configuration
+    $items_per_page = 10;
+    $current_page = $this->input->get('page') ? (int)$this->input->get('page') : 1;
+    $start = ($current_page - 1) * $items_per_page;
+    
+    // Load model
+    $this->load->model('Vendor_model', 'vnd');
+    
+    // Get total records dan paginated data khusus vendor nonaktif
+    $total_items = $this->vnd->count_nonaktif_vendors();
+    $vendor = $this->vnd->get_paginated_nonaktif_vendors($start, $items_per_page);
+    
     $data = array(
-        'vendor' => $vnd,
+        'vendor' => $vendor,
         'title' => 'Data Vendor Tidak Aktif/Tidak Langganan',
+        'total_items' => $total_items,
+        'items_per_page' => $items_per_page,
+        'current_page' => $current_page
     );
 
     $this->template->load('master/template/template_v', 'master/vendor/vendor_nonaktif', $data);

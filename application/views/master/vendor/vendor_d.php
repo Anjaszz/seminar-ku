@@ -1,137 +1,138 @@
-<style>
-    .btn-icon,
-    .drp-icon {
-        width: 40px;
-        height: 40px;
-        padding: 10px 12px;
-        border-radius: 50%;
-    }
-
-    .csa {
-        max-height: 100px;
-        min-width: 100px;
-        min-height: 100px;
-        max-width: 100px;
-    }
-</style>
-<div class="page-header">
-    <div class="page-block">
-        <div class="row align-items-center">
-            <div class="col-md-12">
-                <div class="page-header-title">
-                    <h5 class="m-b-10"><?= $title ?></h5>
-                </div>
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?php echo site_url('master/home') ?>"><i class="feather icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="#!"><?= $parent ?></a></li>
-                    <li class="breadcrumb-item"><a href="#!"><?= $title ?></a></li>
-                </ul>
-            </div>
+<div class="bg-white rounded-xl shadow-sm mb-6 p-6">
+    <div class="flex flex-col md:flex-row md:items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800"><?= $title ?></h1>
+            <nav class="flex mt-2" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-2">
+                    <li class="inline-flex items-center">
+                        <a href="<?php echo site_url('master/home') ?>" class="text-gray-500 hover:text-blue-600">
+                            <i class="feather icon-home mr-2"></i>
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <i class="feather icon-chevron-right text-gray-400 text-sm mx-2"></i>
+                            <span class="text-gray-500"><?= $parent ?></span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <i class="feather icon-chevron-right text-gray-400 text-sm mx-2"></i>
+                            <span class="text-gray-500"><?= $title ?></span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12 col-xl-4">
-        <div class="card">
-            <div class="widget-profile-card-3">
-                <img class="img-fluid img-thumbnail csa" src="<?php echo base_url() ?>assets/images/widget/user.png" alt="Profile-user">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Profile Card -->
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden ">
+        <div class="p-6 text-center flex flex-col items-center justify-center">
+            <div class="w-32 h-32 mx-auto mb-4">
+                <img class="w-full h-full object-cover rounded-full" 
+                     src="<?php echo base_url() ?>assets/images/widget/user.png" 
+                     alt="Profile-user">
             </div>
-            <div class="card-body text-center">
-    <h3><?= $nama_vendor ?></h3>
-    <p>
-        <?php if ($status == 1): ?>
-            <span class="badge badge-success">Aktif</span>
-        <?php else: ?>
-            <span class="badge badge-danger">Nonaktif</span>
-        <?php endif; ?>
-    </p>
-</div>
-
-            
+            <h3 class="text-xl font-bold text-gray-800 mb-2"><?= $nama_vendor ?></h3>
+            <?php if ($status == 1): ?>
+                <span class="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-green-100 text-green-800">
+                    Aktif
+                </span>
+            <?php else: ?>
+                <span class="px-3 py-1 inline-flex text-sm font-semibold rounded-full bg-red-100 text-red-800">
+                    Nonaktif
+                </span>
+            <?php endif; ?>
         </div>
     </div>
 
-    <div class="col-sm-8">
-        <div class="card" style="height:425px;">
-            <div class="card-header">
-                <h5><?= $title ?></h5>
-                <div class="card-header-right">
-                    <div class="btn-group card-option">
-                        <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="feather icon-more-horizontal"></i>
-                        </button>
-                        <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
-                            <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
-                            <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
-                            <li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> reload</a></li>
-                            <li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> remove</a></li>
-                        </ul>
+    <!-- Detail Card -->
+    <div class="md:col-span-2 bg-white rounded-xl shadow-sm">
+        <div class="p-6">
+            <!-- Detail Items -->
+            <div class="space-y-6">
+                <!-- Tanggal Langganan -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-red-100 text-red-600">
+                            <i class="fas fa-street-view text-lg"></i>
+                        </span>
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="text-sm font-medium text-gray-900">Tanggal Langganan</h4>
+                        <p class="text-sm text-gray-500"><?= $tanggal_langganan ?></p>
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <div class="media">
-                    <div class="media-left">
-                        <a class="btn btn-outline-danger btn-icon" href="#!" role="button"><i class="fas fa-street-view"></i></a>
-                    </div>
-                    <div class="media-body">
-                        <div class="chat-header">Tanggal Langganan</div>
-                        <p class="chat-header text-muted"><?= $tanggal_langganan ?></p>
-                    </div>
-                </div>
-                <div class="media">
-    <div class="media-left">
-        <a class="btn btn-outline-info btn-icon" href="#!" role="button"><i class="fas fa-university"></i></a>
-    </div>
-    <div class="media-body">
-        <div class="chat-header">Nama Bank</div>
-        <p class="chat-header text-muted"><?= $nama_bank ?: 'Tidak tersedia'; ?></p>
-    </div>
-</div>
 
-<div class="media">
-    <div class="media-left">
-        <a class="btn btn-outline-warning btn-icon" href="#!" role="button"><i class="fas fa-credit-card"></i></a>
-    </div>
-    <div class="media-body">
-        <div class="chat-header">Nomor Rekening</div>
-        <p class="chat-header text-muted"><?= $no_rekening ?: 'Tidak tersedia'; ?></p>
-    </div>
-</div>
+                <!-- Bank -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-blue-100 text-blue-600">
+                            <i class="fas fa-university text-lg"></i>
+                        </span>
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="text-sm font-medium text-gray-900">Nama Bank</h4>
+                        <p class="text-sm text-gray-500"><?= $nama_bank ?: 'Tidak tersedia' ?></p>
+                    </div>
+                </div>
 
+                <!-- Nomor Rekening -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-yellow-100 text-yellow-600">
+                            <i class="fas fa-credit-card text-lg"></i>
+                        </span>
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="text-sm font-medium text-gray-900">Nomor Rekening</h4>
+                        <p class="text-sm text-gray-500"><?= $no_rekening ?: 'Tidak tersedia' ?></p>
+                    </div>
+                </div>
 
-                <div class="media">
-                    <div class="media-left">
-                        <a class="btn btn-outline-danger btn-icon" href="#!" role="button"><i class="fas fa-street-view"></i></a>
+                <!-- Tanggal Berakhir -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-red-100 text-red-600">
+                            <i class="fas fa-calendar text-lg"></i>
+                        </span>
                     </div>
-                    <div class="media-body">
-                        <div class="chat-header">Tanggal Berakhir</div>
-                        <p class="chat-header text-muted"><?= $tanggal_berakhir ?></p>
-                    </div>
-                </div>
-                
-                <div class="media">
-                    <div class="media-left">
-                        <a class="btn btn-outline-primary btn-icon" href="#!" role="button"><i class="fas fa-at"></i></a>
-                    </div>
-                    <div class="media-body">
-                        <div class="chat-header">Email</div>
-                        <p class="chat-header text-muted"><?= $email ?></p>
+                    <div class="ml-4">
+                        <h4 class="text-sm font-medium text-gray-900">Tanggal Berakhir</h4>
+                        <p class="text-sm text-gray-500"><?= $tanggal_berakhir ?></p>
                     </div>
                 </div>
-                <div class="media">
-                    <div class="media-left">
-                        <a class="btn btn-outline-success btn-icon" href="#!" role="button"><i class="fas fa-mobile-alt"></i></a>
+
+                <!-- Email -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-indigo-100 text-indigo-600">
+                            <i class="fas fa-at text-lg"></i>
+                        </span>
                     </div>
-                    <div class="media-body">
-                        <div class="chat-header">No Telepon</div>
-                        <p class="chat-header text-muted"><?= $no_telp ?></p>
+                    <div class="ml-4">
+                        <h4 class="text-sm font-medium text-gray-900">Email</h4>
+                        <p class="text-sm text-gray-500"><?= $email ?></p>
                     </div>
                 </div>
-                
+
+                <!-- No Telepon -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="inline-flex items-center justify-center h-12 w-12 rounded-lg bg-green-100 text-green-600">
+                            <i class="fas fa-mobile-alt text-lg"></i>
+                        </span>
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="text-sm font-medium text-gray-900">No Telepon</h4>
+                        <p class="text-sm text-gray-500"><?= $no_telp ?></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
