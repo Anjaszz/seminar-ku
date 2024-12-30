@@ -3,15 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembayaran</title>
+    <title>Pembayaran Langganan Vendor</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="YOUR_CLIENT_KEY"></script> <!-- Ganti dengan client key Anda -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .payment-container {
+            margin-top: 50px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-custom {
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h2>Pembayaran</h2>
-        <button id="pay-button" class="btn btn-primary">Bayar Sekarang</button>
+        <div class="payment-container">
+            <h2 class="text-center">Pembayaran Langganan Vendor</h2>
+            <p class="text-center">Anda akan diarahkan ke halaman pembayaran. Silakan klik tombol di bawah ini untuk melanjutkan.</p>
+            <div class="text-center">
+                <button id="pay-button" class="btn btn-primary btn-lg btn-custom">Bayar Sekarang</button>
+                <a href="<?= site_url('master/vendor/daftar'); ?>" class="btn btn-secondary btn-lg">Kembali</a>
+            </div>
+        </div>
     </div>
 
     <script type="text/javascript">

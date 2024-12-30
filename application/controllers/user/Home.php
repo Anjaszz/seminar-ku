@@ -10,6 +10,7 @@ class Home extends CI_Controller {
         $this->load->model('Seminar_model');
         $this->load->model('Pendaftaran_model');
         $this->load->model('Sertifikat_model');
+        $this->load->model('Prodi_model');
         $this->load->library('session');
         $this->load->library('ciqrcode');
     }
@@ -51,10 +52,20 @@ class Home extends CI_Controller {
         // Kirim nama mahasiswa ke view
         $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
     
+        // Ambil data lokasi seminar
+        $data['lokasi_seminar'] = $this->Seminar_model->getLokasiSeminar();
+    
         // Ambil data seminar dari model
         $this->load->model('Seminar_model');
         $this->load->model('Pendaftaran_model');
-        $data['seminar_data'] = $this->Seminar_model->getSeminarData();
+    
+        // Cek apakah ada filter lokasi
+        $id_lokasi = $this->input->get('id_lokasi'); // Ambil id_lokasi dari query string
+        if ($id_lokasi && $id_lokasi != 0) {
+            $data['seminar_data'] = $this->Seminar_model->getSeminarDataByLocation($id_lokasi);
+        } else {
+            $data['seminar_data'] = $this->Seminar_model->getSeminarData(); // Ambil semua seminar jika tidak ada filter
+        }
     
         // Cek pendaftaran dan history untuk setiap seminar
         foreach ($data['seminar_data'] as &$seminar) {
@@ -68,13 +79,13 @@ class Home extends CI_Controller {
                 $seminar->id_stsbyr = null;
                 $seminar->id_pendaftaran = null;
             }
-        
+    
             // Cek apakah seminar ada di history
             $seminar->is_history = $this->User_model->isHistory($seminar->id_seminar, $id_mahasiswa);
-        
+    
             // Dapatkan slot_tiket dan tiket_terjual dari model
             $tiket_info = $this->User_model->getSlotTiketAndTiketTerjual($seminar->id_seminar);
-        
+    
             // Cek apakah tiket sudah habis
             if ($tiket_info && $tiket_info->tiket_terjual >= $tiket_info->slot_tiket) {
                 $seminar->is_slot_habis = true;
@@ -91,56 +102,79 @@ class Home extends CI_Controller {
     }
     
     
- 
     public function profil() {
         // Ambil id_mahasiswa dari session
         $id_mahasiswa = $this->session->userdata('id_mahasiswa');
         
         if (empty($id_mahasiswa)) {
-            // Jika tidak ada session id_mahasiswa, arahkan ke halaman login
             $this->session->set_flashdata('error', 'Anda belum login.');
             redirect('user/auth');
         }
-
-        // Ambil data mahasiswa berdasarkan id_mahasiswa
+    
         $mahasiswa = $this->User_model->getMahasiswaProfile($id_mahasiswa);
         
-        // Cek apakah data mahasiswa ditemukan
         if (!$mahasiswa) {
-            // Jika data mahasiswa tidak ditemukan, arahkan ke halaman lain
             $this->session->set_flashdata('error', 'Data mahasiswa tidak ditemukan.');
             redirect('user/home');
         }
-        $this->load->model('User_model'); // Sesuaikan nama model Anda
-        
+    
+        $data['prodi'] = $this->User_model->getAllProdi();
+    
+        // Tangani pengiriman formulir untuk pembaruan profil
+        if ($this->input->post('submit')) {
+            // Debug: Cek data yang diterima
+            log_message('info', 'Data POST: ' . print_r($this->input->post(), true));
+            // Tangani unggahan file untuk foto profil
+            $config['upload_path'] = './uploads/profil/';
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config['max_size'] = 2048; // 2MB
+    
+            $this->load->library('upload', $config);
+            $foto = $mahasiswa->foto; // Simpan foto lama jika tidak ada upload baru
+    
+            if ($this->upload->do_upload('foto')) {
+                $upload_data = $this->upload->data();
+                $foto = $upload_data['file_name'];
+                $this->User_model->updateProfilePicture($id_mahasiswa, $foto);
+                $this->session->set_flashdata('message_success', 'Foto profil berhasil diperbarui.');
+            } else {
+                $this->session->set_flashdata('message_error', $this->upload->display_errors());
+            }
+    
+            // Perbarui data mahasiswa lainnya
+            $data_update = [
+                'nama_mhs' => $this->input->post('nama_mhs'),
+                'email' => $this->input->post('email'),
+                'no_telp' => $this->input->post('no_telp'),
+                'id_prodi' => $this->input->post('id_prodi')
+            ];
+    
+            // Perbarui data mahasiswa di database
+            if ($this->User_model->updateMahasiswa($id_mahasiswa, $data_update)) {
+                $this->session->set_flashdata('message_success', 'Data profil berhasil diperbarui.');
+            } else {
+                $this->session->set_flashdata('message_error', 'Gagal memperbarui data profil.');
+            }
+    
+            redirect('user/home/profil');
+        }
+    
         // Ambil data jumlah
-        $id_mahasiswa = $this->session->userdata('id_mahasiswa'); // Ambil id mahasiswa dari session
-
-        // Ambil jumlah seminar yang diikuti
-        $jumlah_seminar = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
-
-        // Ambil jumlah belum bayar
-        $jumlah_belum_bayar = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
-
-        // Ambil jumlah history seminar
-        $jumlah_history = $this->User_model->getJumlahHistory($id_mahasiswa);
-
-        // Kirim data ke view
-        $data['jumlah_seminar'] = $jumlah_seminar;
-        $data['jumlah_belum_bayar'] = $jumlah_belum_bayar;
-        $data['jumlah_history'] = $jumlah_history;
-        // Kirim data ke view
+        $data['jumlah_seminar'] = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
+        $data['jumlah_belum_bayar'] = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
+        $data['jumlah_history'] = $this->User_model->getJumlahHistory($id_mahasiswa);
         $data['mahasiswa'] = $mahasiswa;
         $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
-
+    
         // Load view
         $this->load->view('template/user/header', $data);
         $this->load->view('template/user/navbar', $data);
         $this->load->view('user/profil', $data);
         $this->load->view('template/user/footer');
     }
-
-
+    
+    
+    
 
     public function detail($id_seminar) {
         // Get seminar details

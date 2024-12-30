@@ -59,7 +59,7 @@ class User_model extends CI_Model {
     
 
     public function getMahasiswaProfile($id_mahasiswa) {
-        $this->db->select('mahasiswa.nama_mhs, mahasiswa.nim, mahasiswa.email, mahasiswa.no_telp, prodi.nama_prodi');
+        $this->db->select('mahasiswa.nama_mhs, mahasiswa.nim, mahasiswa.email, mahasiswa.no_telp, prodi.nama_prodi, mahasiswa.foto, mahasiswa.id_prodi'); // Tambahkan mahasiswa.id_prodi
         $this->db->from('mahasiswa');
         $this->db->join('prodi', 'mahasiswa.id_prodi = prodi.id_prodi');
         $this->db->where('mahasiswa.id_mahasiswa', $id_mahasiswa);
@@ -70,7 +70,32 @@ class User_model extends CI_Model {
             return $query->row(); // Kembalikan data mahasiswa
         } else {
             return false; // Jika tidak ada data, return false
-        }}
+        }
+    }
+    
+    
+    public function updateMahasiswa($id_mahasiswa, $data) {
+        $this->db->where('id_mahasiswa', $id_mahasiswa);
+        return $this->db->update('mahasiswa', $data); // Perbarui tabel mahasiswa
+    }
+    
+
+    public function getAllProdi() {
+        $this->db->select('*');
+        $this->db->from('prodi');
+        $query = $this->db->get();
+        return $query->result(); // Kembalikan semua data jurusan
+    }
+    
+    
+
+        public function updateProfilePicture($id_mahasiswa, $foto) {
+            $this->db->set('foto', $foto);
+            $this->db->where('id_mahasiswa', $id_mahasiswa);
+            return $this->db->update('user_mhs'); // Perbarui tabel user_mhs
+        }
+        
+        
         public function getDetailSeminarByID($id_seminar) {
             $this->db->select('s.id_seminar, s.nama_seminar, s.tgl_pelaksana, s.lampiran, 
                                p.nama_pembicara, p.latar_belakang, 

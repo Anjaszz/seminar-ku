@@ -148,15 +148,11 @@ public function daftar()
                 break;
         }
 
-        // Simpan data vendor ke database dan ambil id_vendor
-        $vendor_id = $this->vnd->insert_data($vendor_data);
-
         // Simpan data vendor ke session untuk digunakan setelah pembayaran
         $this->session->set_userdata('vendor_data', $vendor_data);
-        $this->session->set_userdata('vendor_id', $vendor_id); // Simpan id_vendor ke session
         $this->session->set_userdata('harga', $harga); // Simpan harga ke session
 
-        // Buat trans
+        // Buat transaksi
         $transaction_details = [
             'order_id' => uniqid(), // ID unik untuk transaksi
             'gross_amount' => $harga, // Jumlah yang harus dibayar
@@ -198,9 +194,14 @@ public function handle_payment()
 
     // Cek status pembayaran
     if ($result['transaction_status'] == 'settlement') {
-        // Ambil id_vendor dan harga dari session
-        $vendor_id = $this->session->userdata('vendor_id');
-        $harga = $this->session->userdata('harga'); // Ambil harga dari session
+        // Ambil data vendor dari session
+        $vendor_data = $this->session->userdata('vendor_data');
+
+        // Simpan data vendor ke database
+        $vendor_id = $this->vnd->insert_data($vendor_data);
+
+        // Ambil harga dari session
+        $harga = $this->session->userdata('harga');
 
         // Simpan data transaksi
         $transaction_data = [
@@ -214,7 +215,6 @@ public function handle_payment()
 
         // Hapus data vendor dari session
         $this->session->unset_userdata('vendor_data');
-        $this->session->unset_userdata('vendor_id'); // Hapus id_vendor dari session
         $this->session->unset_userdata('harga'); // Hapus harga dari session
 
         echo json_encode(['success' => true]);

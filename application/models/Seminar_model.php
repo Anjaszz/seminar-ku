@@ -170,6 +170,34 @@ public function get_seminar_by_id($id_seminar) {
         return $query->result();
     }
 
+    public function getLokasiSeminar() {
+        // Query untuk mengambil data dari tabel lokasi_seminar
+        $this->db->select('id_lokasi, nama_provinsi');
+        $this->db->from('lokasi_seminar');
+        $query = $this->db->get();
+        
+        // Tambahkan opsi "Semua Lokasi"
+        $all_locations = new stdClass();
+        $all_locations->id_lokasi = 0; // ID untuk semua lokasi
+        $all_locations->nama_provinsi = 'Semua Lokasi'; // Nama untuk semua lokasi
+    
+        $locations = $query->result();
+        array_unshift($locations, $all_locations); // Menambahkan "Semua Lokasi" di awal array
+    
+        return $locations;
+    }
+    
+    
+    public function getSeminarDataByLocation($id_lokasi) {
+        // Query untuk mengambil data seminar berdasarkan id_lokasi
+        $this->db->select('seminar.id_seminar, seminar.nama_seminar, seminar.tgl_pelaksana, seminar.lampiran, tiket.harga_tiket, tiket.slot_tiket');
+        $this->db->from('seminar');
+        $this->db->join('tiket', 'seminar.id_seminar = tiket.id_seminar', 'left');
+        $this->db->where('seminar.id_lokasi', $id_lokasi); // Filter berdasarkan id_lokasi
+        $query = $this->db->get();
+        return $query->result();
+    }
+
         // Fungsi untuk mengambil semua data seminar yang didaftarkan oleh mahasiswa
         public function getSeminarDaftar($id_mahasiswa) {
             $this->db->select('pendaftaran_seminar.*, seminar.nama_seminar, seminar.tgl_pelaksana, tiket.harga_tiket, tiket.slot_tiket, seminar.lampiran, seminar.file'); // Tambahkan seminar.file

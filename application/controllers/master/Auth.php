@@ -30,7 +30,7 @@ class Auth extends CI_Controller {
         } else {
             // Jika gagal login, kirimkan pesan error
             $this->session->set_flashdata('error', 'Email atau Password salah.');
-            redirect('admin/auth');
+            redirect('master/auth');
         }
     }
 
