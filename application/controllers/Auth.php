@@ -48,6 +48,13 @@ class Auth extends CI_Controller
         $user = $this->ion_auth_model->get_user_by_email($email);
 
         if ($user) {
+            // Periksa apakah akun aktif
+            if ($user->active == 0) {
+                $this->session->set_flashdata('danger', 'Akun tidak aktif. Silakan hubungi administrator.');
+                redirect('auth/login', 'refresh');
+                return; // Pastikan untuk menghentikan eksekusi lebih lanjut
+            }
+
             // Verifikasi password hash
             if (password_verify($password, $user->password)) {
                 // Simpan data ke session

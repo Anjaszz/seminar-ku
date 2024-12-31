@@ -1,3 +1,4 @@
+<!-- Header Section -->
 <div class="bg-white rounded-xl shadow-sm mb-6 p-6">
     <div class="flex flex-col md:flex-row md:items-center justify-between">
         <div>
@@ -63,8 +64,8 @@
                                     <i class='feather icon-eye mr-1'></i>
                                     Detail
                                 </a>
-                                <a href="<?= site_url("master/vendor/nonaktifkan/{$r->id_vendor}") ?>" 
-                                  
+                                <a href="#" 
+                                   data-url="<?= site_url("master/vendor/nonaktifkan/{$r->id_vendor}") ?>" 
                                    class="nonaktif-vendor inline-flex items-center px-3 py-1 bg-red-100 text-red-700 hover:bg-red-200 rounded-lg transition-colors duration-200">
                                     <i class='feather icon-x mr-1'></i>
                                     Nonaktifkan Akun
@@ -75,96 +76,94 @@
                 </tbody>
             </table>
 
-            <!-- Pagination section (sama seperti sebelumnya) -->
+            <!-- Pagination section -->
             <?php
             $total_pages = ceil($total_items / $items_per_page);
             
             if ($total_pages > 1): ?>
             <div class="mt-6 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-                   <!-- Mobile pagination -->
-    <div class="flex flex-1 justify-between sm:hidden">
-        <?php if ($current_page > 1): ?>
-            <a href="?page=<?= $current_page - 1 ?>" 
-               class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                Previous
-            </a>
-        <?php endif; ?>
-        
-        <?php if ($current_page < $total_pages): ?>
-            <a href="?page=<?= $current_page + 1 ?>" 
-               class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                Next
-            </a>
-        <?php endif; ?>
-    </div>
-
-    <!-- Desktop pagination -->
-    <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-        <!-- Info -->
-        <div>
-            <p class="text-sm text-gray-700">
-                Menampilkan
-                <span class="font-medium"><?= ($current_page - 1) * $items_per_page + 1 ?></span>
-                sampai
-                <span class="font-medium"><?= min($current_page * $items_per_page, $total_items) ?></span>
-                dari
-                <span class="font-medium"><?= $total_items ?></span>
-                data
-            </p>
-        </div>
-
-        <!-- Page numbers -->
-        <div>
-            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                <?php 
-                // Hapus perhitungan total_pages disini karena sudah dihitung di atas
-                $current_url = current_url();
-                ?>
-                
-                <!-- Previous button -->
-                <?php if ($current_page > 1): ?>
-                    <a href="?page=<?= $current_page - 1 ?>" 
-                       class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                        <i class="feather icon-chevron-left h-5 w-5"></i>
-                    </a>
-                <?php endif; ?>
-
-                <!-- Page numbers -->
-                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                    <?php if ($i <= 2 || $i >= $total_pages - 1 || abs($i - $current_page) <= 1): ?>
-                        <a href="?page=<?= $i ?>" 
-                           class="relative inline-flex items-center px-4 py-2 text-sm font-semibold <?= $i === (int)$current_page 
-                                ? 'z-10 bg-blue-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600' 
-                                : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50' ?>">
-                            <?= $i ?>
+                <!-- Mobile pagination -->
+                <div class="flex flex-1 justify-between sm:hidden">
+                    <?php if ($current_page > 1): ?>
+                        <a href="?page=<?= $current_page - 1 ?>" 
+                           class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            Previous
                         </a>
-                    <?php elseif ($i == 3 || $i == $total_pages - 2): ?>
-                        <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300">...</span>
                     <?php endif; ?>
-                <?php endfor; ?>
+                    
+                    <?php if ($current_page < $total_pages): ?>
+                        <a href="?page=<?= $current_page + 1 ?>" 
+                           class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            Next
+                        </a>
+                    <?php endif; ?>
+                </div>
 
-                <!-- Next button -->
-                <?php if ($current_page < $total_pages): ?>
-                    <a href="?page=<?= $current_page + 1 ?>" 
-                       class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                        <i class="feather icon-chevron-right h-5 w-5"></i>
-                    </a>
-                <?php endif; ?>
-            </nav>
-        </div>
-    </div>
+                <!-- Desktop pagination -->
+                <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                    <!-- Info -->
+                    <div>
+                        <p class="text-sm text-gray-700">
+                            Menampilkan
+                            <span class="font-medium"><?= ($current_page - 1) * $items_per_page + 1 ?></span>
+                            sampai
+                            <span class="font-medium"><?= min($current_page * $items_per_page, $total_items) ?></span>
+                            dari
+                            <span class="font-medium"><?= $total_items ?></span>
+                            data
+                        </p>
+                    </div>
+
+                    <!-- Page numbers -->
+                    <div>
+                        <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                            <?php 
+                            // Hapus perhitungan total_pages disini karena sudah dihitung di atas
+                            $current_url = current_url();
+                            ?>
+                            
+                            <!-- Previous button -->
+                            <?php if ($current_page > 1): ?>
+                                <a href="?page=<?= $current_page - 1 ?>" 
+                                   class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                    <i class="feather icon-chevron-left h-5 w-5"></i>
+                                </a>
+                            <?php endif; ?>
+
+                            <!-- Page numbers -->
+                            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                                <?php if ($i <= 2 || $i >= $total_pages - 1 || abs($i - $current_page) <= 1): ?>
+                                    <a href="?page=<?= $i ?>" 
+                                       class="relative inline-flex items-center px-4 py-2 text-sm font-semibold <?= $i === (int)$current_page 
+                                            ? 'z-10 bg-blue-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600' 
+                                            : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50' ?>">
+                                        <?= $i ?>
+                                    </a>
+                                <?php elseif ($i == 3 || $i == $total_pages - 2): ?>
+                                    <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300">...</span>
+                                <?php endif; ?>
+                            <?php endfor; ?>
+
+                            <!-- Next button -->
+                            <?php if ($current_page < $total_pages): ?>
+                                <a href="?page=<?= $current_page + 1 ?>" 
+                                   class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                    <i class="feather icon-chevron-right h-5 w-5"></i>
+                                </a>
+                            <?php endif; ?>
+                        </nav>
+                    </div>
+                </div>
             </div>
             <?php endif; ?>
         </div>
     </div>
 </div>
 
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!-- Konfirmasi Hapus dengan SweetAlert2 -->
+<!-- Konfirmasi Nonaktifkan dengan SweetAlert2 -->
 <script>
-
 document.addEventListener('click', function(event) {
     if (event.target.closest('.nonaktif-vendor')) {
         event.preventDefault();
@@ -174,15 +173,14 @@ document.addEventListener('click', function(event) {
         // Tampilkan konfirmasi SweetAlert
         Swal.fire({
             title: 'Nonaktifkan vendor ini?',
-            text: "Data yang dihapus tidak bisa dikembalikan!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Nonaktifkan!'
+            confirmButtonText: 'Nonaktifkan!'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Lakukan penghapusan dengan AJAX
+                // Lakukan nonaktifkan dengan AJAX
                 $.ajax({
                     url: url,
                     type: 'POST', // Sesuaikan dengan metode yang digunakan di server
@@ -190,7 +188,7 @@ document.addEventListener('click', function(event) {
                         // Tampilkan notifikasi berhasil
                         Swal.fire({
                             title: 'Berhasil!',
-                            text: 'Vendor Berhasil di Nonaktifkan.',
+                            text: 'Vendor Berhasil dinonaktifkan.',
                             icon: 'success',
                             confirmButtonText: 'OK'
                         }).then(() => {
@@ -211,5 +209,4 @@ document.addEventListener('click', function(event) {
         });
     }
 });
-
 </script>

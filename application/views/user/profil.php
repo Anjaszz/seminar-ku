@@ -40,11 +40,11 @@
         }
 
         .profile-image {
-            width: 120px; /* Ukuran gambar profil */
-            height: 120px; /* Ukuran gambar profil */
-            border-radius: 50%; /* Membuat gambar menjadi bulat */
-            object-fit: cover; /* Memastikan gambar tidak terdistorsi */
-            border: 2px solid #007bff; /* Border untuk gambar profil */
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #007bff;
         }
 
         .edit-icon {
@@ -58,8 +58,8 @@
 
         .button-container {
             display: flex;
-            justify-content: space-between; /* Mengatur jarak antara tombol */
-            margin-top: 20px; /* Jarak antara tabel dan tombol */
+            justify-content: space-between;
+            margin-top: 20px;
         }
 
         .table th {
@@ -89,21 +89,17 @@
     <div class="container mt-5">
         <div class="card">
             <div class="card-header text-center position-relative">
-                <!-- Tampilkan gambar profil dari database -->
                 <?php if (!empty($mahasiswa->foto)): ?>
                     <img src="<?php echo base_url('assets/images/profil/' . $mahasiswa->foto); ?>" alt="Gambar Profil" class="profile-image">
                 <?php else: ?>
                     <i class="fas fa-user icon" style="font-size: 80px; color: #007bff;"></i>
                 <?php endif; ?>
-                <!-- Ikon edit untuk mengubah foto profil -->
                 <a href="#" class="edit-icon" title="Edit Profil" data-toggle="modal" data-target="#editProfileModal">
                     <i class="fas fa-edit"></i>
                 </a>
-                <!-- Nama mahasiswa ditambahkan di bawah ikon dengan teks tebal dan warna disamakan -->
                 <p class="profile-name" style="font-size: 30px;"><?php echo $mahasiswa->nama_mhs; ?></p>
             </div>
             <div class="card-body">
-                <!-- Tabel Profil Mahasiswa -->
                 <div class="table-responsive">
                     <table class="table">
                         <tr>
@@ -146,7 +142,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="editProfileForm" action="<?php echo base_url('user/home/profil'); ?>" method="post" enctype="multipart/form-data">
+                <form id="editProfileForm" action="<?php echo base_url('user/home/updateProfil'); ?>" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="nama_mhs">Nama Mahasiswa</label>
@@ -191,32 +187,59 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <!-- Script untuk Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
 $(document).ready(function() {
     $('#editProfileForm').on('submit', function(e) {
         e.preventDefault(); // Mencegah pengiriman default
-        var formData = new FormData(this); // Mengambil data dari form
 
-        $.ajax({
-            url: $(this).attr('action'), // URL action dari form
-            type: $(this).attr('method'), // Metode pengiriman
-            data: formData,
-            contentType: false, // Menghindari pengaturan content type
-            processData: false, // Menghindari pengolahan data
-            success: function(response) {
-                console.log('Response from server:', response); // Tambahkan log respons
-                alert('Data berhasil diperbarui!');
-                $('#editProfileModal').modal('hide');
-                location.reload();
-            },
-            error: function(xhr, status, error) {
-                console.error('Error occurred:', error); // Tambahkan log error
-                alert('Terjadi kesalahan: ' + error);
+        // Tampilkan konfirmasi SweetAlert
+        Swal.fire({
+            title: 'Simpan perubahan?',
+            text: "Pastikan semua data sudah benar.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Simpan'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var formData = new FormData(this); // Mengambil data dari form
+
+                $.ajax({
+                    url: $(this).attr('action'), // URL action dari form
+                    type: $(this).attr('method'), // Metode pengiriman
+                    data: formData,
+                    contentType: false, // Menghindari pengaturan content type
+                    processData: false, // Menghindari pengolahan data
+                    success: function(response) {
+                        console.log('Response from server:', response); // Tambahkan log respons
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: 'Data berhasil diperbarui!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            $('#editProfileModal').modal('hide'); // Menutup modal
+                            location.reload(); // Reload halaman setelah sukses
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error occurred:', error); // Tambahkan log error
+                        Swal.fire({
+                            title: 'Gagal!',
+                            text: 'Terjadi kesalahan: ' + error,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
             }
         });
     });
 });
+
 </script>
 
 </body>

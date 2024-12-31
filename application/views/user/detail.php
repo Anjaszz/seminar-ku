@@ -65,6 +65,15 @@
                                     <td><?php echo date('H:i', strtotime($seminar->tgl_pelaksana)); ?></td>
                                 </tr>
                                 <tr>
+                                    <th scope="row">Lokasi</th>
+                                    <td><?php echo $seminar->nama_provinsi; ?></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Detail Lokasi</th>
+                                    <td><?php echo $seminar->lokasi; ?></td>
+                                </tr>
+                                
+                                <tr>
                                     <th scope="row">Pembicara</th>
                                     <td><?php echo $seminar->nama_pembicara; ?></td>
                                 </tr>
@@ -84,14 +93,15 @@
                                     <th scope="row">Sponsor</th>
                                     <td><?php echo $seminar->nama_sponsor; ?></td>
                                 </tr>
+                                
                             </tbody>
                         </table>
 
                         <div class="text-center mt-4">
-    <button onclick="history.back()" class="btn btn-primary back-button" style="border-radius: 20px; transition: background-color 0.3s, transform 0.3s;">
-        <i class="fas fa-arrow-left"></i> Kembali
-    </button>
-</div>
+                            <button onclick="history.back()" class="btn btn-primary back-button" style="border-radius: 20px; transition: background-color 0.3s, transform 0.3s;">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </button>
+                        </div>
 
                     </div>
                 </div>
