@@ -268,70 +268,89 @@ public function get_prodi_by_fakultas()
 
   //addaction
   public function addaction()
-  {
-      $this->_rules();
-      $validation = $this->form_validation->run();
-      
-      if ($validation == FALSE) {
-          $this->add(); // Jika validasi gagal, panggil method add untuk menampilkan form
-          return; // Tambahkan return agar tidak melanjutkan eksekusi
-      }
+{
+    $this->_rules();
+    $validation = $this->form_validation->run();
+    
+    if ($validation == FALSE) {
+        $this->add(); // Jika validasi gagal, panggil method add untuk menampilkan form
+        return; // Tambahkan return agar tidak melanjutkan eksekusi
+    }
+
+    // Generate NIM
+    $nim = $this->generate_nim(); // Menghasilkan NIM
+    $nama_mhs = $this->input->post('nama_mhs', TRUE);
+    $fakultas = $this->input->post('fakultas', TRUE);
+    $prodi = $this->input->post('prodi', TRUE);
+    $email = $this->input->post('email', TRUE);
+    
+    $no_telp = $this->input->post('no_telp', TRUE);
+    $notelp = str_replace('-', '', $no_telp);
+    
+    // Tambahkan pengambilan tanggal_lahir
+    $tanggal_lahir = $this->input->post('tanggal_lahir', TRUE);
+    
+    // Cek jika NIM sudah ada
+    if ($this->mhs->check_nim_exists($nim)) {
+        $this->session->set_flashdata('error', 'NIM sudah terdaftar!');
+        $this->add(); // Kembali ke form
+        return; // Pastikan untuk mengakhiri eksekusi
+    }
+
+    // Cek jika email sudah ada
+    if ($this->mhs->check_email_exists($email)) {
+        $this->session->set_flashdata('error', 'Email sudah digunakan!');
+        $this->add(); // Kembali ke form
+        return; // Pastikan untuk mengakhiri eksekusi
+    }
+    
+    // Data untuk tabel mahasiswa
+    $data = array(
+        'nim' => $nim,
+        'nama_mhs' => $nama_mhs,
+        'id_fakultas' => $fakultas,
+        'id_prodi' => $prodi,
+        'email' => $email,
+        'no_telp' => $notelp,
+        'tanggal_lahir' => $tanggal_lahir,
+    );
+    
+    // Insert data ke tabel mahasiswa dan ambil id_mahasiswa yang dihasilkan
+    $id_mahasiswa = $this->mhs->insert_data_id($data);
+    
+    // Pastikan id_mahasiswa tidak kosong
+    if ($id_mahasiswa) {
+        $hashed_password = md5($tanggal_lahir);
+        
+        // Data untuk tabel user_mhs
+        $data_user = array(
+            'id_mahasiswa' => $id_mahasiswa, // Menggunakan ID yang baru saja dimasukkan
+            'nim' => $nim,
+            'password' => $hashed_password,
+            'email' => $email
+        );
+
+        // Insert data ke tabel user_mhs
+        $this->mhs->insert_data_user($data_user);
+        
+        $this->session->set_flashdata('success', 'Data berhasil disimpan');
+        redirect('mahasiswa', 'refresh');
+    } else {
+        $this->session->set_flashdata('error', 'Gagal menyimpan data mahasiswa.');
+        $this->add(); // Kembali ke form
+    }
+}
+
   
-      $nim = $this->input->post('nim', TRUE);
-      $nama_mhs = $this->input->post('nama_mhs', TRUE);
-      $fakultas = $this->input->post('fakultas', TRUE);
-      $prodi = $this->input->post('prodi', TRUE);
-      $email = $this->input->post('email', TRUE);
-      
-      $no_telp = $this->input->post('no_telp', TRUE);
-      $notelp = str_replace('-', '', $no_telp);
-      
-      // Tambahkan pengambilan tanggal_lahir
-      $tanggal_lahir = $this->input->post('tanggal_lahir', TRUE);
-      
-      // Cek jika NIM sudah ada
-      if ($this->mhs->check_nim_exists($nim)) {
-          $this->session->set_flashdata('error', 'NIM sudah terdaftar!');
-          $this->add(); // Kembali ke form
-          return; // Pastikan untuk mengakhiri eksekusi
-      }
-  
-      // Cek jika email sudah ada
-      if ($this->mhs->check_email_exists($email)) {
-          $this->session->set_flashdata('error', 'Email sudah digunakan!');
-          $this->add(); // Kembali ke form
-          return; // Pastikan untuk mengakhiri eksekusi
-      }
-      
-      // Data untuk tabel mahasiswa
-      $data = array(
-          'nim' => $nim,
-          'nama_mhs' => $nama_mhs,
-          'id_fakultas' => $fakultas,
-          'id_prodi' => $prodi,
-          'email' => $email,
-          'no_telp' => $notelp,
-          'tanggal_lahir' => $tanggal_lahir,
-      );
-      
-      // Insert data ke tabel mahasiswa dan ambil id_mahasiswa yang dihasilkan
-      $id_mahasiswa = $this->mhs->insert_data_id($data);
-      $hashed_password = md5($tanggal_lahir);
-      
-      // Data untuk tabel user_mhs
-      $data_user = array(
-          'id_mahasiswa' => $id_mahasiswa,
-          'nim' => $nim,
-          'password' => $hashed_password,
-          'email' => $email
-      );
-  
-      // Insert data ke tabel user_mhs
-      $this->mhs->insert_data_user($data_user);
-      
-      $this->session->set_flashdata('success', 'Data berhasil disimpan');
-      redirect('mahasiswa', 'refresh');
+  // Fungsi untuk menghasilkan NIM
+  private function generate_nim() {
+      $year = date('y'); // Tahun dua digit
+      $month = date('m'); // Bulan dua digit
+      $count = $this->mhs->get_last_nim_count($year, $month); // Ambil angka urut berdasarkan tahun dan bulan
+      $new_nim = $year . $month . str_pad($count + 1, 3, '0', STR_PAD_LEFT); // Format NIM
+      return $new_nim;
   }
+  
   
 
   

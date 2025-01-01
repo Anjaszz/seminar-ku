@@ -28,12 +28,17 @@ class Mahasiswa_model extends CI_Model
         return $this->db->get('prodi')->result();
     }
     
+    public function get_last_nim_count($year, $month) {
+        $this->db->like('nim', $year . $month, 'after'); // Mencari NIM yang dimulai dengan tahun dan bulan
+        return $this->db->count_all_results('mahasiswa'); // Menghitung jumlah NIM yang ditemukan
+    }
 
     
     function insert_data($data)
     {
         return $this->db->insert('mahasiswa', $data);
     }
+
 
     function insert_data_user($data_user)
     {
