@@ -16,90 +16,72 @@ class Home extends CI_Controller {
     }
 
     public function index() {
-        // Check if the user is logged in
+        // Check login and get user data
         if (!$this->session->userdata('user_data')) {
-            redirect('user/auth'); // Redirect to login if not logged in
+            redirect('user/auth');
         }
-    
-        // Ambil NIM dari session
+     
         $nim = $this->session->userdata('nim');
-    
         if (!$nim) {
-            redirect('user/auth'); // Jika NIM tidak ada di session, redirect ke login
+            redirect('user/auth');
         }
-    
-        // Ambil data mahasiswa berdasarkan NIM
-        $this->load->model('User_model');
+     
         $mahasiswa = $this->User_model->getMahasiswaByNIM($nim);
         if (!$mahasiswa) {
             $this->session->set_flashdata('error', 'Data mahasiswa tidak ditemukan.');
             redirect('user/auth');
         }
-    
-        // Ambil ID mahasiswa dari session
+     
         $id_mahasiswa = $this->session->userdata('id_mahasiswa');
-    
-        // Ambil data seminar yang diikuti, belum bayar, dan history
-        $jumlah_seminar = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
-        $jumlah_belum_bayar = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
-        $jumlah_history = $this->User_model->getJumlahHistory($id_mahasiswa);
-    
-        // Kirim data ke view
-        $data['jumlah_seminar'] = $jumlah_seminar;
-        $data['jumlah_belum_bayar'] = $jumlah_belum_bayar;
-        $data['jumlah_history'] = $jumlah_history;
-    
-        // Kirim nama mahasiswa ke view
+     
+        // Get seminar data
+        $data['jumlah_seminar'] = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
+        $data['jumlah_belum_bayar'] = $this->User_model->getJumlahBelumBayar($id_mahasiswa); 
+        $data['jumlah_history'] = $this->User_model->getJumlahHistory($id_mahasiswa);
         $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
-    
-        // Ambil data lokasi seminar
         $data['lokasi_seminar'] = $this->Seminar_model->getLokasiSeminar();
-    
-        // Ambil data seminar dari model
-        $this->load->model('Seminar_model');
-        $this->load->model('Pendaftaran_model');
-    
-        // Cek apakah ada filter lokasi
-        $id_lokasi = $this->input->get('id_lokasi'); // Ambil id_lokasi dari query string
+     
+        // Get filtered seminar data
+        $id_lokasi = $this->input->get('id_lokasi');
         if ($id_lokasi && $id_lokasi != 0) {
             $data['seminar_data'] = $this->Seminar_model->getSeminarDataByLocation($id_lokasi);
         } else {
-            $data['seminar_data'] = $this->Seminar_model->getSeminarData(); // Ambil semua seminar jika tidak ada filter
+            $data['seminar_data'] = $this->Seminar_model->getSeminarData();
         }
+        // Process each seminar
+   if (!empty($data['seminar_data'])) {
+    foreach ($data['seminar_data'] as &$seminar) {
+        $registration = $this->Pendaftaran_model->isRegistered($seminar->id_seminar, $id_mahasiswa);
+        $seminar->is_registered = $registration ? true : false;
+        $seminar->id_stsbyr = $registration ? $registration->id_stsbyr : null;
+        $seminar->id_pendaftaran = $registration ? $registration->id_pendaftaran : null;
+
+        $seminar->is_history = $this->User_model->isHistory($seminar->id_seminar, $id_mahasiswa);
+
+        $tiket_info = $this->User_model->getSlotTiketAndTiketTerjual($seminar->id_seminar);
+        $seminar->is_slot_habis = ($tiket_info && $tiket_info->tiket_terjual >= $tiket_info->slot_tiket);
+
+        // Calculate remaining days & progress
+        $today = new DateTime();
+    $seminar_date = new DateTime($seminar->tgl_pelaksana);
+    $interval = $today->diff($seminar_date);
+    $remaining_days = $interval->days;
     
-        // Cek pendaftaran dan history untuk setiap seminar
-        foreach ($data['seminar_data'] as &$seminar) {
-            $registration = $this->Pendaftaran_model->isRegistered($seminar->id_seminar, $id_mahasiswa);
-            if ($registration) {
-                $seminar->is_registered = true;
-                $seminar->id_stsbyr = $registration->id_stsbyr;
-                $seminar->id_pendaftaran = isset($registration->id_pendaftaran) ? $registration->id_pendaftaran : null;
-            } else {
-                $seminar->is_registered = false;
-                $seminar->id_stsbyr = null;
-                $seminar->id_pendaftaran = null;
-            }
+    // Untuk progress bar gunakan skala 100 hari
+    $total_duration = 100;
+    $progress = 100 - (($remaining_days / $total_duration) * 100);
     
-            // Cek apakah seminar ada di history
-            $seminar->is_history = $this->User_model->isHistory($seminar->id_seminar, $id_mahasiswa);
-    
-            // Dapatkan slot_tiket dan tiket_terjual dari model
-            $tiket_info = $this->User_model->getSlotTiketAndTiketTerjual($seminar->id_seminar);
-    
-            // Cek apakah tiket sudah habis
-            if ($tiket_info && $tiket_info->tiket_terjual >= $tiket_info->slot_tiket) {
-                $seminar->is_slot_habis = true;
-            } else {
-                $seminar->is_slot_habis = false;
-            }
-        }
-    
-        // Load views dengan data
-        $this->load->view('template/user/header', $data);
-        $this->load->view('template/user/navbar', $data);
-        $this->load->view('user/home', $data);
-        $this->load->view('template/user/footer');
+    $seminar->remaining_days = $remaining_days;
+    $seminar->progress = round(max(0, min(100, $progress))); // Pastikan antara 0-100 dan dibulatkan
     }
+}
+
+// Load views
+$this->load->view('template/user/header', $data);
+$this->load->view('template/user/navbar', $data);
+$this->load->view('user/home', $data);
+$this->load->view('template/user/footer');
+}
     
     
     public function profil() {

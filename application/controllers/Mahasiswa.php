@@ -99,12 +99,11 @@ public function get_prodi_by_fakultas()
 {
     $fakultas = $this->mhs->get_fakultas();
     $prodi = $this->mhs->get_prodi();
-
     $attrform = array(
-        'class' => 'needs-validation',
-        'novalidate' => 'novalidate'
+        'class' => 'needs-validation space-y-6'
     );
-
+    
+   
     $action  = 'mahasiswa/addaction';
 
     $formopen = form_open($action, $attrform);
@@ -157,15 +156,19 @@ public function get_prodi_by_fakultas()
         'required' => 'required'
     );
 
-    $attrno_telp = array(
-        'type' => 'text',
-        'name' => 'no_telp',
-        'id' => 'no_telp',
-        'placeholder' => 'Masukkan Nomor Telpon',
-        'class' => 'form-control phone',
-        'value' => set_value('no_telp'),
-        'required' => 'required'
-    );
+   // In your controller, update the phone input attributes
+   $attrno_telp = array(
+    'type' => 'tel',
+    'name' => 'no_telp',
+    'id' => 'no_telp',
+    'placeholder' => '08XX-XXXX-XXXX',
+    'class' => 'w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:border-indigo-500',
+    
+    'value' => set_value('no_telp'),
+    'required' => 'required',
+    'minlength' => '10',
+    'maxlength' => '13'
+);
 
     $attrtanggal_lahir = array( // Input Tanggal Lahir
         'type' => 'date',
@@ -185,8 +188,10 @@ public function get_prodi_by_fakultas()
 
     $optfakultas = array(
         'id' => 'fakultas',
-        'class' => 'form-control'
+        'class' => 'w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:border-indigo-500'
     );
+    
+    
 
     $getksn = $this->mhs->get_prodi();
     $prodi = array();
@@ -196,7 +201,7 @@ public function get_prodi_by_fakultas()
 
     $optprodi = array(
         'id' => 'prodi',
-        'class' => 'form-control'
+        'class' => 'w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:border-indigo-500'
     );
 
     $ddfakultas = form_dropdown('fakultas', $fakultas, set_value('fakultas'), $optfakultas);
@@ -212,8 +217,14 @@ public function get_prodi_by_fakultas()
 
     $attrsubmit = array(
         'id' => 'submit',
-        'class' => 'btn btn-gradient-info'
+        'class' => 'inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
     );
+    
+    // Form input attributes
+    $attrinput = array(
+        'class' => 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm'
+    );
+
 
     $submit = form_submit('submit', 'Simpan', $attrsubmit);
 
@@ -600,7 +611,7 @@ public function get_prodi_by_fakultas()
              */
             $optprodi = array(
                 'id' => 'prodi',
-                'class' => 'form-control'
+                'class' => 'w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:border-indigo-500'
             );
 
 
