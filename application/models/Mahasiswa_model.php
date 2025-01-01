@@ -150,7 +150,20 @@ public function check_email_exists_except_self($email, $id)
         }
     }
 
-
+    public function count_all_mahasiswa()
+    {
+        return $this->db->count_all('mahasiswa');
+    }
+    
+    public function get_paginated_mahasiswa($start, $limit)
+    {
+        $this->db->select('mahasiswa.*, fakultas.kode_fakultas, fakultas.nama_fakultas, prodi.nama_prodi');
+        $this->db->from('mahasiswa');
+        $this->db->join('fakultas', 'fakultas.id_fakultas = mahasiswa.id_fakultas', 'left');
+        $this->db->join('prodi', 'prodi.id_prodi = mahasiswa.id_prodi', 'left');
+        $this->db->limit($limit, $start);
+        return $this->db->get()->result();
+    }
 
 
     
