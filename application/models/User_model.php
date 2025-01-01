@@ -74,6 +74,9 @@ class User_model extends CI_Model {
     }
     
     
+
+    
+
     public function updateMahasiswa($id_mahasiswa, $data) {
         $this->db->where('id_mahasiswa', $id_mahasiswa);
         return $this->db->update('mahasiswa', $data); // Perbarui tabel mahasiswa
@@ -100,12 +103,13 @@ class User_model extends CI_Model {
             $this->db->select('s.id_seminar, s.nama_seminar, s.tgl_pelaksana, s.lampiran, 
                                p.nama_pembicara, p.latar_belakang, 
                                t.slot_tiket, t.tiket_terjual, 
-                               sp.nama_sponsor, pd.id_stsbyr'); // Added pd.id_stsbyr
+                               sp.nama_sponsor, 
+                               ls.nama_provinsi, s.lokasi'); // Menambahkan nama_provinsi dan lokasi dari tabel seminar
             $this->db->from('seminar s');
             $this->db->join('pembicara p', 'p.id_seminar = s.id_seminar', 'left');
             $this->db->join('tiket t', 't.id_seminar = s.id_seminar', 'left');
             $this->db->join('sponsor sp', 'sp.id_seminar = s.id_seminar', 'left'); // Mengambil nama_sponsor berdasarkan id_seminar
-            $this->db->join('pendaftaran_seminar pd', 'pd.id_seminar = s.id_seminar', 'left'); // Join with pendaftaran table
+            $this->db->join('lokasi_seminar ls', 'ls.id_lokasi = s.id_lokasi', 'left'); // Join dengan tabel lokasi_seminar
             $this->db->where('s.id_seminar', $id_seminar);
             $query = $this->db->get();
             $seminar = $query->row();
@@ -117,6 +121,7 @@ class User_model extends CI_Model {
         
             return $seminar;
         }
+        
         public function hapusPendaftaran($id_pendaftaran) {
             // Hapus data dari tabel pendaftaran_seminar berdasarkan id_pendaftaran
             $this->db->where('id_pendaftaran', $id_pendaftaran);

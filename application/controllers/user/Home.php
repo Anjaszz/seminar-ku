@@ -92,20 +92,54 @@ $this->load->view('template/user/footer');
             $this->session->set_flashdata('error', 'Anda belum login.');
             redirect('user/auth');
         }
-    
+
+        // Ambil data mahasiswa berdasarkan id_mahasiswa
         $mahasiswa = $this->User_model->getMahasiswaProfile($id_mahasiswa);
         
+        // Cek apakah data mahasiswa ditemukan
+        if (!$mahasiswa) {
+            $this->session->set_flashdata('error', 'Data mahasiswa tidak ditemukan.');
+            redirect('user/home');
+        }
+        $data['jumlah_seminar'] = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
+        $data['jumlah_belum_bayar'] = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
+        $data['jumlah_history'] = $this->User_model->getJumlahHistory($id_mahasiswa);
+        $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
+        // Ambil data jurusan dari tabel prodi
+        $data['prodi'] = $this->User_model->getAllProdi();
+
+        $data['mahasiswa'] = $mahasiswa;
+    
+        // Load view
+        $this->load->view('template/user/header', $data);
+        $this->load->view('template/user/navbar', $data);
+        $this->load->view('user/profil', $data);
+        $this->load->view('template/user/footer');
+    }
+
+    public function updateProfil() {
+        // Ambil id_mahasiswa dari session
+        $id_mahasiswa = $this->session->userdata('id_mahasiswa');
+        
+        if (empty($id_mahasiswa)) {
+            $this->session->set_flashdata('error', 'Anda belum login.');
+            redirect('user/auth');
+        }
+    
+        // Ambil data mahasiswa berdasarkan id_mahasiswa
+        $mahasiswa = $this->User_model->getMahasiswaProfile($id_mahasiswa);
+        
+        // Cek apakah data mahasiswa ditemukan
         if (!$mahasiswa) {
             $this->session->set_flashdata('error', 'Data mahasiswa tidak ditemukan.');
             redirect('user/home');
         }
     
-        $data['prodi'] = $this->User_model->getAllProdi();
-    
         // Tangani pengiriman formulir untuk pembaruan profil
         if ($this->input->post('submit')) {
             // Debug: Cek data yang diterima
             log_message('info', 'Data POST: ' . print_r($this->input->post(), true));
+    
             // Tangani unggahan file untuk foto profil
             $config['upload_path'] = './uploads/profil/';
             $config['allowed_types'] = 'jpg|jpeg|png|gif';
@@ -117,108 +151,79 @@ $this->load->view('template/user/footer');
             if ($this->upload->do_upload('foto')) {
                 $upload_data = $this->upload->data();
                 $foto = $upload_data['file_name'];
-                $this->User_model->updateProfilePicture($id_mahasiswa, $foto);
-                $this->session->set_flashdata('message_success', 'Foto profil berhasil diperbarui.');
             } else {
-                $this->session->set_flashdata('message_error', $this->upload->display_errors());
+                // Jika upload gagal, log error
+                log_message('error', 'Upload foto gagal: ' . $this->upload->display_errors());
             }
     
-            // Perbarui data mahasiswa lainnya
-            $data_update = [
+            // Data yang akan diperbarui
+            $update_data = [
                 'nama_mhs' => $this->input->post('nama_mhs'),
                 'email' => $this->input->post('email'),
                 'no_telp' => $this->input->post('no_telp'),
-                'id_prodi' => $this->input->post('id_prodi')
+                'id_prodi' => $this->input->post('id_prodi'),
+                'foto' => $foto,
             ];
     
-            // Perbarui data mahasiswa di database
-            if ($this->User_model->updateMahasiswa($id_mahasiswa, $data_update)) {
-                $this->session->set_flashdata('message_success', 'Data profil berhasil diperbarui.');
+            // Simpan data ke database
+            $update_result = $this->User_model->updateMahasiswa($id_mahasiswa, $update_data);
+    
+            if ($update_result) {
+                $this->session->set_flashdata('message_success', 'Profil berhasil diperbarui.');
             } else {
-                $this->session->set_flashdata('message_error', 'Gagal memperbarui data profil.');
+                $this->session->set_flashdata('message_error', 'Gagal memperbarui profil.');
             }
     
             redirect('user/home/profil');
         }
-    
-        // Ambil data jumlah
-        $data['jumlah_seminar'] = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
-        $data['jumlah_belum_bayar'] = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
-        $data['jumlah_history'] = $this->User_model->getJumlahHistory($id_mahasiswa);
-        $data['mahasiswa'] = $mahasiswa;
-        $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
-    
-        // Load view
-        $this->load->view('template/user/header', $data);
-        $this->load->view('template/user/navbar', $data);
-        $this->load->view('user/profil', $data);
-        $this->load->view('template/user/footer');
     }
     
-    
-    
 
-    public function detail($id_seminar) {
-        // Get seminar details
-        if (!$this->session->userdata('user_data')) {
-            redirect('user/auth'); // Redirect to login if not logged in
-        }
-    
-        // Ambil NIM dari session
-        $nim = $this->session->userdata('nim');
-    
-        if (!$nim) {
-            redirect('user/auth'); // Jika NIM tidak ada di session, redirect ke login
-        }
-    
-        // Ambil data mahasiswa berdasarkan NIM
-        $mahasiswa = $this->User_model->getMahasiswaByNIM($nim);
-        if (!$mahasiswa) {
-            $this->session->set_flashdata('error', 'Data mahasiswa tidak ditemukan.');
-            redirect('user/auth');
-        }
-        $this->load->model('User_model'); // Sesuaikan nama model Anda
-        
-        // Ambil data jumlah
-        $id_mahasiswa = $this->session->userdata('id_mahasiswa'); // Ambil id mahasiswa dari session
+   public function detail($id_seminar) {
+    // Get seminar details
+    if (!$this->session->userdata('user_data')) {
+        redirect('user/auth'); // Redirect to login if not logged in
+    }
 
-        // Ambil jumlah seminar yang diikuti
-        $jumlah_seminar = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
+    // Ambil NIM dari session
+    $nim = $this->session->userdata('nim');
 
-        // Ambil jumlah belum bayar
-        $jumlah_belum_bayar = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
+    if (!$nim) {
+        redirect('user/auth'); // Jika NIM tidak ada di session, redirect ke login
+    }
 
-        // Ambil jumlah history seminar
-        $jumlah_history = $this->User_model->getJumlahHistory($id_mahasiswa);
-
-        // Kirim data ke view
-        $data['jumlah_seminar'] = $jumlah_seminar;
-        $data['jumlah_belum_bayar'] = $jumlah_belum_bayar;
-        $data['jumlah_history'] = $jumlah_history;
-    
-        // Kirim nama mahasiswa ke view
-        $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
-    
-        $data['seminar'] = $this->User_model->getDetailSeminarByID($id_seminar);
-        
-        // Check if seminar exists
-        if (!$data['seminar']) {
-            show_404();
-        }
-
-        
-        
-        // Load the Pendaftaran_model to check registration status
-        $this->load->model('Pendaftaran_model');
-        $data['isRegistered'] = $this->Pendaftaran_model->isRegistered($id_seminar, $this->session->userdata('id_mahasiswa'));
-        
-        // Load views
-        $this->load->view('template/user/header', $data);
-        $this->load->view('template/user/navbar', $data);
-        $this->load->view('user/detail', $data);
-        $this->load->view('template/user/footer');
+    // Ambil data mahasiswa berdasarkan NIM
+    $mahasiswa = $this->User_model->getMahasiswaByNIM($nim);
+    if (!$mahasiswa) {
+        $this->session->set_flashdata('error', 'Data mahasiswa tidak ditemukan.');
+        redirect('user/auth');
     }
     
+    // Ambil data seminar
+    $data['seminar'] = $this->User_model->getDetailSeminarByID($id_seminar);
+    
+    // Check if seminar exists
+    if (!$data['seminar']) {
+        show_404();
+    }
+
+    // Load the Pendaftaran_model to check registration status
+    $this->load->model('Pendaftaran_model');
+    $data['isRegistered'] = $this->Pendaftaran_model->isRegistered($id_seminar, $this->session->userdata('id_mahasiswa'));
+
+    // Kirim data ke view
+    $data['jumlah_seminar'] = $this->User_model->getJumlahSeminarDiikuti($this->session->userdata('id_mahasiswa'));
+    $data['jumlah_belum_bayar'] = $this->User_model->getJumlahBelumBayar($this->session->userdata('id_mahasiswa'));
+    $data['jumlah_history'] = $this->User_model->getJumlahHistory($this->session->userdata('id_mahasiswa'));
+    $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
+
+    // Load views
+    $this->load->view('template/user/header', $data);
+    $this->load->view('template/user/navbar', $data);
+    $this->load->view('user/detail', $data);
+    $this->load->view('template/user/footer');
+}
+
 
     public function daftar($id_seminar) {
         $id_mahasiswa = $this->session->userdata('id_mahasiswa');

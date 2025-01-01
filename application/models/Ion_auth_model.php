@@ -217,7 +217,6 @@ class Ion_auth_model extends CI_Model
 
 	 public function get_user_by_email($email)
 {
-    // Ubah 'user_id' menjadi 'id_vendor' jika itu yang digunakan di tabel
     $this->db->select('email, id_vendor, password, active, nama_vendor');
     $this->db->from('users');
     $this->db->where('email', $email);
@@ -226,6 +225,7 @@ class Ion_auth_model extends CI_Model
 
     return $this->db->get()->row();
 }
+
 
 
 	public function hash_password($password, $identity = NULL)

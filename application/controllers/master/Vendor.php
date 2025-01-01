@@ -344,20 +344,58 @@ public function success()
         }
     }
     
-    public function vendor_aktif()
-    {
-        // Pagination configuration
+    
+
+    public function vendor_nonaktif() {
+        // Konfigurasi pagination
         $items_per_page = 10;
         $current_page = $this->input->get('page') ? (int)$this->input->get('page') : 1;
         $start = ($current_page - 1) * $items_per_page;
-        
-        // Load model
-        $this->load->model('Vendor_model', 'vnd');
-        
-        // Get total records dan paginated data khusus vendor aktif
+
+        // Ambil total records dan data vendor nonaktif
+        $total_items = $this->vnd->count_nonaktif_vendors();
+        $vendor = $this->vnd->get_paginated_nonaktif_vendors($start, $items_per_page);
+
+        $data = array(
+            'vendor' => $vendor,
+            'title' => 'Data Vendor Tidak Aktif/Tidak Langganan',
+            'total_items' => $total_items,
+            'items_per_page' => $items_per_page,
+            'current_page' => $current_page
+        );
+
+        $this->template->load('master/template/template_v', 'master/vendor/vendor_nonaktif', $data);
+    }
+
+    public function aktifkan($id_vendor) {
+        // Pastikan data vendor ada
+        $get_row = $this->vnd->get_row($id_vendor);
+
+        if ($get_row && $get_row->num_rows() > 0) {
+            // Update kolom 'active' menjadi 1
+            $update_data = ['active' => 1];
+            if ($this->vnd->update_data($id_vendor, $update_data)) {
+                $this->session->set_flashdata('success', 'Akun berhasil diaktifkan.');
+            } else {
+                $this->session->set_flashdata('error', 'Gagal mengaktifkan vendor.');
+            }
+        } else {
+            $this->session->set_flashdata('error', 'Data vendor tidak ditemukan.');
+        }
+
+        // Redirect kembali ke halaman vendor
+        redirect('master/vendor/vendor_nonaktif');
+    }
+    public function vendor_aktif() {
+        // Konfigurasi pagination
+        $items_per_page = 10;
+        $current_page = $this->input->get('page') ? (int)$this->input->get('page') : 1;
+        $start = ($current_page - 1) * $items_per_page;
+
+        // Ambil total records dan data vendor aktif
         $total_items = $this->vnd->count_active_vendors();
         $vendor = $this->vnd->get_paginated_active_vendors($start, $items_per_page);
-        
+
         $data = array(
             'vendor' => $vendor,
             'title' => 'Data Vendor Aktif/Langganan',
@@ -365,76 +403,31 @@ public function success()
             'items_per_page' => $items_per_page,
             'current_page' => $current_page
         );
-    
+
         $this->template->load('master/template/template_v', 'master/vendor/vendor_aktif', $data);
     }
 
-public function vendor_nonaktif()
-{
-    // Pagination configuration
-    $items_per_page = 10;
-    $current_page = $this->input->get('page') ? (int)$this->input->get('page') : 1;
-    $start = ($current_page - 1) * $items_per_page;
-    
-    // Load model
-    $this->load->model('Vendor_model', 'vnd');
-    
-    // Get total records dan paginated data khusus vendor nonaktif
-    $total_items = $this->vnd->count_nonaktif_vendors();
-    $vendor = $this->vnd->get_paginated_nonaktif_vendors($start, $items_per_page);
-    
-    $data = array(
-        'vendor' => $vendor,
-        'title' => 'Data Vendor Tidak Aktif/Tidak Langganan',
-        'total_items' => $total_items,
-        'items_per_page' => $items_per_page,
-        'current_page' => $current_page
-    );
+    public function nonaktifkan($id_vendor) {
+        // Pastikan data vendor ada
+        $get_row = $this->vnd->get_row($id_vendor);
 
-    $this->template->load('master/template/template_v', 'master/vendor/vendor_nonaktif', $data);
-}
-
-public function nonaktifkan($id_vendor)
-{
-    // Pastikan data vendor ada
-    $get_row = $this->vnd->get_row($id_vendor);
-
-    if ($get_row && $get_row->num_rows() > 0) {
-        // Update kolom 'active' menjadi 0
-        $update_data = ['active' => 0];
-        if ($this->vnd->update_data($id_vendor, $update_data)) {
-            $this->session->set_flashdata('success', 'Akun berhasil dinonaktifkan.');
+        if ($get_row && $get_row->num_rows() > 0) {
+            // Update kolom 'active' menjadi 1
+            $update_data = ['active' => 0];
+            if ($this->vnd->update_data($id_vendor, $update_data)) {
+                $this->session->set_flashdata('success', 'Akun berhasil dinonaktifkan.');
+            } else {
+                $this->session->set_flashdata('error', 'Gagal menonaktifkan vendor.');
+            }
         } else {
-            $this->session->set_flashdata('error', 'Gagal menonaktifkan vendor.');
+            $this->session->set_flashdata('error', 'Data vendor tidak ditemukan.');
         }
-    } else {
-        $this->session->set_flashdata('error', 'Data vendor tidak ditemukan.');
+
+        // Redirect kembali ke halaman vendor
+        redirect('master/vendor/vendor_aktif');
     }
 
-    // Redirect kembali ke halaman vendor
-    redirect('master/vendor/vendor_aktif');
-}
 
-public function aktifkan($id_vendor)
-{
-    // Pastikan data vendor ada
-    $get_row = $this->vnd->get_row($id_vendor);
-
-    if ($get_row && $get_row->num_rows() > 0) {
-        // Update kolom 'active' menjadi 0
-        $update_data = ['active' => 1];
-        if ($this->vnd->update_data($id_vendor, $update_data)) {
-            $this->session->set_flashdata('success', 'Akun berhasil diaktifkan.');
-        } else {
-            $this->session->set_flashdata('error', 'Gagal menonaktifkan vendor.');
-        }
-    } else {
-        $this->session->set_flashdata('error', 'Data vendor tidak ditemukan.');
-    }
-
-    // Redirect kembali ke halaman vendor
-    redirect('master/vendor/vendor_nonaktif');
-}
 
 
 
