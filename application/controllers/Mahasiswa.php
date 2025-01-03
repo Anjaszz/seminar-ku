@@ -20,15 +20,26 @@ class Mahasiswa extends CI_Controller
     public function index()
     {
         $attradd = array('class' => 'btn  btn-gradient-success');
-       
+        
         $tambahdata = anchor('mahasiswa/add', '<i class="feather icon-user-plus"></i>Tambah Data', $attradd);
-       
-        $mhs = $this->mhs->lihat_data();
-       
+        $items_per_page = 10;
+        $current_page = $this->input->get('page') ? (int)$this->input->get('page') : 1;
+        $start = ($current_page - 1) * $items_per_page;
+        
+        // Load model dulu sebelum menggunakannya
+        $this->load->model('Mahasiswa_model', 'mhs');
+        
+        // Get total records and paginated data
+        $total_items = $this->mhs->count_all_mahasiswa();
+        $mhs = $this->mhs->get_paginated_mahasiswa($start, $items_per_page);
+        
         $data = array(
             'mahasiswa' =>  $mhs,
             'title' => 'Data Mahasiswa',
             'btntambah' => $tambahdata,
+            'total_items' => $total_items,
+            'items_per_page' => $items_per_page,
+            'current_page' => $current_page
         );
         $this->template->load('master/template/template_v', 'mahasiswa/mahasiswa_v', $data);
     }

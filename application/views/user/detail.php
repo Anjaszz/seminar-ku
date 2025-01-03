@@ -1,115 +1,123 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Seminar</title>
+    <title>Detail Seminar - <?php echo $seminar->nama_seminar; ?></title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/backend/template/assets/fonts/fontawesome/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="<?php echo base_url() ?>assets/backend/template/assets/plugins/bootstrap/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa; /* Background abu-abu muda */
-        }
-
-        .card {
-            margin: auto; /* Pusatkan card dan beri sedikit margin */
-            border: 1px solid #007bff; /* Border card */
-        }
-
-        .table {
-            margin-top: 20px; /* Margin atas tabel */
-        }
-
-        .btn-warning {
-            background-color: #ffc107; /* Warna tombol Kembali */
-            border: none; /* Hapus border tombol */
-        }
-
-        .btn-warning:hover {
-            background-color: #e0a800; /* Warna tombol saat hover */
-        }
-
-        h2 {
-            font-size: 1.5rem; /* Ukuran font judul */
-            font-weight: bold; /* Teks judul tebal */
-            color: #007bff; /* Warna judul */
-        }
-    </style>
 </head>
 
-<body>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>
-                            <i class="fas fa-chalkboard-teacher"></i> <!-- Ikon untuk judul -->
-                            <?php echo $seminar->nama_seminar; ?>
-                        </h2>
+<body class="bg-gray-50 min-h-screen mt-20">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Main Card -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- Header with Gradient -->
+            <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4">
+                <h1 class="text-2xl md:text-3xl font-bold text-white flex items-center gap-3">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <?php echo $seminar->nama_seminar; ?>
+                </h1>
+            </div>
+
+            <div class="p-6">
+                <!-- Image Section -->
+                <div class="mb-8">
+                    <img src="<?php echo base_url('uploads/poster/' . $seminar->lampiran); ?>" 
+                         class="rounded-lg shadow-md w-full object-cover max-h-96 mx-auto"
+                         alt="<?php echo $seminar->nama_seminar; ?>">
+                </div>
+
+                <!-- Quick Info Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <!-- Date Card -->
+                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                        <div class="text-blue-600 font-semibold mb-1">Tanggal Acara</div>
+                        <div class="text-gray-800 flex items-center gap-2">
+                            <i class="fas fa-calendar"></i>
+                            <?php echo date('d M Y', strtotime($seminar->tgl_pelaksana)); ?>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <!-- Gambar Seminar -->
-                        <img src="<?php echo base_url('uploads/poster/' . $seminar->lampiran); ?>" class="img-fluid mb-4" alt="Seminar Image" style="max-width: 100%; height: auto;">
 
-                        <!-- Table for Seminar Details -->
-                        <table class="table table-bordered table-striped">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Tanggal Acara</th>
-                                    <td><?php echo date('d M Y', strtotime($seminar->tgl_pelaksana)); ?></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Jam Mulai</th>
-                                    <td><?php echo date('H:i', strtotime($seminar->tgl_pelaksana)); ?></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Lokasi</th>
-                                    <td><?php echo $seminar->nama_provinsi; ?></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Detail Lokasi</th>
-                                    <td><?php echo $seminar->lokasi; ?></td>
-                                </tr>
-                                
-                                <tr>
-                                    <th scope="row">Pembicara</th>
-                                    <td><?php echo $seminar->nama_pembicara; ?></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Latar Belakang</th>
-                                    <td><?php echo $seminar->latar_belakang; ?></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Slot Tiket</th>
-                                    <td><?php echo $seminar->slot_tiket; ?></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Sisa Tiket</th>
-                                    <td><?php echo $seminar->sisa_tiket; ?></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Sponsor</th>
-                                    <td><?php echo $seminar->nama_sponsor; ?></td>
-                                </tr>
-                                
-                            </tbody>
-                        </table>
+                    <!-- Time Card -->
+                    <div class="bg-green-50 p-4 rounded-lg border border-green-100">
+                        <div class="text-green-600 font-semibold mb-1">Waktu Mulai</div>
+                        <div class="text-gray-800 flex items-center gap-2">
+                            <i class="fas fa-clock"></i>
+                            <?php echo date('H:i', strtotime($seminar->tgl_pelaksana)); ?> WIB
+                        </div>
+                    </div>
 
-                        <div class="text-center mt-4">
-                            <button onclick="history.back()" class="btn btn-primary back-button" style="border-radius: 20px; transition: background-color 0.3s, transform 0.3s;">
-                                <i class="fas fa-arrow-left"></i> Kembali
-                            </button>
+                    <!-- Location Card -->
+                    <div class="bg-purple-50 p-4 rounded-lg border border-purple-100">
+                        <div class="text-purple-600 font-semibold mb-1">Lokasi</div>
+                        <div class="text-gray-800 flex items-center gap-2">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <?php echo $seminar->nama_provinsi; ?>
+                        </div>
+                    </div>
+
+                    <!-- Ticket Card -->
+                    <div class="bg-orange-50 p-4 rounded-lg border border-orange-100">
+                        <div class="text-orange-600 font-semibold mb-1">Sisa Tiket</div>
+                        <div class="text-gray-800 flex items-center gap-2">
+                            <i class="fas fa-ticket-alt"></i>
+                            <?php echo $seminar->sisa_tiket; ?> / <?php echo $seminar->slot_tiket; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Information -->
+                <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    <div class="divide-y divide-gray-200">
+                        <!-- Speaker -->
+                        <div class="p-4 hover:bg-gray-50">
+                            <div class="grid grid-cols-1 md:grid-cols-4">
+                                <div class="font-semibold text-gray-600 md:col-span-1">Pembicara</div>
+                                <div class="md:col-span-3 text-gray-800"><?php echo $seminar->nama_pembicara; ?></div>
+                            </div>
                         </div>
 
+                        <!-- Detailed Location -->
+                        <div class="p-4 hover:bg-gray-50">
+                            <div class="grid grid-cols-1 md:grid-cols-4">
+                                <div class="font-semibold text-gray-600 md:col-span-1">Detail Lokasi</div>
+                                <div class="md:col-span-3 text-gray-800"><?php echo $seminar->lokasi; ?></div>
+                            </div>
+                        </div>
+
+                        <!-- Background -->
+                        <div class="p-4 hover:bg-gray-50">
+                            <div class="grid grid-cols-1 md:grid-cols-4">
+                                <div class="font-semibold text-gray-600 md:col-span-1">Latar Belakang</div>
+                                <div class="md:col-span-3 text-gray-800">
+                                    <p class="whitespace-pre-line"><?php echo $seminar->latar_belakang; ?></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sponsor -->
+                        <div class="p-4 hover:bg-gray-50">
+                            <div class="grid grid-cols-1 md:grid-cols-4">
+                                <div class="font-semibold text-gray-600 md:col-span-1">Sponsor</div>
+                                <div class="md:col-span-3 text-gray-800"><?php echo $seminar->nama_sponsor; ?></div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+
+                <!-- Back Button -->
+                <div class="mt-8 text-center">
+                    <button onclick="history.back()" 
+                            class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-full hover:bg-blue-700 transition duration-150 ease-in-out shadow-md hover:shadow-lg gap-2">
+                        <i class="fas fa-arrow-left"></i>
+                        Kembali
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <script src="<?php echo base_url() ?>assets/backend/template/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

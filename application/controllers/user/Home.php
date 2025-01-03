@@ -16,6 +16,35 @@ class Home extends CI_Controller {
     }
 
     public function index() {
+          // Menambahkan data dummy testimonial
+    $testimonials = [
+        [
+            'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png', // Menggunakan placeholder image
+            'name' => 'Ahmad Fadhil',
+            'rating' => 5,
+            'content' => 'Seminar yang sangat informatif dan bermanfaat. Pembicara sangat kompeten dan materi yang disampaikan sangat relevan dengan kebutuhan industri saat ini.'
+        ],
+        [
+            'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png',
+            'name' => 'Sarah Putri',
+            'rating' => 5,
+            'content' => 'Pengalaman yang luar biasa! Saya mendapatkan banyak insight baru dan koneksi yang bermanfaat untuk pengembangan karir saya.'
+        ],
+        [
+            'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png',
+            'name' => 'Reza Prakasa',
+            'rating' => 5,
+            'content' => 'Platform seminar terbaik yang pernah saya ikuti. Sistem pendaftaran yang mudah dan materi yang berkualitas. Sangat direkomendasikan!'
+        ]
+    ];
+
+    // Menambahkan data statistik dummy
+    $data['total_seminars'] = 50;
+    $data['total_participants'] = 1500;
+    $data['success_rate'] = 98;
+    
+    // Menambahkan data testimonial ke array data
+    $data['testimonials'] = $testimonials;
         // Check login and get user data
         if (!$this->session->userdata('user_data')) {
             redirect('user/auth');
