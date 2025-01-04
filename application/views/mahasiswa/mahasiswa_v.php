@@ -44,7 +44,7 @@
                </thead>
                <tbody class="bg-white divide-y divide-gray-200">
                    <?php 
-                   $no = 1;
+                   $no = ($current_page - 1) * $items_per_page + 1;
                    foreach ($mahasiswa as $r) { ?>
                        <tr class="hover:bg-gray-50">
                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= $no++ ?></td>
@@ -84,44 +84,50 @@
                    <?php } ?>
                </tbody>
            </table>
-           <?php if (isset($total_items) && isset($items_per_page)): ?>
-    <?php
-    $total_pages = ceil($total_items / $items_per_page);
-    
-    if ($total_pages > 1): ?>
-    <div class="mt-6 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-        <!-- Mobile pagination -->
-        <div class="flex flex-1 justify-between sm:hidden">
-            <?php if ($current_page > 1): ?>
-                <a href="?page=<?= $current_page - 1 ?>" 
-                   class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                    Previous
-                </a>
-            <?php endif; ?>
-            
-            <?php if ($current_page < $total_pages): ?>
-                <a href="?page=<?= $current_page + 1 ?>" 
-                   class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                    Next
-                </a>
-            <?php endif; ?>
+       </div>
+
+     <!-- Pagination -->
+<?php
+$total_pages = ceil($total_items / $items_per_page);
+
+if ($total_pages > 1): ?>
+<div class="mt-6 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+    <!-- Mobile pagination -->
+    <div class="flex flex-1 justify-between sm:hidden">
+        <?php if ($current_page > 1): ?>
+            <a href="?page=<?= $current_page - 1 ?>" 
+               class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                Previous
+            </a>
+        <?php endif; ?>
+        
+        <?php if ($current_page < $total_pages): ?>
+            <a href="?page=<?= $current_page + 1 ?>" 
+               class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                Next
+            </a>
+        <?php endif; ?>
+    </div>
+
+    <!-- Desktop pagination -->
+    <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+        <!-- Info -->
+        <div>
+            <p class="text-sm text-gray-700">
+                Menampilkan
+                <span class="font-medium"><?= ($current_page - 1) * $items_per_page + 1 ?></span>
+                sampai
+                <span class="font-medium"><?= min($current_page * $items_per_page, $total_items) ?></span>
+                dari
+                <span class="font-medium"><?= $total_items ?></span>
+                data
+            </p>
         </div>
 
-        <!-- Desktop pagination -->
-        <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-            <div>
-                <p class="text-sm text-gray-700">
-                    Menampilkan
-                    <span class="font-medium"><?= ($current_page - 1) * $items_per_page + 1 ?></span>
-                    sampai
-                    <span class="font-medium"><?= min($current_page * $items_per_page, $total_items) ?></span>
-                    dari
-                    <span class="font-medium"><?= $total_items ?></span>
-                    data
-                </p>
-            </div>
-
-            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm">
+        <!-- Page numbers -->
+        <div>
+            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                <!-- Previous button -->
                 <?php if ($current_page > 1): ?>
                     <a href="?page=<?= $current_page - 1 ?>" 
                        class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
@@ -129,19 +135,16 @@
                     </a>
                 <?php endif; ?>
 
+                <!-- Page numbers -->
                 <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                    <?php if ($i <= 2 || $i >= $total_pages - 1 || abs($i - $current_page) <= 1): ?>
-                        <a href="?page=<?= $i ?>" 
-                           class="relative inline-flex items-center px-4 py-2 text-sm font-semibold <?= $i === (int)$current_page 
-                                ? 'z-10 bg-blue-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600' 
-                                : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50' ?>">
-                            <?= $i ?>
-                        </a>
-                    <?php elseif ($i == 3 || $i == $total_pages - 2): ?>
-                        <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300">...</span>
+                    <?php if ($i == $current_page): ?>
+                        <span class="relative z-10 inline-flex items-center bg-blue-600 px-4 py-2 text-sm font-semibold text-white"><?= $i ?></span>
+                    <?php else: ?>
+                        <a href="?page=<?= $i ?>" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><?= $i ?></a>
                     <?php endif; ?>
                 <?php endfor; ?>
 
+                <!-- Next button -->
                 <?php if ($current_page < $total_pages): ?>
                     <a href="?page=<?= $current_page + 1 ?>" 
                        class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
@@ -151,9 +154,8 @@
             </nav>
         </div>
     </div>
-    <?php endif; ?>
+</div>
 <?php endif; ?>
-       </div>
    </div>
 </div>
 

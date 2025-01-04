@@ -87,8 +87,7 @@
 
            <!-- Pagination -->
 <?php
-// Hapus perhitungan total_items disini karena sudah dikirim dari controller
-// $total_items sudah tersedia dari $data yang dikirim controller
+
 $total_pages = ceil($total_items / $items_per_page);
 
 if ($total_pages > 1): ?>

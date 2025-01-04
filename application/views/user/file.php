@@ -3,120 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo base_url() ?>assets/backend/template/assets/fonts/fontawesome/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="<?php echo base_url() ?>assets/backend/template/assets/plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <title>File/Modul</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/backend/template/assets/fonts/fontawesome/css/fontawesome-all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* Styling untuk tabel */
-        .table thead th {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .table tbody tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .table th, .table td {
-            border: 1px solid #dee2e6;
-            vertical-align: middle;
-            text-align: center;
-        }
-
-        .table {
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .container-custom {
-            padding: 20px;
-            border-radius: 10px; /* Rounded corners */
-            background-color: #f8f9fa; /* Light background for the container */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Shadow effect for the container */
-        }
-
-        /* CSS untuk tombol download */
-        .btn-download {
-            width: 120px;
-            padding: 10px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto; /* Posisi tengah */
-        }
-
-        .btn-download .icon {
-            margin-right: 5px;
-        }
-        .badge {
-            font-size: 0.75rem; /* Ukuran badge */
-        }
-        
-    </style>
 </head>
-<body>
-    <div class="container mt-5 container-custom">
-    <h2 class="text-left" style="font-size: 2rem; font-weight: 700; color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 10px;">
-            <i class="fas fa-file-alt"></i> File/Modul
-        </h2>
+<body class="bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header Section -->
+        <div class="mb-8">
+            <h1 class="text-2xl font-bold text-blue-600 flex items-center border-b border-blue-500 pb-4">
+                <i class="fas fa-file-alt mr-3"></i>
+                File/Modul
+            </h1>
+        </div>
 
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        <h5 class="mb-0">Silakan unduh file/modul yang Anda ikuti.</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama Seminar</th>
-                                        <th>File</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($file_data as $s) { ?>
-                                        <tr>
-                                            <td><?= $no++ ?></td>
-                                            <td><?= $s->nama_seminar ?></td>
-                                            
-                                            <td>
-                                                <?php if (!empty($s->file)) { ?>
-                                                    <i class="file-icon fas fa-file-download"></i>
-                                                    <span><?= htmlspecialchars($s->file) ?></span> <!-- Nama file hanya ditampilkan sebagai teks biasa -->
-                                                <?php } else { ?>
-                                                    <span>No File</span>
-                                                <?php } ?>
-                                            </td>
+        <!-- Main Content -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="p-6 bg-gray-50 border-b border-gray-200">
+                <h2 class="text-lg font-medium text-gray-900">
+                    Silakan unduh file/modul yang Anda ikuti.
+                </h2>
+            </div>
 
-                                            <td class="text-center">
-                                                <?php if (empty($s->file)): ?>
-                                                    <button class="btn btn-sm btn-secondary btn-download" disabled>
-                                                        <span class="icon"><i class="fas fa-download"></i></span>
-                                                        Unduh
-                                                    </button>
-                                                <?php else: ?>
-                                                    <a href="<?= base_url('uploads/file/' . $s->file); ?>" class="btn btn-sm btn-primary btn-download" download>
-                                                        <span class="icon"><i class="fas fa-download"></i></span>
-                                                        Unduh
-                                                    </a>
-                                                <?php endif; ?>
-                                            </td>
-                                        </tr>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-blue-600">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                No
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                Nama Seminar
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                File
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                Aksi
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <?php
+                        $no = 1;
+                        foreach ($file_data as $s) { ?>
+                            <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <?= $no++ ?>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <?= $s->nama_seminar ?>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <?php if (!empty($s->file)) { ?>
+                                        <div class="flex items-center justify-center space-x-2">
+                                            <i class="fas fa-file-download text-blue-500"></i>
+                                            <span class="truncate max-w-xs"><?= htmlspecialchars($s->file) ?></span>
+                                        </div>
+                                    <?php } else { ?>
+                                        <span class="text-gray-400">No File</span>
                                     <?php } ?>
-                                </tbody>
-                            </table>
-                        </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <div class="flex justify-center">
+                                        <?php if (empty($s->file)): ?>
+                                            <button disabled 
+                                                    class="inline-flex items-center px-4 py-2 bg-gray-300 text-gray-500 rounded-md cursor-not-allowed">
+                                                <i class="fas fa-download mr-2"></i>
+                                                Unduh
+                                            </button>
+                                        <?php else: ?>
+                                            <a href="<?= base_url('uploads/file/' . $s->file); ?>" 
+                                               download
+                                               class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                                                <i class="fas fa-download mr-2"></i>
+                                                Unduh
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State (if needed) -->
+            <?php if (empty($file_data)): ?>
+                <div class="py-12">
+                    <div class="text-center">
+                        <i class="fas fa-file-alt text-4xl text-gray-400 mb-4"></i>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">Tidak Ada File</h3>
+                        <p class="text-gray-500">Belum ada file/modul yang tersedia.</p>
                     </div>
                 </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 </body>

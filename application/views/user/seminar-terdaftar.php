@@ -1,124 +1,93 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seminar Yang Diikuti</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-       
-
-        .card {
-            max-width: 300px; /* Ubah ukuran maksimum card */
-            margin: 10px auto; /* Pusatkan card dan beri sedikit margin */
-        }
-        .card:hover {
-            transform: scale(1.02); /* Efek zoom saat hover */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Bayangan */
-        }
-
-        .card-img-top {
-            width: 100%; /* Gambar akan memenuhi lebar card */
-            height: auto; /* Tinggi mengikuti ukuran gambar */
-            border-top-left-radius: 0.25rem; /* Rounded corners for top */
-            border-top-right-radius: 0.25rem; /* Rounded corners for top */
-        }
-
-        .card-body {
-            padding: 10px; /* Kurangi padding dalam card untuk menghemat ruang */
-        }
-
-        .card-title {
-            font-size: 1rem; /* Kurangi ukuran font judul */
-        }
-
-        .card-text {
-            font-size: 0.875rem; /* Kurangi ukuran font teks */
-        }
-
-        .badge {
-            font-size: 0.75rem; /* Kurangi ukuran badge */
-        }
-
-        .btn {
-            border-radius: 20px;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-        .btn-hover {
-            transform: scale(1.05);
-        }
-
-        .d-flex .btn {
-            flex: 0 0 48%; /* Buat tombol lebih kecil dan sejajar */
-        }
-
-        .d-flex .me-1,
-        .d-flex .ms-1 {
-            margin: 0; /* Hilangkan margin antar tombol */
-        }
-
-        @media (max-width: 576px) {
-            .card {
-                margin-bottom: 10px; /* Jarak antar card pada mobile */
-            }
-        }
-    </style>
 </head>
-
-<body>
-    <div class="container mt-4">
-        <h2 class="text-left" style="font-size: 2rem; font-weight: 700; color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 10px;">
-            <i class="fas fa-graduation-cap"></i> Seminar Yang Diikuti
-        </h2>
+<body class="bg-gray-50">
+    <!-- Header Section -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <div class="border-b border-blue-500 pb-4">
+            <h1 class="text-2xl font-bold text-blue-600 flex items-center">
+                <i class="fas fa-graduation-cap mr-3"></i>
+                Seminar Yang Diikuti
+            </h1>
+        </div>
     </div>
-    <div class="container mt-5">
-        <div class="row justify-content-center"> <!-- Pusatkan konten -->
-            <?php if (!empty($seminar_data)): ?>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <?php if (!empty($seminar_data)): ?>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <?php foreach ($seminar_data as $seminar):
-                    // Calculate remaining days
                     $today = new DateTime();
                     $seminar_date = new DateTime($seminar->tgl_pelaksana);
                     $remaining_days = $today->diff($seminar_date)->days;
                 ?>
-                    <div class="col-12 col-sm-6 col-md-4 mb-3"> <!-- Responsive kolom dengan jarak lebih kecil -->
-                        <div class="card h-100 shadow-sm border-primary">
-                            <img src="<?php echo base_url('uploads/poster/' . $seminar->lampiran); ?>" class="card-img-top" alt="Seminar Image">
-                            <div class="card-body">
-                                <h5 class="card-title" style="font-weight: bold; color: #007bff;">
-                                    <i class="fas fa-chalkboard-teacher"></i> <?php echo $seminar->nama_seminar; ?>
-                                </h5>
-                                <p class="card-text">
-                                    <strong><i class="fas fa-calendar-alt"></i> Tanggal Pelaksanaan:</strong> 
-                                    <strong><?php echo date('d M Y', strtotime($seminar->tgl_pelaksana)); ?></strong>
-                                </p>
-                                <span class="badge bg-warning text-dark"><?php echo $remaining_days; ?> Hari Lagi</span>
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <a href="<?php echo base_url('user/home/detail/' . $seminar->id_seminar); ?>" class="btn btn-primary me-1">
-                                        <i class="fas fa-info-circle"></i> Detail
-                                    </a>
-                                    <a href="<?php echo base_url('user/generate/etiket/' . $seminar->id_mahasiswa . '/' . $seminar->id_seminar); ?>" class="btn btn-success ms-1">
-                                        <i class="fas fa-qrcode"></i> E-Tiket
-                                    </a>
-                                </div>
+                    <!-- Seminar Card -->
+                    <div class="group relative bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-1">
+                        <!-- Image Container -->
+                        <div class="relative aspect-w-3 aspect-h-2 rounded-t-lg overflow-hidden">
+                            <img src="<?php echo base_url('uploads/poster/' . $seminar->lampiran); ?>" 
+                                 alt="<?php echo htmlspecialchars($seminar->nama_seminar); ?>"
+                                 class="w-full h-64 object-cover">
+                            
+                            <!-- Remaining Days Badge -->
+                            <div class="absolute top-4 right-4">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                                    <i class="fas fa-clock mr-1"></i>
+                                    <?php echo $remaining_days; ?> Hari Lagi
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Card Content -->
+                        <div class="p-6">
+                            <h3 class="text-lg font-semibold text-blue-600 mb-2 line-clamp-2 flex items-start">
+                                <i class="fas fa-chalkboard-teacher mt-1 mr-2"></i>
+                                <?php echo $seminar->nama_seminar; ?>
+                            </h3>
+                            
+                            <!-- Date Info -->
+                            <p class="flex items-center text-gray-600 mb-4">
+                                <i class="fas fa-calendar-alt text-blue-500 mr-2"></i>
+                                <span class="font-medium">
+                                    <?php echo date('d M Y', strtotime($seminar->tgl_pelaksana)); ?>
+                                </span>
+                            </p>
+
+                            <!-- Action Buttons -->
+                            <div class="flex gap-3 mt-4">
+                                <a href="<?php echo base_url('user/home/detail/' . $seminar->id_seminar); ?>" 
+                                   class="flex-1 inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-full text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                                    <i class="fas fa-info-circle mr-2"></i>
+                                    Detail
+                                </a>
+                                <a href="<?php echo base_url('user/generate/etiket/' . $seminar->id_mahasiswa . '/' . $seminar->id_seminar); ?>" 
+                                   class="flex-1 inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-full text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200">
+                                    <i class="fas fa-qrcode mr-2"></i>
+                                    E-Tiket
+                                </a>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
-            <?php else: ?>
-                <div class="col-12">
-                    <div class="alert alert-info" role="alert">
-                        <i class="fas fa-info-circle"></i> Anda belum mendaftar pada seminar apapun.
-                    </div>
+            </div>
+        <?php else: ?>
+            <!-- Empty State -->
+            <div class="flex flex-col items-center justify-center py-12 bg-white rounded-lg shadow-sm">
+                <div class="rounded-full bg-blue-100 p-3 mb-4">
+                    <i class="fas fa-info-circle text-2xl text-blue-600"></i>
                 </div>
-            <?php endif; ?>
-        </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Belum Ada Seminar</h3>
+                <p class="text-gray-500">
+                    Anda belum mendaftar pada seminar apapun.
+                </p>
+            </div>
+        <?php endif; ?>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-
 </html>
