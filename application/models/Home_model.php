@@ -56,7 +56,16 @@ class Home_model extends CI_Model
     }
 
 
-
+    public function get_monthly_income_by_vendor($id_vendor)
+    {
+        $this->db->select('MONTH(tgl_transaksi) as month, SUM(jumlah) as total');
+        $this->db->from('transaksi_user');
+        $this->db->where('id_admin', $id_vendor);
+        $this->db->where('YEAR(tgl_transaksi)', date('Y'));
+        $this->db->group_by('MONTH(tgl_transaksi)');
+        $this->db->order_by('month', 'ASC');
+        return $this->db->get()->result();
+    }
 
 
     public function get_vendor_by_id($id_vendor) {

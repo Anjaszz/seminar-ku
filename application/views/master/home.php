@@ -27,6 +27,12 @@
                       </a>
                   </div>
               </div>
+              <div class="absolute -bottom-4 left-0 right-0 h-16 overflow-hidden">
+    <svg viewBox="0 0 500 150" preserveAspectRatio="none" class="h-full w-full">
+        <path d="M0,50 C150,150 350,0 500,50 L500,150 L0,150 Z" fill="rgba(255,255,255,0.2)"></path>
+        <path d="M0,70 C150,170 350,20 500,70 L500,150 L0,150 Z" fill="rgba(255,255,255,0.1)"></path>
+    </svg>
+</div>
           </div>
       <?php } ?>
   </div>

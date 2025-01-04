@@ -1,121 +1,107 @@
-<div class="page-header">
-    <div class="page-block">
-        <div class="row align-items-center">
-            <div class="col-md-12">
-                <div class="page-header-title">
-                    <h5 class="m-b-10"><?= $title ?></h5>
-                </div>
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?php echo site_url('home') ?>"><i class="feather icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="#!"><?= $parent ?></a></li>
-                    <li class="breadcrumb-item"><a href="#!"><?= $title ?></a></li>
-                </ul>
-            </div>
+<!-- Page Header -->
+<div class="">
+    <div class="max-w-7xl rounded-xl bg-white mx-auto py-3 px-4 sm:px-6 lg:px-8 flex flex-col gap-4">
+    <h1 class="mt-2 text-2xl font-bold text-gray-900"><?= $title ?></h1>
+        <div class="flex items-center space-x-2">
+            <a href="<?php echo site_url('home') ?>" class="text-gray-500 hover:text-gray-700">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+            </a>
+            <span class="text-gray-500">/</span>
+            <span class="text-gray-500"><?= $parent ?></span>
+            <span class="text-gray-500">/</span>
+            <span class="text-gray-900 font-medium"><?= $title ?></span>
         </div>
+       
     </div>
 </div>
 
-
-<div class="row">
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-header">
-                <h5><?= $title ?></h5>
-                <div class="card-header-right">
-                    <div class="float-right">
-                    </div>
-                    <div class="btn-group card-option">
-                        <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="feather icon-more-horizontal"></i>
-                        </button>
-                        <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
-                            <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
-                            <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
-                            <li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> reload</a></li>
-                            <li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> remove</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <?= $form_open ?>
-
-                <div class="form-row pt-2">
+<!-- Main Content -->
+<div class="max-w-7xl bg-white mx-auto py-6 sm:px-6 lg:px-8 shadow rounded-lg mt-2">
+    <div class=" ">
+        <div class="px-4 py-5 sm:p-6">
+            <?= $form_open ?>
+            <div class="space-y-6">
+                <!-- Seminar Selection -->
+                <div>
                     <?= $label_seminar ?>
-                    <?= $ddseminar;  ?>
-                    <div class="invalid-feedback">
+                    <div class="mt-1">
+                        <?= str_replace('class="', 'class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ', $ddseminar) ?>
                     </div>
-                    <div class="valid-feedback"></div>
                 </div>
-                <div class="form-row pt-2">
-                    <?= $label_harga ?>
-                    <?= $input_harga;  ?>
-                    <?= $fe_harga ?>
-                    <div class="invalid-feedback">
-                    </div>
-                    <div class="valid-feedback"></div>
-                </div>
-                <div class="form-row pt-2">
-                    <?= $label_slot ?>
-                    <?= $input_slot;  ?>
-                    <?= $fe_slot ?>
-                    <div class="invalid-feedback">
-                    </div>
-                    <div class="valid-feedback"></div>
-                </div>
-                
 
-                <div class="form-row pt-2">
+                <!-- Price Input -->
+                <div>
+                    <?= $label_harga ?>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-gray-500 sm:text-sm">Rp</span>
+                        </div>
+                        <?= str_replace('class="', 'class="mt-1 pl-12 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ', $input_harga) ?>
+                    </div>
+                    <?= str_replace('class="', 'class="mt-1 text-sm text-red-600 ', $fe_harga) ?>
+                </div>
+
+                <!-- Slot Input -->
+                <div>
+                    <?= $label_slot ?>
+                    <div class="mt-1">
+                        <?= str_replace('class="', 'class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ', $input_slot) ?>
+                    </div>
+                    <?= str_replace('class="', 'class="mt-1 text-sm text-red-600 ', $fe_slot) ?>
+                </div>
+
+                <!-- Hidden Input and Submit -->
+                <div class="flex justify-end">
                     <?= $input_id ?>
-                    <?= $submit ?>
-                    <?= $form_close  ?>
+                    <?= str_replace('class="', 'class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ', $submit) ?>
                 </div>
             </div>
+            <?= $form_close ?>
         </div>
     </div>
 </div>
+
 <script>
-    (function() {
-        'use strict';
-        window.addEventListener('load', function() {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
+// Form validation
+document.addEventListener('DOMContentLoaded', function() {
+    'use strict';
+    
+    const forms = document.getElementsByClassName('needs-validation');
+    
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            form.classList.add('was-validated');
         }, false);
-    })();
-</script>
+    });
+});
 
-
-<script>
-    var rupiah = document.getElementById("rupiah");
-    rupiah.addEventListener("keyup", function(e) {
-        rupiah.value = formatRupiah(this.value, "Rp. ");
+// Currency formatter
+const rupiahInput = document.getElementById('rupiah');
+if (rupiahInput) {
+    rupiahInput.addEventListener('input', function(e) {
+        let value = this.value.replace(/\D/g, '');
+        if (value === '') return;
+        
+        value = new Intl.NumberFormat('id-ID').format(value);
+        this.value = `Rp ${value}`;
     });
 
-    /* Fungsi formatRupiah */
-    function formatRupiah(angka, prefix) {
-        var number_string = angka.replace(/[^,\d]/g, "").toString(),
-            split = number_string.split(","),
-            sisa = split[0].length % 3,
-            rupiah = split[0].substr(0, sisa),
-            ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-        // tambahkan titik jika yang di input sudah menjadi angka ribuan
-        if (ribuan) {
-            separator = sisa ? "." : "";
-            rupiah += separator + ribuan.join(".");
-        }
-
-        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-        return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
-    }
+    rupiahInput.addEventListener('blur', function(e) {
+        let value = this.value.replace(/\D/g, '');
+        if (value === '') return;
+        
+        value = new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR'
+        }).format(value);
+        this.value = value;
+    });
+}
 </script>

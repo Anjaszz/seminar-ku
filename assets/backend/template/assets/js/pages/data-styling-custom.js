@@ -63,54 +63,7 @@ $(document).ready(function () {
 				},
 			],
 		});
-		$('#pendaftaranSeminar').DataTable({
-			dom: 'Blfrtip',
-			buttons: [{
-					extend: 'csv',
-					title: 'Data Pendaftaran Seminar',
-					exportOptions: {
-						columns: [0, 1, 2, 3, 4, 5, 6, 7],
-					},
-				},
-				{
-					extend: 'excel',
-					title: 'Data Pendaftaran Seminar',
-					exportOptions: {
-						columns: [0, 1, 2, 3, 4, 5, 6, 7],
-					},
-				},
-				{
-					extend: 'copy',
-					title: 'Data Pendaftaran Seminar',
-					exportOptions: {
-						columns: [0, 1, 2, 3, 4, 5, 6, 7],
-					},
-				},
-				{
-					extend: 'pdf',
-					pageSize: 'A4',
-					title: 'Data Pendaftaran Seminar',
-					download: 'open',
-					orientation: 'landscape',
-					exportOptions: {
-						columns: [0, 1, 2, 3, 4, 5, 6, 7],
-					},
-					customize: function (doc) {
-						doc.styles.tableBodyEven.alignment = 'center';
-						doc.styles.tableBodyOdd.alignment = 'center';
-					},
-				},
-				{
-					extend: 'print',
-					oriented: 'portrait',
-					pageSize: 'A4',
-					title: 'Data Pendaftaran Seminar',
-					exportOptions: {
-						columns: [0, 1, 2, 3, 4, 5, 6, 7],
-					},
-				},
-			],
-		});
+
 	}, 350);
 });
 

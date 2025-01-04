@@ -13129,16 +13129,18 @@ body.layout-14 .pcoded-navbar.navbar-dark .navbar-popup:after {
 ==========================  **/
 .custom-select,
 .form-control {
-	width: 60%;
-	height: 40px;
-	background: transparent;
-	border: none;
-	outline: none;
-	color: #fff;
-
-	font-size: 14px;
-	height: auto;
+    width: 60%;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.1); /* Sedikit transparansi */
+    border: 2px solid gray; /* Border tipis */
+    outline: none;
+    color: black;
+    font-size: 14px;
+    border-radius: 16px; /* Membuat ujung melengkung */
+    transition: all 0.3s ease; /* Efek transisi */
 }
+
+
 
 .custom-select::-moz-placeholder,
 .form-control::-moz-placeholder {

@@ -36,6 +36,9 @@ class Home extends CI_Controller
     // Ambil nama_vendor berdasarkan id_vendor
     $this->load->model('Home_model');
     $vendor = $this->Home_model->get_vendor_by_id($id_vendor);
+
+    $monthly_income = $this->home->get_monthly_income_by_vendor($id_vendor);
+    $data['monthly_income'] = $monthly_income;
     
     // Simpan nama_vendor ke dalam data yang akan diteruskan ke view
     $data['nama_vendor'] = isset($vendor) ? $vendor->nama_vendor : 'Vendor Tidak Ditemukan';

@@ -130,7 +130,7 @@ class Seminar extends CI_Controller
         $data['kategori_seminar'] = $this->sm->get_all_kategori();
         $data['lokasi_seminar'] = $this->sm->get_all_lokasi();
         $data['fakultas'] = $this->sm->get_all_fakultas();
-
+        $data['seminar'] = array('lampiran' => null); // Tambahkan ini
         
         $this->template->load('template/template_v', 'seminar/seminar_form', $data);
     }
@@ -172,7 +172,7 @@ class Seminar extends CI_Controller
                 'tgl_pelaksana'=> $tgl_dan_jam,
                 'deskripsi'    => $this->input->post('deskripsi', TRUE),
                 'lampiran'     => $lampiran_path,
-                'id_admin'     => $this->session->userdata('id_vendor')
+                'id_vendor'     => $this->session->userdata('id_vendor')
             ];
     
             if ($this->sm->insert_data($data)) {

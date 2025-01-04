@@ -51,7 +51,7 @@
 
 
 
-Resources1× 0.5× 0.25×Rerun
+
 	<div class="loader-bg">
 		<div class="loader-track">
 			<div class="loader-fill"></div>

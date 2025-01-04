@@ -1,146 +1,118 @@
-<style>
-    .btn-icon,
-    .drp-icon {
-        width: 40px;
-        height: 40px;
-        padding: 10px 12px;
-        border-radius: 50%;
-    }
-
-    .csa {
-        max-height: 100px;
-        min-width: 100px;
-        min-height: 100px;
-        max-width: 100px;
-    }
-
-    .edit-btn-container {
-        text-align: right; /* Align the button to the right */
-        margin-top: -50px; /* Adjust vertical position relative to card */
-        margin-right: 10px; /* Add some spacing on the right */
-    }
-
-    .btn-edit {
-        background-color: #f4c542;
-        color: white;
-        border: none;
-    }
-
-    .btn-edit:hover {
-        background-color: #e0b638;
-        color: white;
-    }
-</style>
-
-<div class="page-header">
-    <div class="page-block">
-        <div class="row align-items-center">
-            <div class="col-md-12">
-                <div class="page-header-title">
-                    <h5 class="m-b-10"><?= $title ?></h5>
-                </div>
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?php echo site_url('home') ?>"><i class="feather icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="#!"><?= $parent ?></a></li>
-                    <li class="breadcrumb-item"><a href="#!"><?= $title ?></a></li>
-                </ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <!-- Breadcrumb -->
+    <div class="w-full">
+        <div class="max-w-7xl mx-auto px-4 py-4 bg-white rounded-xl shadow-md">
+            <div class="flex items-center space-x-2 text-gray-600 text-sm">
+                <a href="<?php echo site_url('home') ?>" class="hover:text-blue-600">
+                    <i class="fas fa-home"></i>
+                </a>
+                <span>/</span>
+                <a href="#!" class="hover:text-blue-600"><?= $parent ?></a>
+                <span>/</span>
+                <span class="text-gray-500"><?= $title ?></span>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12 col-xl-4">
-        <div class="card">
-            <div class="widget-profile-card-3">
-                <img class="img-fluid img-thumbnail csa" src="<?php echo base_url() ?>assets/images/widget/user.png" alt="Profile-user">
-            </div>
-            <div class="card-body text-center">
-                <h3><?= $nama_mhs ?></h3>
-            </div>
-            <div class="card-footer bg-inverse">
-                <div class="row text-center">
-                    <div class="col">
-                        <h4><?= $nama_prodi ?></h4>
-                        <span>Departemen</span>
-                    </div>
-                </div>
-            </div>
+            <h1 class="text-2xl font-bold text-gray-800 mt-2"><?= $title ?></h1>
         </div>
     </div>
 
-    <div class="col-sm-8">
-        <div class="card" style="height:425px;">
-            <div class="card-header">
-                <h5><?= $title ?></h5>
-                <div class="edit-btn-container">
-                    <?php echo anchor(
-                        "mahasiswa/update/{$id_mahasiswa}",
-                        "<i class='feather icon-edit'></i> Edit",
-                        ['class' => 'btn btn-edit btn-sm']
-                    ); ?>
-                </div>
-                <div class="card-header-right">
-                    <div class="btn-group card-option">
-                        <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="feather icon-more-horizontal"></i>
-                        </button>
-                        <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
-                            <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
-                            <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
-                            <li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> reload</a></li>
-                            <li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> remove</a></li>
-                        </ul>
+    <!-- Profile Content -->
+    <div class="max-w-7xl mx-auto px-4 py-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Profile Card -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                <div class="p-6 text-center">
+                    <img class="w-32 h-32 rounded-full mx-auto object-cover border-4 border-white shadow" 
+                         src="<?php echo base_url() ?>assets/images/widget/user.png" 
+                         alt="Profile">
+                    <h2 class="text-xl font-bold text-gray-800 mt-4"><?= $nama_mhs ?></h2>
+                    <div class="mt-6 pt-6 border-t">
+                        <div class="text-center">
+                            <h3 class="text-lg font-semibold text-gray-800"><?= $nama_prodi ?></h3>
+                            <p class="text-gray-500">Departemen</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="media">
-                    <div class="media-left">
-                        <a class="btn btn-outline-danger btn-icon" href="#!" role="button"><i class="fas fa-street-view"></i></a>
+
+            <!-- Details Card -->
+            <div class="md:col-span-2 bg-white rounded-xl shadow-sm">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-gray-800">Profile Details</h2>
+                        <a href="<?php echo site_url("mahasiswa/update/{$id_mahasiswa}") ?>" 
+                           class="inline-flex items-center px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition-colors">
+                            <i class="fas fa-edit mr-2"></i>
+                            Edit
+                        </a>
                     </div>
-                    <div class="media-body">
-                        <div class="chat-header">Departemen</div>
-                        <p class="chat-header text-muted"><?= $nama_fakultas ?></p>
-                    </div>
-                </div>
-                <div class="media">
-                    <div class="media-left">
-                        <a class="btn btn-outline-info btn-icon" href="#!" role="button"><i class="fas fa-tag"></i></a>
-                    </div>
-                    <div class="media-body">
-                        <div class="chat-header">Jurusan</div>
-                        <p class="chat-header text-muted"><?= $nama_prodi ?></p>
-                    </div>
-                </div>
-                <div class="media">
-                    <div class="media-left">
-                        <a class="btn btn-outline-primary btn-icon" href="#!" role="button"><i class="fas fa-at"></i></a>
-                    </div>
-                    <div class="media-body">
-                        <div class="chat-header">Email</div>
-                        <p class="chat-header text-muted"><?= $email ?></p>
-                    </div>
-                </div>
-                <div class="media">
-                    <div class="media-left">
-                        <a class="btn btn-outline-success btn-icon" href="#!" role="button"><i class="fas fa-mobile-alt"></i></a>
-                    </div>
-                    <div class="media-body">
-                        <div class="chat-header">No Telepon</div>
-                        <p class="chat-header text-muted"><?= $no_telp ?></p>
-                    </div>
-                </div>
-                <div class="media">
-                    <div class="media-left">
-                        <a class="btn btn-outline-info btn-icon" href="#!" role="button"><i class="fas fa-birthday-cake"></i></a>
-                    </div>
-                    <div class="media-body">
-                        <div class="chat-header">Tanggal Lahir</div>
-                        <p class="chat-header text-muted"><?= $tanggal_lahir ?></p>
+
+                    <div class="space-y-6">
+                        <!-- Department -->
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-street-view text-red-500"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-500">Departemen</p>
+                                <p class="text-gray-800"><?= $nama_fakultas ?></p>
+                            </div>
+                        </div>
+
+                        <!-- Major -->
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-tag text-blue-500"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-500">Jurusan</p>
+                                <p class="text-gray-800"><?= $nama_prodi ?></p>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-at text-indigo-500"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-500">Email</p>
+                                <p class="text-gray-800"><?= $email ?></p>
+                            </div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-mobile-alt text-green-500"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-500">No Telepon</p>
+                                <p class="text-gray-800"><?= $no_telp ?></p>
+                            </div>
+                        </div>
+
+                        <!-- Birthday -->
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-birthday-cake text-purple-500"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm text-gray-500">Tanggal Lahir</p>
+                                <p class="text-gray-800"><?= $tanggal_lahir ?></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</body>
+</html>
