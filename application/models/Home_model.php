@@ -74,5 +74,31 @@ class Home_model extends CI_Model
         $this->db->where('id_vendor', $id_vendor);
         return $this->db->get()->row();
     }
+
+    public function get_email_by_admin_id($admin_id)
+    {
+        $this->db->select('email');
+        $this->db->from('master_admin');
+        $this->db->where('id', $admin_id);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->row()->email; // Mengembalikan email
+        }
+        return null; // Jika tidak ditemukan
+    }
+
+    public function get_email_by_vendor_id($admin_id)
+    {
+        $this->db->select('email');
+        $this->db->from('users');
+        $this->db->where('id_vendor', $admin_id);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->row()->email; // Mengembalikan email
+        }
+        return null; // Jika tidak ditemukan
+    }
 }
 

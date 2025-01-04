@@ -15,6 +15,7 @@ class Mahasiswa extends CI_Controller
             redirect('master/auth'); // Redirect ke halaman login
         } 
         $this->load->model('Mahasiswa_model', 'mhs');
+        
     }
 
     public function index()

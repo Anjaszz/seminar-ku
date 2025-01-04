@@ -9,7 +9,7 @@
            <!-- Right Navigation -->
            <div class="flex items-center space-x-4">
                <!-- Profile Dropdown -->
-               <div class=" ">
+               <div class="">
                    <button class="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none" onclick="toggleDropdown()">
                        <div class="w-8 h-8 rounded-full overflow-hidden border-2 border-gray-200">
                            <img src="<?php echo base_url() ?>assets/images/widget/user.png" alt="Profile" class="w-full h-full object-cover">
@@ -22,7 +22,7 @@
                    <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 animate-fade-in-down">
                        <div class="px-4 py-3 border-b">
                            <p class="text-sm font-medium text-gray-900">Admin Panel</p>
-                           <p class="text-sm text-gray-500">admin@example.com</p>
+                           <p class="text-sm text-gray-500"><?php echo isset($admin_email) ? $admin_email : 'Email tidak ditemukan'; ?></p> <!-- Ganti dengan email dari database -->
                        </div>
                        <a href="<?php echo site_url('logout') ?>" class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-50">
                            <i class="bi bi-box-arrow-right mr-2"></i>

@@ -14,6 +14,14 @@ class Home extends CI_Controller
 
         // Load model untuk digunakan dalam controller
         $this->load->model('Home_Model', 'home');
+        $admin_id = $this->session->userdata('id_vendor');
+
+    // Ambil email admin dari model
+    $vendor_email = $this->home->get_email_by_vendor_id($admin_id);
+
+    // Kirim data ke header.php
+    $data['admin_email'] = $vendor_email; // Simpan email dalam array data
+    $this->load->view('template/header', $data); 
     }
 
     public function index()
