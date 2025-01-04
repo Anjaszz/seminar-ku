@@ -14,7 +14,7 @@
                        <div class="w-8 h-8 rounded-full overflow-hidden border-2 border-gray-200">
                            <img src="<?php echo base_url() ?>assets/images/widget/user.png" alt="Profile" class="w-full h-full object-cover">
                        </div>
-                       <span class="hidden md:block font-medium">Admin</span>
+                       <span class="hidden md:block font-medium">Master Admin</span>
                        <i class="bi bi-chevron-down text-sm"></i>
                    </button>
 

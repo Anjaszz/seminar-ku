@@ -16,4 +16,11 @@ class Master_auth_model extends CI_Model {
         }
         return false;
     }
+
+    public function get_admin_data()
+    {
+        // Mengambil satu baris data dari tabel master_admin
+        $query = $this->db->get('master_admin'); // Ganti 'master_admin' dengan nama tabel yang sesuai
+        return $query->row(); // Mengembalikan satu baris data
+    }
 }
