@@ -1,99 +1,90 @@
-<style>
-    .imgB1 {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 30%;
-        position: relative;
-        top: 40px;
-        z-index: 3;
-    }
-
-    #rslt {
-        margin-top: -14px;
-        height: 525px;
-    }
-
-    .card-body {
-        position: relative;
-    }
-</style>
-
-<div class="card" id="rslt">
-    <div class="card-header">
-        <?= $this->session->flashdata('message'); ?>
-        <h5>Hasil</h5>
+<!-- Result Card -->
+<div class="bg-white rounded-xl shadow-sm h-full">
+    <!-- Card Header -->
+    <div class="border-b border-gray-200 px-6 py-4">
+        <?php if ($this->session->flashdata('message')): ?>
+            <div class="mb-4 p-4 rounded-lg <?= strpos($this->session->flashdata('message'), 'success') !== false ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700' ?>">
+                <?= $this->session->flashdata('message') ?>
+            </div>
+        <?php endif; ?>
+        <h5 class="text-xl font-semibold text-gray-800">Hasil Scan</h5>
     </div>
-    <div class="card-body">
-        
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="media">
-                    <div class="media-left">
-                        <a class="btn btn-outline-info btn-icon" href="#!" role="button"><i class="fas fa-calendar-alt"></i>
-                        </a>
+
+    <!-- Card Body -->
+    <div class="p-6 space-y-8">
+        <!-- Seminar Info -->
+        <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0">
+                <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-100 text-blue-600">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900">Nama Seminar</p>
+                <p class="text-sm text-gray-500 truncate"><?= $nama_seminar ?></p>
+            </div>
+        </div>
+
+        <!-- User Info Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- ID User -->
+            <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0">
+                    <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-yellow-100 text-yellow-600">
+                        <i class="fas fa-user"></i>
                     </div>
-                    <div class="media-body">
-                        <div class="chat-header">Nama Seminar</div>
-                        <p class="chat-header text-muted"><?= $nama_seminar ?></p>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-900">ID User</p>
+                    <p class="text-sm text-gray-500 truncate"><?= $nomor_induk ?></p>
+                </div>
+            </div>
+
+            <!-- Nama Peserta -->
+            <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0">
+                    <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-red-100 text-red-600">
+                        <i class="fas fa-user"></i>
                     </div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-900">Nama Peserta</p>
+                    <p class="text-sm text-gray-500 truncate"><?= $nama_mhs ?></p>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0">
+                    <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-100 text-blue-600">
+                        <i class="fas fa-at"></i>
+                    </div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-900">Email</p>
+                    <p class="text-sm text-gray-500 truncate"><?= $email ?></p>
+                </div>
+            </div>
+
+            <!-- No Telepon -->
+            <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0">
+                    <div class="w-10 h-10 flex items-center justify-center rounded-lg bg-green-100 text-green-600">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-900">No Telepon</p>
+                    <p class="text-sm text-gray-500 truncate"><?= $no_telp ?></p>
                 </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="media">
-                    <div class="media-left">
-                        <a class="btn btn-outline-warning btn-icon" href="#!" role="button"><i class="fas fa-user"></i>
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <div class="chat-header">ID User</div>
-                        <p class="chat-header text-muted"><?= $nomor_induk ?></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="media">
-                    <div class="media-left">
-                        <a class="btn btn-outline-danger btn-icon" href="#!" role="button"><i class="fas fa-user"></i>
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <div class="chat-header">Nama Peserta</div>
-                        <p class="chat-header text-muted"><?= $nama_mhs ?></p>
-                    </div>
-                </div>
+        <!-- Success Animation (optional, shown when scan is successful) -->
+        <div class="text-center mt-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-500 animate-bounce">
+                <i class="fas fa-check text-2xl"></i>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="media">
-                    <div class="media-left">
-                        <a class="btn btn-outline-primary btn-icon" href="#!" role="button"><i class="fas fa-at"></i>
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <div class="chat-header">Email</div>
-                        <p class="chat-header text-muted"><?= $email ?></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="media">
-                    <div class="media-left">
-                        <a class="btn btn-outline-success btn-icon" href="#!" role="button"><i class="fas fa-mobile-alt"></i>
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <div class="chat-header">No Telepon</div>
-                        <p class="chat-header text-muted"><?= $no_telp ?></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>

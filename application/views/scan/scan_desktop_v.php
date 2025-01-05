@@ -1,85 +1,107 @@
-<style>
-    #buttonScan {
-        display: none;
-    }
-    .col-md-6{
-        margin-top:-15px;
-        
-    }
-    .kotak{
-        height:200px;
-    }
-</style>
-<div class="page-header">
-    <div class="page-block">
-        <div class="row align-items-center">
-            <div class="col-md-12">
-                <div class="page-header-title">
-                    <h5 class="m-b-10"><?= $title ?></h5>
-                </div>
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?php echo site_url('home') ?>"><i class="feather icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="#!"><?= $title ?></a></li>
-                </ul>
-            </div>
+<!-- Header Section -->
+<div class="bg-white rounded-xl shadow-sm mb-6 p-6">
+    <div class="flex flex-col md:flex-row md:items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800"><?= $title ?></h1>
+            <nav class="flex mt-2" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-2">
+                    <li class="inline-flex items-center">
+                        <a href="<?php echo site_url('home') ?>" class="text-gray-500 hover:text-blue-600">
+                            <i class="feather icon-home mr-2"></i>
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <i class="feather icon-chevron-right text-gray-400 text-sm mx-2"></i>
+                            <span class="text-gray-500"><?= $title ?></span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
         </div>
     </div>
 </div>
 
-<div class="row" id="kotak">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h5><?= $nama_seminar ?></h5>
-                <div class="card-header-right">
-                    <div class="btn-group card-option">
-                        <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="feather icon-more-horizontal"></i>
-                        </button>
-                        <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
-                            <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
-                            <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
-                            <li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> reload</a></li>
-                            <li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> remove</a></li>
-                        </ul>
-                    </div>
+<!-- Main Content -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Scanner Section -->
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div class="p-6">
+            <!-- Card Header -->
+            <div class="flex justify-between items-center mb-6">
+                <h5 class="text-xl font-semibold text-gray-800"><?= $nama_seminar ?></h5>
+                <div class="relative">
+                    <button type="button" class="p-2 hover:bg-gray-100 rounded-full focus:outline-none" data-toggle="dropdown">
+                        <i class="feather icon-more-horizontal"></i>
+                    </button>
+                    <ul class="hidden absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl z-20">
+                        <li><a href="#!" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <i class="feather icon-maximize mr-2"></i> Maximize
+                        </a></li>
+                        <li><a href="#!" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <i class="feather icon-minus mr-2"></i> Collapse
+                        </a></li>
+                        <li><a href="#!" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <i class="feather icon-refresh-cw mr-2"></i> Reload
+                        </a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="card-body">
-                <div id="sourceSelectPanel" style="display:none">
-                    <label for="sourceSelect">Silahkan Scan Tiket Anda:</label>
-                    <select id="sourceSelect" style="max-width:450px" class="form-control"></select>
+
+            <!-- Scanner Content -->
+            <div class="space-y-4">
+                <!-- Camera Selection -->
+                <div id="sourceSelectPanel" class="hidden">
+                    <label for="sourceSelect" class="block text-sm font-medium text-gray-700 mb-2">
+                        Silahkan Pilih Kamera:
+                    </label>
+                    <select id="sourceSelect" class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                    </select>
                 </div>
-                <div>
-                    <video id="video" width="400" height="345" style="border: 0px solid gray"></video>
+
+                <!-- Video Preview -->
+                <div class="relative bg-black rounded-lg overflow-hidden">
+                    <video id="video" class="w-full aspect-video object-cover"></video>
+                    <!-- Scan Overlay -->
+                    <div class="absolute inset-0 border-2 border-blue-400 opacity-50 animate-pulse pointer-events-none"></div>
                 </div>
-                <textarea hidden="hidden" name="id_peserta" id="result"></textarea>
+
+                <!-- Hidden Elements -->
+                <textarea hidden name="id_peserta" id="result"></textarea>
                 <input type="hidden" name="seminar" id="idSeminar" value="<?= $id_seminar ?>">
-                <span>
-                    <a href="#" id="buttonScan" class="btn btn-danger">Cek</a>
+
+                <!-- Scan Button -->
+                <button id="buttonScan" class="hidden w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200">
+                    <i class="feather icon-check-circle mr-2"></i>
+                    Cek Kehadiran
+                </button>
             </div>
         </div>
     </div>
-    <div class="col-sm-6 ajax-content" id="showResult">
 
+    <!-- Result Section -->
+    <div id="showResult" class="bg-white rounded-xl shadow-sm overflow-hidden min-h-[400px]">
+        <!-- Result will be loaded here via AJAX -->
+        <div class="p-6 flex items-center justify-center h-full">
+            <p class="text-gray-500">Hasil scan akan ditampilkan di sini</p>
+        </div>
     </div>
 </div>
 
-
-
+<!-- Scripts -->
 <script type="text/javascript" src="<?php echo base_url() ?>assets/backend/template/assets/plugins/zxing/zxing.min.js"></script>
-
-<!-- scan 2 --> 
 <script type="text/javascript">
-    window.addEventListener('load', function() {
+window.addEventListener('load', function() {
     let selectedDeviceId;
     let audio = new Audio("<?php echo base_url('assets/audio/beep.mp3'); ?>");
     const codeReader = new ZXing.BrowserMultiFormatReader();
-    console.log('ZXing code reader initialized');
+    
     codeReader.getVideoInputDevices()
         .then((videoInputDevices) => {
             const sourceSelect = document.getElementById('sourceSelect');
             selectedDeviceId = videoInputDevices[0].deviceId;
+            
             if (videoInputDevices.length >= 1) {
                 videoInputDevices.forEach((element) => {
                     const sourceOption = document.createElement('option');
@@ -93,17 +115,24 @@
                 };
 
                 const sourceSelectPanel = document.getElementById('sourceSelectPanel');
-                sourceSelectPanel.style.display = 'block';
+                sourceSelectPanel.classList.remove('hidden');
             }
+
             codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
                 if (result) {
                     console.log(result);
                     document.getElementById('result').textContent = result.text;
-                    $('#buttonScan').prop('disabled', true); // Menonaktifkan tombol scan untuk sementara
-                    setTimeout(function() {
-                        $('#buttonScan').prop('disabled', false); // Mengaktifkan kembali tombol scan setelah 1 detik
-                    }, 2000);
                     audio.play();
+                    
+                    // Disable scan button temporarily
+                    $('#buttonScan').prop('disabled', true);
+                    $('#buttonScan').addClass('opacity-50 cursor-not-allowed');
+                    
+                    setTimeout(() => {
+                        $('#buttonScan').prop('disabled', false);
+                        $('#buttonScan').removeClass('opacity-50 cursor-not-allowed');
+                    }, 2000);
+                    
                     $('#buttonScan').click();
                 }
 
@@ -112,22 +141,28 @@
                     document.getElementById('result').textContent = err;
                 }
             });
-            console.log(`Started continous decode from camera with id ${selectedDeviceId}`);
-
-
         })
         .catch((err) => {
             console.error(err);
+            // Show error message to user
+            document.getElementById('showResult').innerHTML = `
+                <div class="p-6">
+                    <div class="bg-red-50 text-red-700 p-4 rounded-lg">
+                        <p>Gagal mengakses kamera. Pastikan browser Anda mendukung akses kamera dan Anda telah memberikan izin.</p>
+                    </div>
+                </div>
+            `;
         });
 });
 
+// AJAX Process
 let halaman = '<?= base_url() ?>';
 
 $("#buttonScan").click(function() {
     let idPeserta = $('#result').val();
     let idSeminar = $('#idSeminar').val();
-    console.log(idPeserta);
     let url = halaman + 'scan/proses_kehadiran';
+    
     $.ajax({
         type: 'POST',
         url: url,
@@ -135,16 +170,41 @@ $("#buttonScan").click(function() {
             id: idPeserta,
             seminar: idSeminar
         },
-        beforeSend: function(msg) {
-            $('#showResult').html('<h1><i class="fa fa-spin fa-refresh" /></h1>');
+        beforeSend: function() {
+            $('#showResult').html(`
+                <div class="p-6 flex items-center justify-center h-full">
+                    <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
+                </div>
+            `);
         },
         success: function(msg) {
             $('#showResult').html(msg);
         },
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert('error');
+        error: function() {
+            $('#showResult').html(`
+                <div class="p-6">
+                    <div class="bg-red-50 text-red-700 p-4 rounded-lg">
+                        <p>Terjadi kesalahan saat memproses data. Silakan coba lagi.</p>
+                    </div>
+                </div>
+            `);
         }
     });
 });
 
+// Dropdown menu handler
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownButton = document.querySelector('[data-toggle="dropdown"]');
+    const dropdownMenu = dropdownButton.nextElementSibling;
+    
+    dropdownButton.addEventListener('click', function() {
+        dropdownMenu.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', function(event) {
+        if (!dropdownButton.contains(event.target)) {
+            dropdownMenu.classList.add('hidden');
+        }
+    });
+});
 </script>

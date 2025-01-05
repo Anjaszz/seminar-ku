@@ -159,6 +159,8 @@ public function get_seminar_by_id($id_seminar) {
         return $this->db->get('sponsor')->result();
     }
 
+    
+
 
 
     public function getSeminarData() {
@@ -237,5 +239,72 @@ public function get_seminar_by_id($id_seminar) {
         } else {
             return null; // Jika tidak ada data ditemukan
         }
+    }
+
+
+
+    
+    public function searchSeminars($keyword) {
+        $this->db->select('seminar.*, tiket.harga_tiket, tiket.slot_tiket, lokasi_seminar.nama_provinsi, 
+                           seminar.lampiran, seminar.tgl_pelaksana, seminar.nama_seminar, seminar.id_seminar');
+        $this->db->from('seminar');
+        $this->db->join('tiket', 'seminar.id_seminar = tiket.id_seminar', 'left');
+        $this->db->join('lokasi_seminar', 'seminar.id_lokasi = lokasi_seminar.id_lokasi', 'left');
+        $this->db->like('seminar.nama_seminar', $keyword);
+        $this->db->or_like('seminar.deskripsi', $keyword);
+        $this->db->order_by('seminar.tgl_pelaksana', 'ASC');
+        return $this->db->get()->result();
+    }
+    
+    public function getSeminarsByPriceRange($range) {
+        $this->db->select('seminar.*, tiket.harga_tiket, tiket.slot_tiket, lokasi_seminar.nama_provinsi, 
+                           seminar.lampiran, seminar.tgl_pelaksana, seminar.nama_seminar, seminar.id_seminar');
+        $this->db->from('seminar');
+        $this->db->join('tiket', 'seminar.id_seminar = tiket.id_seminar', 'left');
+        $this->db->join('lokasi_seminar', 'seminar.id_lokasi = lokasi_seminar.id_lokasi', 'left');
+    
+        switch($range) {
+            case 'free':
+                $this->db->where('tiket.harga_tiket', 0);
+                break;
+            case 'paid':
+                $this->db->where('tiket.harga_tiket >', 0);
+                break;
+            case '0-50000':
+                $this->db->where('tiket.harga_tiket >=', 0);
+                $this->db->where('tiket.harga_tiket <=', 50000);
+                break;
+            case '50000-100000':
+                $this->db->where('tiket.harga_tiket >', 50000);
+                $this->db->where('tiket.harga_tiket <=', 100000);
+                break;
+            case '100000+':
+                $this->db->where('tiket.harga_tiket >', 100000);
+                break;
+        }
+        $this->db->order_by('seminar.tgl_pelaksana', 'ASC');
+        return $this->db->get()->result();
+    }
+    
+    public function getTodaySeminars() {
+        $this->db->select('seminar.*, tiket.harga_tiket, tiket.slot_tiket, lokasi_seminar.nama_provinsi, 
+                           seminar.lampiran, seminar.tgl_pelaksana, seminar.nama_seminar, seminar.id_seminar');
+        $this->db->from('seminar');
+        $this->db->join('tiket', 'seminar.id_seminar = tiket.id_seminar', 'left');
+        $this->db->join('lokasi_seminar', 'seminar.id_lokasi = lokasi_seminar.id_lokasi', 'left');
+        $this->db->where('DATE(seminar.tgl_pelaksana)', date('Y-m-d'));
+        $this->db->order_by('seminar.tgl_pelaksana', 'ASC');
+        return $this->db->get()->result();
+    }
+    
+    public function getNearbySeminars($lat, $lng) {
+        $this->db->select('seminar.*, tiket.harga_tiket, tiket.slot_tiket, lokasi_seminar.nama_provinsi, 
+                           seminar.lampiran, seminar.tgl_pelaksana, seminar.nama_seminar, seminar.id_seminar');
+        $this->db->from('seminar');
+        $this->db->join('tiket', 'seminar.id_seminar = tiket.id_seminar', 'left');
+        $this->db->join('lokasi_seminar', 'seminar.id_lokasi = lokasi_seminar.id_lokasi', 'left');
+        // ... rest of the distance calculation ...
+        $this->db->order_by('seminar.tgl_pelaksana', 'ASC');
+        return $this->db->get()->result();
     }
 }

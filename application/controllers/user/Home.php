@@ -16,101 +16,123 @@ class Home extends CI_Controller {
     }
 
     public function index() {
-          // Menambahkan data dummy testimonial
-    $testimonials = [
-        [
-            'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png', // Menggunakan placeholder image
-            'name' => 'Ahmad Fadhil',
-            'rating' => 5,
-            'content' => 'Seminar yang sangat informatif dan bermanfaat. Pembicara sangat kompeten dan materi yang disampaikan sangat relevan dengan kebutuhan industri saat ini.'
-        ],
-        [
-            'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png',
-            'name' => 'Sarah Putri',
-            'rating' => 5,
-            'content' => 'Pengalaman yang luar biasa! Saya mendapatkan banyak insight baru dan koneksi yang bermanfaat untuk pengembangan karir saya.'
-        ],
-        [
-            'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png',
-            'name' => 'Reza Prakasa',
-            'rating' => 5,
-            'content' => 'Platform seminar terbaik yang pernah saya ikuti. Sistem pendaftaran yang mudah dan materi yang berkualitas. Sangat direkomendasikan!'
-        ]
-    ];
-
-    // Menambahkan data statistik dummy
-    $data['total_seminars'] = 50;
-    $data['total_participants'] = 1500;
-    $data['success_rate'] = 98;
+        // Testimonials data
+        $testimonials = [
+            [
+                'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png',
+                'name' => 'Ahmad Fadhil',
+                'rating' => 5,
+                'content' => 'Seminar yang sangat informatif dan bermanfaat. Pembicara sangat kompeten dan materi yang disampaikan sangat relevan dengan kebutuhan industri saat ini.'
+            ],
+            [
+                'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png',
+                'name' => 'Sarah Putri',
+                'rating' => 5,
+                'content' => 'Pengalaman yang luar biasa! Saya mendapatkan banyak insight baru dan koneksi yang bermanfaat untuk pengembangan karir saya.'
+            ],
+            [
+                'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png',
+                'name' => 'Reza Prakasa',
+                'rating' => 5,
+                'content' => 'Platform seminar terbaik yang pernah saya ikuti. Sistem pendaftaran yang mudah dan materi yang berkualitas. Sangat direkomendasikan!'
+            ]
+        ];
     
-    // Menambahkan data testimonial ke array data
-    $data['testimonials'] = $testimonials;
-        // Check login and get user data
+        // Stats data
+        $data['total_seminars'] = 50;
+        $data['total_participants'] = 1500;
+        $data['success_rate'] = 98;
+        $data['testimonials'] = $testimonials;
+    
+        // Check login
         if (!$this->session->userdata('user_data')) {
             redirect('user/auth');
         }
-     
+    
         $nim = $this->session->userdata('nim');
         if (!$nim) {
             redirect('user/auth');
         }
-     
+    
         $mahasiswa = $this->User_model->getMahasiswaByNIM($nim);
         if (!$mahasiswa) {
             $this->session->set_flashdata('error', 'Data mahasiswa tidak ditemukan.');
             redirect('user/auth');
         }
-     
+    
         $id_mahasiswa = $this->session->userdata('id_mahasiswa');
-     
-        // Get seminar data
+    
+        // Get user data
         $data['jumlah_seminar'] = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
-        $data['jumlah_belum_bayar'] = $this->User_model->getJumlahBelumBayar($id_mahasiswa); 
+        $data['jumlah_belum_bayar'] = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
         $data['jumlah_history'] = $this->User_model->getJumlahHistory($id_mahasiswa);
         $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
         $data['lokasi_seminar'] = $this->Seminar_model->getLokasiSeminar();
-     
-        // Get filtered seminar data
+    
+        // Get and process seminar data with filters
+        $filtered_data = null;
+    
+        // Handle filters in priority order
+        $search = $this->input->get('search');
         $id_lokasi = $this->input->get('id_lokasi');
-        if ($id_lokasi && $id_lokasi != 0) {
-            $data['seminar_data'] = $this->Seminar_model->getSeminarDataByLocation($id_lokasi);
-        } else {
-            $data['seminar_data'] = $this->Seminar_model->getSeminarData();
+        $price_range = $this->input->get('price_range');
+        $date = $this->input->get('date');
+        $lat = $this->input->get('lat');
+        $lng = $this->input->get('lng');
+    
+        if ($search) {
+            $filtered_data = $this->Seminar_model->searchSeminars($search);
+        } elseif ($id_lokasi && $id_lokasi != 0) {
+            $filtered_data = $this->Seminar_model->getSeminarDataByLocation($id_lokasi);
+        } elseif ($price_range) {
+            $filtered_data = $this->Seminar_model->getSeminarsByPriceRange($price_range);
+        } elseif ($date === 'today') {
+            $filtered_data = $this->Seminar_model->getTodaySeminars();
+        } elseif ($lat && $lng) {
+            $filtered_data = $this->Seminar_model->getNearbySeminars($lat, $lng);
         }
+    
+        // If no filters applied, get all seminars
+        if ($filtered_data === null) {
+            $filtered_data = $this->Seminar_model->getSeminarData();
+        }
+    
         // Process each seminar
-   if (!empty($data['seminar_data'])) {
-    foreach ($data['seminar_data'] as &$seminar) {
-        $registration = $this->Pendaftaran_model->isRegistered($seminar->id_seminar, $id_mahasiswa);
-        $seminar->is_registered = $registration ? true : false;
-        $seminar->id_stsbyr = $registration ? $registration->id_stsbyr : null;
-        $seminar->id_pendaftaran = $registration ? $registration->id_pendaftaran : null;
-
-        $seminar->is_history = $this->User_model->isHistory($seminar->id_seminar, $id_mahasiswa);
-
-        $tiket_info = $this->User_model->getSlotTiketAndTiketTerjual($seminar->id_seminar);
-        $seminar->is_slot_habis = ($tiket_info && $tiket_info->tiket_terjual >= $tiket_info->slot_tiket);
-
-        // Calculate remaining days & progress
-        $today = new DateTime();
-    $seminar_date = new DateTime($seminar->tgl_pelaksana);
-    $interval = $today->diff($seminar_date);
-    $remaining_days = $interval->days;
+        if (!empty($filtered_data)) {
+            foreach ($filtered_data as &$seminar) {
+                $registration = $this->Pendaftaran_model->isRegistered($seminar->id_seminar, $id_mahasiswa);
+                $seminar->is_registered = $registration ? true : false;
+                $seminar->id_stsbyr = $registration ? $registration->id_stsbyr : null;
+                $seminar->id_pendaftaran = $registration ? $registration->id_pendaftaran : null;
     
-    // Untuk progress bar gunakan skala 100 hari
-    $total_duration = 100;
-    $progress = 100 - (($remaining_days / $total_duration) * 100);
+                $seminar->is_history = $this->User_model->isHistory($seminar->id_seminar, $id_mahasiswa);
     
-    $seminar->remaining_days = $remaining_days;
-    $seminar->progress = round(max(0, min(100, $progress))); // Pastikan antara 0-100 dan dibulatkan
+                $tiket_info = $this->User_model->getSlotTiketAndTiketTerjual($seminar->id_seminar);
+                $seminar->is_slot_habis = ($tiket_info && $tiket_info->tiket_terjual >= $tiket_info->slot_tiket);
+    
+                // Calculate remaining days & progress
+                $today = new DateTime();
+                $seminar_date = new DateTime($seminar->tgl_pelaksana);
+                $interval = $today->diff($seminar_date);
+                $remaining_days = $interval->days;
+    
+                $total_duration = 100;
+                $progress = 100 - (($remaining_days / $total_duration) * 100);
+    
+                $seminar->remaining_days = $remaining_days;
+                $seminar->progress = round(max(0, min(100, $progress)));
+            }
+        }
+    
+        $data['seminar_data'] = $filtered_data;
+    
+        // Load views
+        $this->load->view('template/user/header', $data);
+        $this->load->view('template/user/navbar', $data);
+      
+        $this->load->view('user/home', $data);
+        $this->load->view('template/user/footer');
     }
-}
-
-// Load views
-$this->load->view('template/user/header', $data);
-$this->load->view('template/user/navbar', $data);
-$this->load->view('user/home', $data);
-$this->load->view('template/user/footer');
-}
     
     
     public function profil() {

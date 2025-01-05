@@ -273,6 +273,7 @@ public function success()
     
             // Tampilkan data ke view
             $this->template->load('master/template/template_v', 'master/vendor/vendor_d', $data);
+            
         } else {
             // Debugging: Log pesan jika data tidak ditemukan
             log_message('error', 'Data Vendor Tidak Ditemukan untuk ID: ' . $id_vendor);

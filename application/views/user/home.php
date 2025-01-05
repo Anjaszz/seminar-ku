@@ -44,10 +44,10 @@
                     Platform Seminar Terbaik untuk Pengembangan Karirmu
                 </p>
                 <div class="mt-8 flex justify-center space-x-4">
-                    <a href="#upcoming" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
+                    <a href="#upcoming" class="bg-white text-blue-600 px-3 sm:px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
                         Lihat Seminar
                     </a>
-                    <a href="#about" class="bg-transparent border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition">
+                    <a href="#about" class="bg-transparent border-2 border-white text-white px-4 sm:px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition">
                         Pelajari Lebih Lanjut
                     </a>
                 </div>
@@ -70,6 +70,82 @@
             </div>
         </div>
     </header>
+
+    <!-- Search and Filter Section -->
+<section class="py-8 bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <form action="<?php echo base_url('user/home/index'); ?>" method="GET" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Search Bar -->
+                <div class="md:col-span-2">
+                    <div class="relative">
+                        <input type="text" 
+                               name="search" 
+                               placeholder="Cari seminar..." 
+                               value="<?php echo $this->input->get('search'); ?>"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <button type="submit" class="absolute right-2 top-2 text-gray-500">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+               <!-- Location Filter -->
+<div>
+    <form method="GET" action="<?php echo base_url('user/home/index'); ?>">
+        <select name="id_lokasi" 
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                onchange="this.form.submit()">
+            <option value="">Semua Lokasi</option>
+            <?php foreach ($lokasi_seminar as $lokasi): ?>
+            <option value="<?php echo $lokasi->id_lokasi; ?>" 
+                    <?php echo ($this->input->get('id_lokasi') == $lokasi->id_lokasi) ? 'selected' : ''; ?>>
+                <?php echo $lokasi->nama_provinsi; ?>
+            </option>
+            <?php endforeach; ?>
+        </select>
+    </form>
+</div>
+
+                <!-- Price Filter -->
+               <!-- Price Range Filter -->
+<div>
+    <form method="GET" action="<?php echo base_url('user/home/index'); ?>">
+        <select name="price_range" 
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                onchange="this.form.submit()">
+            <option value="">Semua Harga</option>
+            <option value="free" <?php echo ($this->input->get('price_range') == 'free') ? 'selected' : ''; ?>>Gratis</option>
+            <option value="paid" <?php echo ($this->input->get('price_range') == 'paid') ? 'selected' : ''; ?>>Berbayar</option>
+            <option value="0-50000" <?php echo ($this->input->get('price_range') == '0-50000') ? 'selected' : ''; ?>>Rp 0 - 50.000</option>
+            <option value="50000-100000" <?php echo ($this->input->get('price_range') == '50000-100000') ? 'selected' : ''; ?>>Rp 50.000 - 100.000</option>
+            <option value="100000+" <?php echo ($this->input->get('price_range') == '100000+') ? 'selected' : ''; ?>>Rp 100.000+</option>
+        </select>
+    </form>
+</div>
+
+
+            <!-- Quick Filters -->
+            <div class="flex flex-wrap gap-2 w-full col-span-2">
+                <button type="button" 
+                        class="px-4 py-2 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition"
+                        onclick="filterNearby()">
+                    <i class="fas fa-map-marker-alt mr-2"></i>Terdekat
+                </button>
+                <button type="button" 
+                        class="px-4 py-2 bg-green-100 text-green-600 rounded-full hover:bg-green-200 transition"
+                        onclick="filterToday()">
+                    <i class="fas fa-calendar-day mr-2"></i>Hari Ini
+                </button>
+                <button type="button" 
+                        class="px-4 py-2 bg-purple-100 text-purple-600 rounded-full hover:bg-purple-200 transition"
+                        onclick="filterFree()">
+                    <i class="fas fa-ticket-alt mr-2"></i>Gratis
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
 
     <!-- Featured Categories -->
     <section class="py-12 bg-white">
@@ -98,6 +174,22 @@
 
     <!-- Horizontal Seminar Scroll -->
     <section id="upcoming" class="py-12 bg-gray-50">
+    <?php
+// Tambahkan ini di bagian atas view setelah section tag
+if (empty($seminar_data)) {
+    echo '<div class="text-center py-8">
+            <p class="text-gray-600">Tidak ada seminar yang ditemukan.</p>
+          </div>';
+} else {
+    // Debug data
+    echo '<!-- Debug: Jumlah seminar: ' . count($seminar_data) . ' -->';
+    foreach ($seminar_data as $seminar) {
+        echo '<!-- Debug: Seminar ID: ' . $seminar->id_seminar . 
+             ', Nama: ' . $seminar->nama_seminar . 
+             ', Harga: ' . $seminar->harga_tiket . ' -->';
+    }
+}
+?>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-8">
                 <h2 class="text-3xl font-bold gradient-text">Seminar Mendatang</h2>
@@ -105,7 +197,7 @@
             </div>
             
             <div class="relative">
-                <div class="overflow-x-auto scrollbar-hide touch-pan-x cursor-grab active:cursor-grabbing" id="seminar-scroll">
+                <div class="overflow-x-auto scrollbar-hide  cursor-grab active:cursor-grabbing" id="seminar-scroll">
                     <div class="flex space-x-6 pb-4">
                         <?php foreach ($seminar_data as $seminar): ?>
                         <div class="flex-none w-80">
@@ -314,6 +406,47 @@
                 timer: 2000
             });
         <?php endif; ?>
+
+        function filterNearby() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            // Here you would typically send these coordinates to your backend
+            // and filter seminars based on distance
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            
+            // Add these as hidden inputs to your form and submit
+            const form = document.createElement('form');
+            form.method = 'GET';
+            form.action = '<?php echo base_url('user/home/index'); ?>';
+            
+            const latInput = document.createElement('input');
+            latInput.type = 'hidden';
+            latInput.name = 'lat';
+            latInput.value = lat;
+            
+            const lngInput = document.createElement('input');
+            lngInput.type = 'hidden';
+            lngInput.name = 'lng';
+            lngInput.value = lng;
+            
+            form.appendChild(latInput);
+            form.appendChild(lngInput);
+            document.body.appendChild(form);
+            form.submit();
+        });
+    } else {
+        alert('Geolocation is not supported by this browser.');
+    }
+}
+
+function filterToday() {
+    window.location.href = '<?php echo base_url('user/home/index'); ?>?date=today';
+}
+
+function filterFree() {
+    window.location.href = '<?php echo base_url('user/home/index'); ?>?price_range=free';
+}
     </script>
 </body>
 </html>

@@ -1,139 +1,134 @@
-<style>
-    table,
-    tr,
-    td,
-    th {
-        text-align: center;
-    }
-
-    .badge {
-        display: inline-block;
-        padding: .25em .4em;
-        font-size: 100%;
-        font-weight: 00;
-        line-height: 1;
-        text-align: center;
-        white-space: nowrap;
-        vertical-align: baseline;
-        border-radius: .25rem;
-        transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    }
-</style>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<div class="page-header">
-    <div class="page-block">
-        <div class="row align-items-center">
-            <div class="col-md-12">
-                <div class="page-header-title">
-                    <h5 class="m-b-10"><?= $title ?></h5>
-                </div>
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?php echo site_url('home') ?>"><i class="feather icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="#!"><?= $title ?></a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-header">
-                <h5><?= $title ?></h5>
-                <div class="me-auto"></div> <!-- Menambahkan margin untuk mengisi ruang -->
-        <div class="float-right ms-2"> <!-- Tambahkan kelas ms-2 untuk margin kiri -->
-            <button type="button" onclick="confirmDeleteAll('<?php echo site_url('laporan/hapus_semua/' . $id_seminar); ?>')" class="btn btn-danger btn-sm d-flex align-items-center">
-                <i class="feather icon-trash me-1"></i> <!-- Menggunakan ikon hapus -->
-                Hapus Semua Data
-            </button>
-        </div>
-                
-                <div class="card-header-right">
-                
-                   
-                    
-                    <div class="btn-group card-option">
-                        <button type="button" class="btn dropdown-toggle btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="feather icon-more-horizontal"></i>
-                        </button>
-                        <ul class="list-unstyled card-option dropdown-menu dropdown-menu-right">
-                            <li class="dropdown-item full-card"><a href="#!"><span><i class="feather icon-maximize"></i> maximize</span><span style="display:none"><i class="feather icon-minimize"></i> Restore</span></a></li>
-                            <li class="dropdown-item minimize-card"><a href="#!"><span><i class="feather icon-minus"></i> collapse</span><span style="display:none"><i class="feather icon-plus"></i> expand</span></a></li>
-                            <li class="dropdown-item reload-card"><a href="#!"><i class="feather icon-refresh-cw"></i> reload</a></li>
-                            <li class="dropdown-item close-card"><a href="#!"><i class="feather icon-trash"></i> remove</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            
-
-
-
-                
-                <div class="">
-                    <div class="customer-scroll" style="height:auto;position:relative;">
-                        <div class="dt-responsive table-responsive">
-                            <table id="myTable" class="table table-bordered table-hover display">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Peserta</th>
-                                        <th>Email</th>
-                                        <th>Tanggal</th>
-                                        <th>Jam</th>
-                                        <th>Keterangan</th>
-                                        <th>Aksi</th> <!-- Tambahkan kolom Aksi -->
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    foreach ($laporan as $l) { ?>
-                                        <tr>
-                                            <td><?php echo $no++ ?></td>
-                                            <td><?php echo $l->nama_mhs ?></td>
-                                            <td><?php echo $l->email ?></td>
-                                            <td>
-                                                <?php if ($l->tgl_khd == NULL) : ?>
-                                                    <label class="badge badge-danger">-</label>
-                                                <?php else : ?>
-                                                    <label class="badge badge-success"><?= $l->tgl_khd ?></label>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td>
-                                                <?php if ($l->jam_khd == NULL) : ?>
-                                                    <label class="badge badge-danger">-</label>
-                                                <?php else : ?>
-                                                    <label class="badge badge-success"><?= $l->jam_khd ?></label>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td>
-                                                <?php if ($l->id_stskhd == NULL) : ?>
-                                                    <label class="badge badge-danger">Tidak Hadir</label>
-                                                <?php elseif ($l->id_stskhd == 2) : ?>
-                                                    <label class="badge badge-success"><?= $l->nama_stskhd ?></label>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td>
-                                                <!-- Tombol Hapus -->
-                                                <button onclick="confirmDelete('<?php echo site_url('laporan/hapus/' . $l->id_mahasiswa . '/' . $id_seminar); ?>')" class="btn btn-danger btn-sm">Hapus</button>
-                                            </td>
-                                        </tr>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
+<!-- Header Section -->
+<div class="bg-white rounded-xl shadow-sm mb-6 p-6">
+    <div class="flex flex-col md:flex-row md:items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800"><?= $title ?></h1>
+            <nav class="flex mt-2" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-2">
+                    <li class="inline-flex items-center">
+                        <a href="<?php echo site_url('home') ?>" class="text-gray-500 hover:text-blue-600">
+                            <i class="feather icon-home mr-2"></i>
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <i class="feather icon-chevron-right text-gray-400 text-sm mx-2"></i>
+                            <span class="text-gray-500"><?= $title ?></span>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </li>
+                </ol>
+            </nav>
         </div>
     </div>
 </div>
 
+<!-- Table Section -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+    <div class="p-6">
+        <!-- Card Header with Options -->
+        <div class="flex flex-wrap justify-between items-center mb-6">
+            <h5 class="text-xl font-semibold text-gray-800"><?= $title ?></h5>
+            <div class="flex items-center space-x-4">
+                <!-- Delete All Button -->
+                <button onclick="confirmDeleteAll('<?php echo site_url('laporan/hapus_semua/' . $id_seminar); ?>')" 
+                        class="inline-flex items-center px-4 py-2 bg-red-100 text-red-700 hover:bg-red-200 rounded-lg transition-colors duration-200">
+                    <i class="feather icon-trash mr-2"></i>
+                    Hapus Semua Data
+                </button>
+                
+                <!-- Options Dropdown -->
+                <div class="relative">
+                    <button type="button" class="p-2 hover:bg-gray-100 rounded-full focus:outline-none" data-toggle="dropdown">
+                        <i class="feather icon-more-horizontal"></i>
+                    </button>
+                    <ul class="hidden absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl z-20">
+                        <li><a href="#!" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <i class="feather icon-maximize mr-2"></i> Maximize
+                        </a></li>
+                        <li><a href="#!" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <i class="feather icon-minus mr-2"></i> Collapse
+                        </a></li>
+                        <li><a href="#!" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <i class="feather icon-refresh-cw mr-2"></i> Reload
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Content -->
+        <div class="overflow-x-auto">
+            <table id="myTable" class="min-w-full divide-y divide-gray-200">
+                <thead>
+                    <tr class="bg-gray-50">
+                        <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">No</th>
+                        <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Peserta</th>
+                        <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Email</th>
+                        <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Tanggal</th>
+                        <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Jam</th>
+                        <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Keterangan</th>
+                        <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <?php
+                    $no = 1;
+                    foreach ($laporan as $l) { ?>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center"><?php echo $no++ ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center"><?php echo $l->nama_mhs ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center"><?php echo $l->email ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <?php if ($l->tgl_khd == NULL) : ?>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                        -
+                                    </span>
+                                <?php else : ?>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        <?= $l->tgl_khd ?>
+                                    </span>
+                                <?php endif; ?>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <?php if ($l->jam_khd == NULL) : ?>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                        -
+                                    </span>
+                                <?php else : ?>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        <?= $l->jam_khd ?>
+                                    </span>
+                                <?php endif; ?>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <?php if ($l->id_stskhd == NULL) : ?>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                        Tidak Hadir
+                                    </span>
+                                <?php elseif ($l->id_stskhd == 2) : ?>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        <?= $l->nama_stskhd ?>
+                                    </span>
+                                <?php endif; ?>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <button onclick="confirmDelete('<?php echo site_url('laporan/hapus/' . $l->id_mahasiswa . '/' . $id_seminar); ?>')" 
+                                        class="inline-flex items-center px-3 py-1 bg-red-100 text-red-700 hover:bg-red-200 rounded-lg transition-colors duration-200">
+                                    <i class="feather icon-trash mr-1"></i>
+                                    Hapus
+                                </button>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Sweet Alert Script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function confirmDelete(url) {
         Swal.fire({
@@ -141,9 +136,15 @@
             text: "Data ini akan dihapus",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, Hapus!'
+            confirmButtonColor: '#EF4444',
+            cancelButtonColor: '#3B82F6',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal',
+            customClass: {
+                popup: '!rounded-lg',
+                confirmButton: '!rounded-lg !px-4 !py-2',
+                cancelButton: '!rounded-lg !px-4 !py-2'
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location.href = url;
@@ -157,13 +158,36 @@
             text: "Seluruh data akan dihapus",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, Hapus Semua!'
+            confirmButtonColor: '#EF4444',
+            cancelButtonColor: '#3B82F6',
+            confirmButtonText: 'Ya, Hapus Semua!',
+            cancelButtonText: 'Batal',
+            customClass: {
+                popup: '!rounded-lg',
+                confirmButton: '!rounded-lg !px-4 !py-2',
+                cancelButton: '!rounded-lg !px-4 !py-2'
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location.href = url;
             }
         });
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle dropdown menu
+        const dropdownButton = document.querySelector('[data-toggle="dropdown"]');
+        const dropdownMenu = dropdownButton.nextElementSibling;
+        
+        dropdownButton.addEventListener('click', function() {
+            dropdownMenu.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!dropdownButton.contains(event.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
+        });
+    });
 </script>
