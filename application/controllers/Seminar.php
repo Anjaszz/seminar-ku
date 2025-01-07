@@ -123,76 +123,82 @@ class Seminar extends CI_Controller
         return $info_box;
     }
 
-        public function add() {  
-            $data['title'] = 'Form Tambah Seminar';  
-            $data['kategori_seminar'] = $this->sm->get_all_kategori();  
-            $data['lokasi_seminar'] = $this->sm->get_all_lokasi();  
-            $data['fakultas'] = $this->sm->get_all_fakultas();  
-            $data['seminar'] = array('lampiran' => null); // Tambahkan ini  
-              
-            $this->template->load('template/template_v', 'seminar/seminar_form', $data);  
-        }  
-      
-        public function addaction() {  
-            if (!$this->session->userdata('id_vendor')) {  
-                redirect('auth');  
-            }  
-      
-            // Konfigurasi upload  
-            $config['upload_path']   = FCPATH . '/uploads/poster/';  
-            $config['allowed_types'] = 'gif|jpg|png';  
-            $config['max_size']      = '1000';  
-            $config['max_width']     = '5000';  
-            $config['max_height']    = '5000';  
-            $config['encrypt_name']  = TRUE;  
-      
-            $this->upload->initialize($config);  
-      
-            $lampiran_path = null; // Default null jika file tidak diunggah  
-      
-            if ($this->upload->do_upload('lampiran')) {  
-                $upload_data = $this->upload->data();  
-                $lampiran_path = $upload_data['file_name'];  
-            } else {  
-                $this->session->set_flashdata('warning', 'Kesalahan Upload: ' . $this->upload->display_errors());  
-            }  
-      
-            // Ambil data dari input  
-            $tgl_dan_jam = $this->input->post('tgl_pelaksana') . ' ' . $this->input->post('jam_mulai') . ':00';  
-            $data = [  
-                'nama_seminar' => $this->input->post('nama_seminar', TRUE),  
-                'id_kategori'  => $this->input->post('id_kategori', TRUE),  
-                'lokasi'       => $this->input->post('lokasi', TRUE),  
-                'latitude'     => $this->input->post('latitude', TRUE),  
-                'longitude'    => $this->input->post('longitude', TRUE),  
-                'id_fakultas'  => $this->input->post('id_fakultas', TRUE),  
-                'tgl_pelaksana'=> $tgl_dan_jam,  
-                'deskripsi'    => $this->input->post('deskripsi', TRUE),  
-                'lampiran'     => $lampiran_path,  
-                'id_vendor'    => $this->session->userdata('id_vendor')  
-            ];  
-      
-            if ($this->sm->insert_data($data)) {  
-                $this->session->set_flashdata('success', 'Data seminar berhasil ditambahkan!');  
-            } else {  
-                $db_error = $this->db->error();  
-                $this->session->set_flashdata('error', 'Gagal menambahkan data seminar. Error: ' . $db_error['message']);  
-            }  
-      
-            redirect('seminar');  
-        }  
-      
-        // Fungsi untuk aturan validasi  
-        private function _rules() {  
-            $this->form_validation->set_rules('nama_seminar', 'Nama Seminar', 'required');  
-            $this->form_validation->set_rules('id_kategori', 'Kategori', 'required');  
-            $this->form_validation->set_rules('lokasi', 'Lokasi', 'required');  
-            $this->form_validation->set_rules('id_fakultas', 'Departemen', 'required');  
-            $this->form_validation->set_rules('tgl_pelaksana', 'Tanggal Pelaksanaan', 'required');  
-            $this->form_validation->set_rules('jam_mulai', 'Jam Mulai', 'required');  
-            $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required');  
-        }  
+
+
+    public function add() {
+        $data['title'] = 'Form Tambah Seminar';
+        $data['kategori_seminar'] = $this->sm->get_all_kategori();
+        $data['lokasi_seminar'] = $this->sm->get_all_lokasi();
+        $data['fakultas'] = $this->sm->get_all_fakultas();
+        $data['seminar'] = array('lampiran' => null); // Tambahkan ini
+        
+        $this->template->load('template/template_v', 'seminar/seminar_form', $data);
+    }
+
+    public function addaction()
+    {
+        if (!$this->session->userdata('id_vendor')) {
+            redirect('auth');
+        }
     
+        
+            // Konfigurasi upload
+            $config['upload_path']   = FCPATH . '/uploads/poster/';
+            $config['allowed_types'] = 'gif|jpg|png';
+            $config['max_size']      = '1000';
+            $config['max_width']     = '5000';
+            $config['max_height']    = '5000';
+            $config['encrypt_name']  = TRUE;
+    
+            $this->upload->initialize($config);
+    
+            $lampiran_path = null; // Default null jika file tidak diunggah
+    
+            if ($this->upload->do_upload('lampiran')) {
+                $upload_data = $this->upload->data();
+                $lampiran_path = $upload_data['file_name'];
+            } else {
+                $this->session->set_flashdata('warning', 'Kesalahan Upload: ' . $this->upload->display_errors());
+            }
+    
+            // Ambil data dari input
+            $tgl_dan_jam = $this->input->post('tgl_pelaksana') . ' ' . $this->input->post('jam_mulai') . ':00';
+            $data = [
+                'nama_seminar' => $this->input->post('nama_seminar', TRUE),
+                'id_kategori'  => $this->input->post('id_kategori', TRUE),
+                'id_lokasi'    => $this->input->post('id_lokasi', TRUE),
+                'lokasi'       => $this->input->post('lokasi', TRUE),
+                'id_fakultas'  => $this->input->post('id_fakultas', TRUE),
+                'tgl_pelaksana'=> $tgl_dan_jam,
+                'deskripsi'    => $this->input->post('deskripsi', TRUE),
+                'lampiran'     => $lampiran_path,
+                'id_vendor'     => $this->session->userdata('id_vendor')
+            ];
+    
+            if ($this->sm->insert_data($data)) {
+                $this->session->set_flashdata('success', 'Data seminar berhasil ditambahkan!');
+            } else {
+                $db_error = $this->db->error();
+                $this->session->set_flashdata('error', 'Gagal menambahkan data seminar. Error: ' . $db_error['message']);
+            }
+    
+            redirect('seminar');
+        }
+    
+    
+// Fungsi untuk aturan validasi
+private function _rules()
+{
+    $this->form_validation->set_rules('nama_seminar', 'Nama Seminar', 'required');
+    $this->form_validation->set_rules('id_kategori', 'Kategori', 'required');
+    $this->form_validation->set_rules('id_lokasi', 'Lokasi', 'required');
+    $this->form_validation->set_rules('detail_lokasi', 'Detail Lokasi', 'required');
+    $this->form_validation->set_rules('id_fakultas', 'Departemen', 'required');
+    $this->form_validation->set_rules('tanggal_pelaksanaan', 'Tanggal Pelaksanaan', 'required');
+    $this->form_validation->set_rules('jam_mulai', 'Jam Mulai', 'required');
+    $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required');
+}
+
 
    
 
