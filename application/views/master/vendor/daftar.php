@@ -55,7 +55,7 @@
 
             <!-- Form Card -->
             <div class="bg-white/80 backdrop-blur-xl rounded-2xl shadow-xl p-8 border border-white/20">
-                <?= form_open('master/vendor/daftar', ['class' => 'space-y-6']); ?>
+                <?= form_open('daftar/vendor', ['class' => 'space-y-6']); ?>
                     <!-- Two Column Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Nama Vendor -->

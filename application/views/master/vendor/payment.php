@@ -30,7 +30,7 @@
             <p class="text-center">Anda akan diarahkan ke halaman pembayaran. Silakan klik tombol di bawah ini untuk melanjutkan.</p>
             <div class="text-center">
                 <button id="pay-button" class="btn btn-primary btn-lg btn-custom">Bayar Sekarang</button>
-                <a href="<?= site_url('master/vendor/daftar'); ?>" class="btn btn-secondary btn-lg">Kembali</a>
+                <a href="<?= site_url('daftar/vendor'); ?>" class="btn btn-secondary btn-lg">Kembali</a>
             </div>
         </div>
     </div>
@@ -40,7 +40,7 @@
             snap.pay('<?= $snap_token; ?>', {
                 onSuccess: function(result) {
                     // Kirim data ke server untuk menyimpan transaksi
-                    fetch('<?= site_url('master/vendor/handle_payment'); ?>', {
+                    fetch('<?= site_url('daftar/handle_payment'); ?>', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -57,7 +57,7 @@
                                 showConfirmButton: false,
                                 timer: 2000
                             }).then(() => {
-                                window.location.href = '<?= site_url('master/vendor/success'); ?>'; // Redirect ke halaman sukses
+                                window.location.href = '<?= site_url('daftar/success'); ?>'; // Redirect ke halaman sukses
                             });
                         } else {
                             Swal.fire({
