@@ -83,7 +83,7 @@ class Home extends CI_Controller
                 'color'         => 'red',
                 'total'     => $this->Laporan_master_model->total_pemasukan(), // Memanggil method total dari model
                 'title'        => 'Total Pemasukan',
-                'icon'        => 'money',
+                'icon'        => 'money-bill-wave',
                 'link' => site_url('seminar')
             ],
         ];

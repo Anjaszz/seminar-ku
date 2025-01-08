@@ -19,7 +19,13 @@
               <div class="p-6 relative">
                   <div class="flex justify-between items-center">
                       <div>
-                          <h3 class="text-3xl font-extrabold text-white"><?= $b->total ?></h3>
+                          <h3 class="text-3xl font-extrabold text-white">
+                          <?php if ($b->title === 'Total Pemasukan'): ?>
+                                    Rp <?= number_format($b->total, 0, ',', '.') ?>
+                                <?php else: ?>
+                                    <?= $b->total ?>
+                                <?php endif; ?>
+                          </h3>
                           <p class="text-white mt-1"><?= $b->title ?></p>
                       </div>
                       <a href="<?= $b->link ?>" class="text-white/90 hover:text-white transition-all duration-300">

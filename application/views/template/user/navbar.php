@@ -100,18 +100,25 @@
                             Logout
                         </a>
  
-                <?php else: ?>  
-                    <!-- Navigasi Tamu -->  
-                    <span class="text-gray-700">Hi, Pengunjung</span>  
-                    <a href="<?php echo base_url('user/auth'); ?>"   
-                       class="ml-4 px-4 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition duration-150">  
-                        Masuk  
-                    </a>  
-                    <a href="<?php echo base_url('daftar'); ?>"   
-                       class="ml-4 px-4 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition duration-150">  
-                        Daftar  
-                    </a>  
-                <?php endif; ?>  
+                        <?php else: ?>
+<div class="flex items-center gap-4">
+   <!-- Greeting -->
+   <span class="hidden md:block text-gray-600">Hi, Pengunjung</span>
+   
+   <!-- Auth Buttons -->
+   <div class="flex items-center gap-2">
+       <a href="<?php echo base_url('user/auth'); ?>"
+          class="px-4 py-2 rounded-lg text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 transition-all">
+           <i class="fas fa-sign-in-alt mr-1"></i> Masuk
+       </a>
+       
+       <a href="<?php echo base_url('daftar'); ?>"
+          class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-all">
+           <i class="fas fa-user-plus mr-1"></i> Daftar
+       </a>
+   </div>
+</div>
+<?php endif; ?>
             </div>  
         </div>  
     </div>  
@@ -172,18 +179,26 @@
                    class="block px-4 py-2 rounded-md text-base font-medium text-red-600 hover:text-red-900 hover:bg-red-100">  
                     Logout  
                 </a>  
-            <?php else: ?>  
-                <!-- Navigasi Tamu Mobile -->  
-                <span class="block px-4 py-2 text-base font-medium text-gray-700">Hi, Pengunjung</span>  
-                <a href="<?php echo base_url('user/auth'); ?>"   
-                   class="block px-4 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100">  
-                    Masuk  
-                </a>  
-                <a href="<?php echo base_url('daftar'); ?>"   
-                   class="block px-4 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100">  
-                    Daftar  
-                </a>  
-            <?php endif; ?>  
+                <?php else: ?>
+<!-- Mobile Navigation -->
+<div class="space-y-2 ">
+   <!-- Greeting -->
+   <div class="px-2 py-1 text-sm text-gray-600">Hi, Pengunjung</div>
+   
+   <!-- Auth Links -->
+   <a href="<?php echo base_url('user/auth'); ?>"
+      class="flex items-center w-full px-2 py-2.5 text-center justify-center rounded-lg bg-green-400 text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all">
+       <i class="fas fa-sign-in-alt w-5"></i>
+       <span class="ml-3">Masuk</span>
+   </a>
+   
+   <a href="<?php echo base_url('daftar'); ?>"
+      class="flex items-center w-full px-4 text-center justify-center py-2.5 rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-all">
+       <i class="fas fa-user-plus w-5"></i>
+       <span class="ml-3">Daftar</span>
+   </a>
+</div>
+<?php endif; ?>
         </div>  
     </div>  
 </nav>  
