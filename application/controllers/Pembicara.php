@@ -1,7 +1,7 @@
 <?php
 
 
-class Pembicara extends CI_Controller
+class Pembicara extends MY_Controller
 {
 
 

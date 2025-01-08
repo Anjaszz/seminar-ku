@@ -1,6 +1,6 @@
 <?php
 
-class Sponsor extends CI_Controller
+class Sponsor extends MY_Controller
 {
 
 
