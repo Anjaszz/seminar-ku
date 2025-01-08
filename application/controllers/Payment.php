@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // Include Midtrans PHP Library
 require_once APPPATH . 'third_party/Midtrans/Midtrans.php';
 
-class Payment extends MY_Controller {
+class Payment extends CI_Controller {
 
     public function __construct() {
         parent::__construct();

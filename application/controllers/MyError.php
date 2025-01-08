@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class MyError extends MY_Controller
+class MyError extends CI_Controller
 {
     public function index()
     {
