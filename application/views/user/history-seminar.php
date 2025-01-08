@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.4/dist/sweetalert2.min.js"></script>
 </head>
 <body class="bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8  mt-20">
         <!-- Header -->
         <div class="mb-8">
             <h1 class="text-2xl font-bold text-blue-600 flex items-center border-b border-blue-500 pb-4">

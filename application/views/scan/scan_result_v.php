@@ -1,5 +1,5 @@
 <!-- Result Card -->
-<div class="bg-white rounded-xl shadow-sm h-full">
+<div class="bg-white rounded-xl h-full">
     <!-- Card Header -->
     <div class="border-b border-gray-200 px-6 py-4">
         <?php if ($this->session->flashdata('message')): ?>

@@ -27,7 +27,7 @@
                             </h3>
                             <p class="text-white mt-1"><?= $b->title ?></p>
                         </div>
-                        <a href="<?= $b->link ?>" class="text-white/90 hover:text-white transition-all duration-300">
+                        <a href="<?= $b->link ?>" class="text-white hover:text-black transition-all duration-300">
                             <i class="fa fa-<?= $b->icon ?> text-2xl transform group-hover:rotate-12 group-hover:scale-110 transition-transform duration-300"></i>
                         </a>
                     </div>
