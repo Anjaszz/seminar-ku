@@ -232,6 +232,7 @@ class Daftar extends CI_Controller {
     }
 }
 
+
 public function handle_payment()
 {
     $result = json_decode(file_get_contents('php://input'), true);

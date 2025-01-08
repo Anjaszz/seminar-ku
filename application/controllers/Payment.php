@@ -28,12 +28,12 @@ class Payment extends CI_Controller {
             $full_name = explode(' ', $paymentData->nama_mhs, 2);
             $first_name = $full_name[0];
             $last_name = isset($full_name[1]) ? $full_name[1] : '';
-            $order_id = 'order_' . time() . '_' . $paymentData->id_pendaftaran; 
+            $order_id = 'order_' . time() . '_' . $paymentData->id_pendaftaran;
     
             $params = array(
                 'transaction_details' => array(
                     'order_id' => $order_id,
-                    'gross_amount' => $paymentData->harga_tiket,
+                    'gross_amount' => $paymentData->harga_tiket,  // Use harga_tiket from paymentData
                 ),
                 'customer_details' => array(
                     'first_name' => $first_name,
@@ -48,15 +48,17 @@ class Payment extends CI_Controller {
             $data['snap_token'] = $snapToken;
             $data['id_seminar'] = $id_seminar;
             $data['id_pendaftaran'] = $paymentData->id_pendaftaran;
+            $data['paymentData'] = $paymentData; // Ensure paymentData is passed to the view
             $this->load->view('template/user/header', $data);
             $this->load->view('payment_view', $data);
             $this->load->view('template/user/footer', $data);
-
+    
         } else {
             show_404();
         }
     }
-
+    
+    
     public function confirm_payment() {
         $input = json_decode(file_get_contents('php://input'), true);
         

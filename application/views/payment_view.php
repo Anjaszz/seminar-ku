@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="YOUR_CLIENT_KEY"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-
+    
     <style>
         @keyframes gradient {
             0% { background-position: 0% 50%; }
@@ -70,10 +70,15 @@
                         </span>
                     </div>
                     
-                    <div class="flex items-center justify-between">
-                        <span class="text-gray-600">Total Pembayaran</span>
-                        <span class="text-2xl font-bold text-blue-600">Rp 100.000</span>
-                    </div>
+                    <?php if (isset($paymentData) && is_object($paymentData)): ?>
+    <div class="flex items-center justify-between">
+        <span class="text-gray-600">Total Pembayaran</span>
+        <span class="text-2xl font-bold text-blue-600">Rp <?php echo number_format($paymentData->harga_tiket, 0, ',', '.'); ?></span>
+    </div>
+<?php else: ?>
+    <p class="text-red-500">Data pembayaran tidak ditemukan.</p>
+<?php endif; ?>
+
                 </div>
 
                 <!-- Payment Methods Preview -->
