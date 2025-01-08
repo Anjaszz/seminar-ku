@@ -42,7 +42,7 @@ class Auth extends CI_Controller {
                 
             } else {
                 // Set flashdata untuk error
-                $this->session->set_flashdata('login_error', 'NIM atau Password salah. Silahkan coba lagi.');
+                $this->session->set_flashdata('login_error', 'Email atau Password salah. Silahkan coba lagi.');
                 redirect('user/auth');
             }
         } else {

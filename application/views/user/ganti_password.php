@@ -1,322 +1,286 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="h-full">
 <head>
     <title>Ganti Password</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo base_url() ?>assets/backend/template/assets/fonts/fontawesome/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="<?php echo base_url() ?>assets/backend/template/assets/plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <style>
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%);
-            animation: gradient 15s ease infinite;
-            background-size: 400% 400%;
-            background-attachment: fixed;
-        }
-
         @keyframes gradient {
-            0% {
-                background-position: 0% 0%;
-            }
-            50% {
-                background-position: 100% 100%;
-            }
-            100% {
-                background-position: 0% 0%;
-            }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* Wave animasi */
-        .wave {
-            background: rgb(255 255 255 / 25%);
-            border-radius: 1000% 1000% 0 0;
-            position: fixed;
-            width: 200%;
-            height: 12em;
-            animation: wave 10s -3s linear infinite;
-            transform: translate3d(0, 0, 0);
-            opacity: 0.8;
-            bottom: 0;
-            left: 0;
-            z-index: -1;
+        .animate-gradient {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
         }
 
-        .wave:nth-of-type(2) {
-            bottom: -1.25em;
-            animation: wave 18s linear reverse infinite;
-            opacity: 0.8;
+        .glass {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
-        .wave:nth-of-type(3) {
-            bottom: -2.5em;
-            animation: wave 20s -1s reverse infinite;
-            opacity: 0.9;
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
-        @keyframes wave {
-            2% {
-                transform: translateX(1);
-            }
-
-            25% {
-                transform: translateX(-25%);
-            }
-
-            50% {
-                transform: translateX(-50%);
-            }
-
-            75% {
-                transform: translateX(-25%);
-            }
-
-            100% {
-                transform: translateX(1);
-            }
-        
+        .animate-slideup {
+            animation: slideUp 0.5s ease forwards;
         }
 
-        .reset-password-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-            width: 100%;
-            max-width: 400px;
-            background-color: rgba(255, 255, 255, 0.9);
-            color: black;
-            border-radius: 20px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
-            margin: 20px;
+        /* Password Strength Indicator */
+        .strength-meter {
+            height: 4px;
+            background-color: #eee;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 4px;
+            transition: all 0.3s ease;
         }
 
-        .reset-password-card h4 {
-            text-align: center;
-            margin: 20px 0;
-            font-weight: 500;
+        .strength-meter div {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s ease;
         }
 
-        .input-group-text {
-            background-color: transparent;
-            border: none;
-            color: black;
-        }
-
-        .form-control {
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            border-radius: 0px;
-            color: black;
-            padding: 10px;
-        }
-
-        .form-control:focus {
-            box-shadow: none;
-            border-color: #007bff;
-        }
-
-        .btn-primary {
-            width: 100%;
-            background-color: #0056b3;
-            border: none;
-            font-size: 1rem;
-            padding: 10px;
-            border-radius: 50px;
-            font-weight: bold;
-        }
-
-        .btn-primary i {
-            margin-right: 8px;
-        }
-
-        .btn-primary:hover {
-            background-color: #004494;
-        }
-
-        .back-button {
-            color: #007bff; /* Ganti warna teks */
-            text-decoration: none; /* Hilangkan garis bawah */
-            margin-top: 10px; /* Space between buttons */
-            font-size: 1rem; /* Ukuran font */
-            display: block; /* Membuat link menjadi block element */
-            text-align: center; /* Center text */
-        }
-
-        .back-button:hover {
-            text-decoration: underline; /* Garis bawah saat hover */
-        }
-
-        /* Custom styling untuk menampilkan icon dalam field */
-        .input-group .form-control {
-            position: relative;
-            padding-right: 40px; /* Beri ruang untuk ikon */
-        }
-
-        .input-group .input-group-append {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 5;
-        }
-
-        .show-password {
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .reset-password-card {
-                padding: 20px;
-                margin: 10px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .reset-password-card img {
-                max-width: 300px;
-            }
-        }
+        .strength-weak { background-color: #ff4d4d; }
+        .strength-medium { background-color: #ffd700; }
+        .strength-strong { background-color: #00cc00; }
     </style>
-    
 </head>
 
-<body>
-<!-- Background Wave -->
-<div class="wave"></div>
-    <div class="wave"></div>
-    <div class="wave"></div>
-<div class="reset-password-card">
-    <h3 class="card-title text-center">
-        <i class="fa fa-key form-icon"></i> Ganti Password
-    </h3>
-    <p class="text-center">Untuk keamanan data anda, Silahkan ubah password anda</p>
-    <?php echo form_open('user/auth/ganti_password', ['id' => 'gantiPasswordForm']); ?>
+<body class="h-full animate-gradient">
+    <!-- Main Content -->
+    <div class="min-h-screen flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8 glass rounded-2xl p-8 animate-slideup">
+            <!-- Header -->
+            <div class="text-center">
+                <div class="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 mb-6">
+                    <i class="fas fa-key text-white text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900">Ganti Password</h2>
+                <p class="mt-2 text-sm text-gray-600">
+                    Untuk keamanan data Anda, silakan ubah password Anda
+                </p>
+            </div>
 
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fas fa-lock"></i></span>
-        </div>
-        <input type="password" id="old_password" class="form-control" name="old_password" placeholder="Masukkan password saat ini" required>
-        <div class="input-group-append">
-            <span class="input-group-text show-password" id="toggleOldPassword">
-                <i class="fas fa-eye"></i>
-            </span>
+            <!-- Form -->
+            <?php echo form_open('user/auth/ganti_password', [
+                'id' => 'gantiPasswordForm',
+                'class' => 'mt-8 space-y-6'
+            ]); ?>
+
+                <!-- Current Password -->
+                <div class="relative group">
+                    <label class="text-sm font-medium text-gray-700">Password Saat Ini</label>
+                    <div class="mt-1 relative rounded-lg">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray-400"></i>
+                        </div>
+                        <input type="password" id="old_password" name="old_password" 
+                               class="block w-full pl-10 pr-10 py-3 text-gray-900 placeholder-gray-500 
+                                      border border-gray-300 rounded-lg focus:outline-none focus:ring-2 
+                                      focus:ring-indigo-500 focus:border-transparent transition-all duration-300" 
+                               placeholder="Masukkan password saat ini" required>
+                        <button type="button" onclick="togglePassword('old_password')"
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <i class="fas fa-eye text-gray-400 hover:text-gray-600 transition-colors duration-200"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- New Password -->
+                <div class="relative group">
+                    <label class="text-sm font-medium text-gray-700">Password Baru</label>
+                    <div class="mt-1 relative rounded-lg">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-key text-gray-400"></i>
+                        </div>
+                        <input type="password" id="new_password" name="new_password" 
+                               class="block w-full pl-10 pr-10 py-3 text-gray-900 placeholder-gray-500 
+                                      border border-gray-300 rounded-lg focus:outline-none focus:ring-2 
+                                      focus:ring-indigo-500 focus:border-transparent transition-all duration-300" 
+                               placeholder="Masukkan password baru" required>
+                        <button type="button" onclick="togglePassword('new_password')"
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <i class="fas fa-eye text-gray-400 hover:text-gray-600 transition-colors duration-200"></i>
+                        </button>
+                    </div>
+                    <!-- Password Strength Meter -->
+                    <div class="strength-meter mt-2">
+                        <div id="strength-bar"></div>
+                    </div>
+                    <p id="strength-text" class="text-xs text-gray-500 mt-1"></p>
+                </div>
+
+                <!-- Confirm New Password -->
+                <div class="relative group">
+                    <label class="text-sm font-medium text-gray-700">Konfirmasi Password Baru</label>
+                    <div class="mt-1 relative rounded-lg">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-check-double text-gray-400"></i>
+                        </div>
+                        <input type="password" id="confirm_password" name="confirm_password" 
+                               class="block w-full pl-10 pr-10 py-3 text-gray-900 placeholder-gray-500 
+                                      border border-gray-300 rounded-lg focus:outline-none focus:ring-2 
+                                      focus:ring-indigo-500 focus:border-transparent transition-all duration-300" 
+                               placeholder="Konfirmasi password baru" required>
+                        <button type="button" onclick="togglePassword('confirm_password')"
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <i class="fas fa-eye text-gray-400 hover:text-gray-600 transition-colors duration-200"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="space-y-4">
+                    <button type="submit" 
+                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg 
+                                   text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 
+                                   hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 
+                                   focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300">
+                        <i class="fas fa-key mr-2"></i>
+                        Ganti Password
+                    </button>
+
+                    <a href="<?php echo base_url('user/home'); ?>" 
+                       class="w-full flex justify-center py-3 px-4 border border-gray-300 rounded-lg 
+                              text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 
+                              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 
+                              transition-all duration-300">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Kembali ke Beranda
+                    </a>
+                </div>
+            <?php echo form_close(); ?>
         </div>
     </div>
 
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fas fa-lock"></i></span>
-        </div>
-        <input type="password" id="new_password" class="form-control" name="new_password" placeholder="Masukkan password baru" required>
-        <div class="input-group-append">
-            <span class="input-group-text show-password" id="toggleNewPassword">
-                <i class="fas fa-eye"></i>
-            </span>
-        </div>
-    </div>
+    <script>
+        // Password Strength Checker
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            const strengthBar = document.getElementById('strength-bar');
+            const strengthText = document.getElementById('strength-text');
 
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fas fa-lock"></i></span>
-        </div>
-        <input type="password" id="confirm_password" class="form-control" name="confirm_password" placeholder="Konfirmasi password baru" required>
-        <div class="input-group-append">
-            <span class="input-group-text show-password" id="toggleConfirmPassword">
-                <i class="fas fa-eye"></i>
-            </span>
-        </div>
-    </div>
+            if (password.length >= 8) strength += 1;
+            if (password.match(/[A-Z]/)) strength += 1;
+            if (password.match(/[a-z]/)) strength += 1;
+            if (password.match(/[0-9]/)) strength += 1;
+            if (password.match(/[^A-Za-z0-9]/)) strength += 1;
 
-    <button type="submit" class="btn btn-primary"><i class="fas fa-key"></i> Ganti Password</button>
+            switch (strength) {
+                case 0:
+                case 1:
+                    strengthBar.className = 'strength-weak';
+                    strengthBar.style.width = '20%';
+                    strengthText.textContent = 'Lemah';
+                    strengthText.className = 'text-xs text-red-500 mt-1';
+                    break;
+                case 2:
+                case 3:
+                    strengthBar.className = 'strength-medium';
+                    strengthBar.style.width = '60%';
+                    strengthText.textContent = 'Sedang';
+                    strengthText.className = 'text-xs text-yellow-500 mt-1';
+                    break;
+                case 4:
+                case 5:
+                    strengthBar.className = 'strength-strong';
+                    strengthBar.style.width = '100%';
+                    strengthText.textContent = 'Kuat';
+                    strengthText.className = 'text-xs text-green-500 mt-1';
+                    break;
+            }
+        }
 
-    <a href="<?php echo base_url('user/home'); ?>" class="back-button">
-        <i class="fas fa-arrow-left"></i> Beranda
-    </a>
+        document.getElementById('new_password').addEventListener('input', function() {
+            checkPasswordStrength(this.value);
+        });
 
-    <?php echo form_close(); ?>
-</div>
-<script>
-    $(document).ready(function(){
-        $('#gantiPasswordForm').on('submit', function(e){
-            e.preventDefault(); // Mencegah reload halaman
+        // Toggle Password Visibility
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const button = field.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                field.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
 
-            $.ajax({
-                url: '<?= base_url('user/auth/ganti_password'); ?>', // Endpoint untuk controller
-                method: 'POST',
-                data: $(this).serialize(),
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status === 'success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: response.message,
-                        }).then(function(){
-                            window.location.href = '<?= base_url('user/home'); ?>'; // Mengarahkan ke halaman home
-                        });
-                    } else {
+        // Form Submission
+        $(document).ready(function(){
+            $('#gantiPasswordForm').on('submit', function(e){
+                e.preventDefault();
+
+                const submitButton = $(this).find('button[type="submit"]');
+                submitButton.prop('disabled', true)
+                    .html('<i class="fas fa-spinner fa-spin mr-2"></i>Memproses...');
+
+                $.ajax({
+                    url: '<?= base_url('user/auth/ganti_password'); ?>',
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: response.message,
+                                showConfirmButton: false,
+                                timer: 2000,
+                                customClass: {
+                                    popup: 'rounded-2xl'
+                                }
+                            }).then(function(){
+                                window.location.href = '<?= base_url('user/home'); ?>';
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message,
+                                customClass: {
+                                    popup: 'rounded-2xl'
+                                }
+                            });
+                        }
+                    },
+                    error: function() {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: response.message,
+                            text: 'Terjadi kesalahan saat mengirimkan data.',
+                            customClass: {
+                                popup: 'rounded-2xl'
+                            }
                         });
+                    },
+                    complete: function() {
+                        submitButton.prop('disabled', false)
+                            .html('<i class="fas fa-key mr-2"></i>Ganti Password');
                     }
-                },
-                error: function(xhr, status, error) {
-                    // Handle error seperti kesalahan koneksi atau server error
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Terjadi kesalahan saat mengirimkan data.',
-                    });
-                }
+                });
             });
         });
-    });
     </script>
-<script>
-    
-    // Toggle password visibility
-    function togglePasswordVisibility(inputId, toggleId) {
-        const passwordInput = document.getElementById(inputId);
-        const toggleIcon = document.getElementById(toggleId).querySelector('i');
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            toggleIcon.classList.remove('fa-eye');
-            toggleIcon.classList.add('fa-eye-slash');
-        } else {
-            passwordInput.type = 'password';
-            toggleIcon.classList.remove('fa-eye-slash');
-            toggleIcon.classList.add('fa-eye');
-        }
-    }
-
-    document.getElementById('toggleOldPassword').addEventListener('click', function () {
-        togglePasswordVisibility('old_password', 'toggleOldPassword');
-    });
-    document.getElementById('toggleNewPassword').addEventListener('click', function () {
-        togglePasswordVisibility('new_password', 'toggleNewPassword');
-    });
-    document.getElementById('toggleConfirmPassword').addEventListener('click', function () {
-        togglePasswordVisibility('confirm_password', 'toggleConfirmPassword');
-    });
-
-    
-</script>
-
-
 </body>
-
 </html>

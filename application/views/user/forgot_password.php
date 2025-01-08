@@ -1,212 +1,208 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="h-full">
 <head>
     <title>Lupa Password</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo base_url() ?>assets/backend/template/assets/fonts/fontawesome/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="<?php echo base_url() ?>assets/backend/template/assets/plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
-        /* Background dan animasi gradasi */
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%);
-            animation: gradient 15s ease infinite;
-            background-size: 400% 400%;
-            background-attachment: fixed;
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes slide-up {
+            0% { transform: translateY(100px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .slide-up {
+            animation: slide-up 0.6s ease-out;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.125);
         }
 
         @keyframes gradient {
-            0% {
-                background-position: 0% 0%;
-            }
-            50% {
-                background-position: 100% 100%;
-            }
-            100% {
-                background-position: 0% 0%;
-            }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* Wave animasi */
-        .wave {
-            background: rgb(255 255 255 / 25%);
-            border-radius: 1000% 1000% 0 0;
-            position: fixed;
-            width: 200%;
-            height: 12em;
-            animation: wave 10s -3s linear infinite;
-            transform: translate3d(0, 0, 0);
-            opacity: 0.8;
-            bottom: 0;
-            left: 0;
-            z-index: -1;
+        .animate-gradient {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
         }
 
-        .wave:nth-of-type(2) {
-            bottom: -1.25em;
-            animation: wave 18s linear reverse infinite;
-            opacity: 0.8;
+        .card-3d {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: transform 0.3s ease;
         }
 
-        .wave:nth-of-type(3) {
-            bottom: -2.5em;
-            animation: wave 20s -1s reverse infinite;
-            opacity: 0.9;
+        .card-3d:hover {
+            transform: perspective(1000px) rotateX(2deg) rotateY(2deg);
         }
 
-        @keyframes wave {
-            2% {
-                transform: translateX(1);
-            }
-
-            25% {
-                transform: translateX(-25%);
-            }
-
-            50% {
-                transform: translateX(-50%);
-            }
-
-            75% {
-                transform: translateX(-25%);
-            }
-
-            100% {
-                transform: translateX(1);
-            }
+        @keyframes pulse-ring {
+            0% { transform: scale(.85); opacity: 0.8; }
+            50% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(.85); opacity: 0.8; }
         }
 
-        /* Card Lupa Password */
-        .forgot-password-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-            width: 100%;
-            max-width: 400px;
-            background-color: rgba(255, 255, 255, 0.9);
-            color: black;
-            border-radius: 5%;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
-            margin: 20px;
-        }
-
-        .forgot-password-card h4 {
-            text-align: center;
-            margin: 20px 0;
-            font-weight: 500;
-        }
-
-        .input-group-text {
-            background-color: transparent;
-            border: none;
-            color: black;
-        }
-
-        .form-control {
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            color: black;
-            padding: 10px;
-        }
-
-        .form-control:focus {
-            box-shadow: none;
-            border-color: #007bff;
-        }
-
-        .btn-primary {
-            width: 100%;
-            background-color: #0056b3;
-            border: none;
-            font-size: 1rem;
-            padding: 10px;
-            border-radius: 50px;
-            font-weight: bold;
-        }
-
-        .btn-primary i {
-            margin-right: 8px;
-        }
-
-        .btn-primary:hover {
-            background-color: #004494;
-        }
-
-        @media (max-width: 768px) {
-            .forgot-password-card {
-                padding: 20px;
-                margin: 10px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .forgot-password-card img {
-                max-width: 300px;
-            }
+        .pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
         }
     </style>
 </head>
 
-<body>
-    <!-- Background Wave -->
-    <div class="wave"></div>
-    <div class="wave"></div>
-    <div class="wave"></div>
-
-    <div class="forgot-password-card">
-        <h4 class="card-title text-center">
-            <i class="fa fa-lock form-icon"></i> Lupa Password
-        </h4>
-        <p class="text-center">Masukkan email Anda untuk mengatur ulang password</p>
-        <?php echo form_open("user/auth/send_reset_link"); ?>
-
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-            </div>
-            <input type="email" class="form-control" name="email" placeholder="Masukkan Email" required>
+<body class="h-full animate-gradient overflow-hidden">
+    <!-- Decorative Elements -->
+    <div class="fixed inset-0 -z-10">
+        <div class="absolute inset-0">
+            <div class="absolute w-96 h-96 -top-48 -left-48 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-float"></div>
+            <div class="absolute w-96 h-96 -top-48 -right-48 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-float" style="animation-delay: -2s;"></div>
+            <div class="absolute w-96 h-96 -bottom-48 -left-48 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-float" style="animation-delay: -4s;"></div>
+            <div class="absolute w-96 h-96 -bottom-48 -right-48 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-float" style="animation-delay: -6s;"></div>
         </div>
-
-        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Kirim Link Reset</button>
-        <?php echo form_close(); ?>
     </div>
 
-    <!-- SweetAlert2 for Email Success/Error -->
-    <?php if ($this->session->flashdata('email_sent')) : ?>
-        <script>
+    <!-- Main Content -->
+    <div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-md w-full space-y-8 glass rounded-3xl p-8 shadow-2xl slide-up">
+            <!-- Header Section -->
+            <div class="flex flex-col items-center space-y-6">
+                <!-- Animated Lock Icon -->
+                <div class="relative">
+                    <div class="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center pulse-ring">
+                        <i class="fas fa-lock text-white text-3xl"></i>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-gray-900">Lupa Password?</h2>
+                    <p class="mt-2 text-sm text-gray-600">
+                        Jangan khawatir! Masukkan email Anda dan kami akan mengirimkan link untuk reset password.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Form Section -->
+            <?php echo form_open("user/auth/send_reset_link", ['class' => 'mt-8 space-y-6']); ?>
+                <div class="group">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-envelope text-gray-400"></i>
+                        </div>
+                        <input type="email" name="email" 
+                            class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl text-gray-900 
+                                   placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 
+                                   focus:border-transparent bg-white bg-opacity-90 backdrop-blur-sm 
+                                   transition-all duration-300 transform hover:scale-[1.02]"
+                            placeholder="Masukkan email Anda" required>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                    <button type="submit" 
+                        class="group relative w-full flex justify-center py-3 px-4 border border-transparent 
+                               text-sm font-medium rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 
+                               focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 
+                               transition-all duration-300 transform hover:scale-[1.02]">
+                        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                            <i class="fas fa-paper-plane text-indigo-300 group-hover:text-indigo-400 
+                                  transition ease-in-out duration-150"></i>
+                        </span>
+                        Kirim Link Reset
+                    </button>
+                </div>
+
+                <!-- Back to Login Link -->
+                <div class="text-center mt-4">
+                    <a href="<?php echo base_url('user/auth'); ?>" 
+                       class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-200">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Kembali ke Login
+                    </a>
+                </div>
+            <?php echo form_close(); ?>
+        </div>
+    </div>
+
+    <!-- SweetAlert2 Notifications -->
+    <script>
+        <?php if ($this->session->flashdata('email_sent')) : ?>
             Swal.fire({
                 icon: 'success',
-                title: 'Berhasil!',
+                title: 'Email Terkirim!',
                 text: '<?= $this->session->flashdata('email_sent'); ?>',
                 showConfirmButton: false,
-                timer: 2000
+                timer: 2000,
+                customClass: {
+                    popup: 'rounded-3xl',
+                    title: 'font-bold'
+                }
             });
-        </script>
-    <?php endif; ?>
+        <?php endif; ?>
 
-    <?php if ($this->session->flashdata('email_error')) : ?>
-        <script>
+        <?php if ($this->session->flashdata('email_error')) : ?>
             Swal.fire({
                 icon: 'error',
                 title: 'Gagal!',
                 text: '<?= $this->session->flashdata('email_error'); ?>',
                 showConfirmButton: false,
-                timer: 2000
+                timer: 2000,
+                customClass: {
+                    popup: 'rounded-3xl',
+                    title: 'font-bold'
+                }
             });
-        </script>
-    <?php endif; ?>
+        <?php endif; ?>
 
-    <script src="<?php echo base_url() ?>assets/backend/template/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        // 3D Card Effect
+        const card = document.querySelector('.card-3d');
+        
+        document.addEventListener('mousemove', (e) => {
+            if (!card) return;
+            
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 30;
+            const rotateY = (centerX - x) / 30;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        document.addEventListener('mouseleave', () => {
+            if (!card) return;
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+        });
+
+        // Input Animation
+        const emailInput = document.querySelector('input[type="email"]');
+        emailInput.addEventListener('focus', () => {
+            emailInput.parentElement.classList.add('transform', 'scale-[1.02]');
+        });
+        
+        emailInput.addEventListener('blur', () => {
+            emailInput.parentElement.classList.remove('transform', 'scale-[1.02]');
+        });
+    </script>
 </body>
-
 </html>

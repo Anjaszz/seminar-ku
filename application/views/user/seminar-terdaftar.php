@@ -9,7 +9,7 @@
 </head>
 <body class="bg-gray-50">
     <!-- Header Section -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  mt-28">
         <div class="border-b border-blue-500 pb-4">
             <h1 class="text-2xl font-bold text-blue-600 flex items-center">
                 <i class="fas fa-graduation-cap mr-3"></i>

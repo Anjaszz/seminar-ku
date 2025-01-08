@@ -1,325 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="h-full">
 <head>
     <title>Halaman Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="<?php echo base_url() ?>assets/backend/template/assets/fonts/fontawesome/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="<?php echo base_url() ?>assets/backend/template/assets/plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(315deg, rgba(101,0,94,1) 3%, rgba(60,132,206,1) 38%, rgba(48,238,226,1) 68%, rgba(255,25,25,1) 98%);
-            animation: gradient 15s ease infinite;
-            background-size: 400% 400%;
-            background-attachment: fixed;
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
 
-        @keyframes gradient {
-            0% {
-                background-position: 0% 0%;
-            }
-            50% {
-                background-position: 100% 100%;
-            }
-            100% {
-                background-position: 0% 0%;
-            }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
         }
 
-        .wave {
-            background: rgb(255 255 255 / 25%);
-            border-radius: 1000% 1000% 0 0;
-            position: fixed;
-            width: 200%;
-            height: 12em;
-            animation: wave 10s -3s linear infinite;
-            transform: translate3d(0, 0, 0);
-            opacity: 0.8;
-            bottom: 0;
-            left: 0;
-            z-index: -1;
+        @keyframes slide-up {
+            0% { transform: translateY(100px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
         }
 
-        .wave:nth-of-type(2) {
-            bottom: -1.25em;
-            animation: wave 18s linear reverse infinite;
-            opacity: 0.8;
+        .slide-up {
+            animation: slide-up 0.6s ease-out;
         }
 
-        .wave:nth-of-type(3) {
-            bottom: -2.5em;
-            animation: wave 20s -1s reverse infinite;
-            opacity: 0.9;
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.3; }
+            100% { transform: scale(0.8); opacity: 0.5; }
         }
 
-        @keyframes wave {
-            2% {
-                transform: translateX(1);
-            }
-
-            25% {
-                transform: translateX(-25%);
-            }
-
-            50% {
-                transform: translateX(-50%);
-            }
-
-            75% {
-                transform: translateX(-25%);
-            }
-
-            100% {
-                transform: translateX(1);
-            }
-        }
-
-        @keyframes dropIn {
-            0% {
-                opacity: 0;
-                transform: translateY(-100px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .login-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-            width: 100%;
-            max-width: 400px;
-            background-color: rgba(255, 255, 255, 0.9);
-            color: black;
-            border-radius: 5%;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
-            margin: 20px;
-            animation: dropIn 1s ease-out;
-        }
-
-        .login-card img {
-            display: block;
-            margin: 0 auto 20px;
-            max-width: 200px;
-        }
-
-        .login-card h4 {
-            text-align: center;
-            margin: 20px 0;
-            font-weight: 500;
-        }
-
-        .input-group-text {
-            background-color: transparent;
-            border: none;
-            color: black;
-        }
-
-        .form-control {
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            border-radius: 0px;
-            color: black;
-            padding: 10px;
-        }
-
-        .form-control:focus {
-            box-shadow: none;
-            border-color: #007bff;
-        }
-
-        .btn-primary {
-            width: 100%;
-            background-color: #0056b3;
-            border: none;
-            font-size: 1rem;
-            padding: 10px;
-            border-radius: 50px;
-            font-weight: bold;
-        }
-
-        .btn-primary i {
-            margin-right: 8px;
-        }
-
-        .btn-primary:hover {
-            background-color: #004494;
-        }
-
-        .input-group .form-control {
-            position: relative;
-            padding-right: 40px;
-        }
-
-        .input-group .input-group-append {
+        .pulse-ring::before {
+            content: '';
             position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 5;
+            left: -8px;
+            top: -8px;
+            right: -8px;
+            bottom: -8px;
+            border: 2px solid #4F46E5;
+            border-radius: inherit;
+            animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
         }
 
-        .show-password {
-            cursor: pointer;
+        /* 3D Floating Effect */
+        .card-3d {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: transform 0.3s ease;
         }
 
-        /* Styling untuk captcha */
-        .captcha-label {
-    font-weight: bold;
-    margin-bottom: 5px; /* Jarak antara label dan field input */
-    text-align: 295; /* Mengatur teks agar berada di tengah */
-    display: block; /* Memastikan label menempati satu baris penuh */
-}
-.form-captcha {
-    display: flex;
-    flex-direction: column;
-    align-items: 40%; /* Memusatkan form di tengah */
-    margin: 38px ; /* Margin otomatis untuk memusatkan div */
-    text-align: 50%; /* Memusatkan teks di dalam form */
-    width: 100%; /* Pastikan input memenuhi lebar form */
-    max-width: 285px; /* Lebar maksimal input */
-}
-
-.captcha-input {
-    width: 100%; /* Pastikan input memenuhi lebar form */
-    max-width: 300px; /* Lebar maksimal input */
-}
-
-
-
-
-
-        @media (max-width: 768px) {
-            .login-card {
-                padding: 20px;
-                margin: 10px;
-            }
-
-            body {
-                overflow-x: hidden;
-            }
-            .form-captcha {
-    display: flex;
-    flex-direction: column;
-    align-items: 40%; /* Memusatkan form di tengah */
-    margin: 37px ; /* Margin otomatis untuk memusatkan div */
-    text-align: 50%; /* Memusatkan teks di dalam form */
-    width: 100%; /* Pastikan input memenuhi lebar form */
-    max-width: 296px; /* Lebar maksimal input */
-}
+        .card-3d:hover {
+            transform: perspective(1000px) rotateX(2deg) rotateY(2deg);
         }
 
-        @media (max-width: 576px) {
-            .login-card img {
-                max-width: 300px;
-            }
-            .form-captcha {
-    display: flex;
-    flex-direction: column;
-    align-items: 40%; /* Memusatkan form di tengah */
-    margin: 37px ; /* Margin otomatis untuk memusatkan div */
-    text-align: 50%; /* Memusatkan teks di dalam form */
-    width: 100%; /* Pastikan input memenuhi lebar form */
-    max-width: 296px; /* Lebar maksimal input */
-}
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.125);
+        }
+
+        /* Gradient Background Animation */
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animate-gradient {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
         }
     </style>
 </head>
 
-<body>
-    <div class="wave"></div>
-    <div class="wave"></div>
-    <div class="wave"></div>
-    <div class="login-card">
-        <?php echo form_open("user/auth"); ?>
-        <img src="<?php echo base_url() ?>assets/backend/template/assets/images/SIMAS.png" alt="SIMAS Logo" class="img-fluid mb-4">
-        <h4 class="f-w-400">Masuk Kedalam Akun</h4>
-
-        <div class="input-group mb-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-user"></i></span>
-            </div>
-            <?php echo form_input(['name' => 'email', 'class' => 'form-control', 'placeholder' => 'Masukkan Email', 'required' => 'required']); ?>
+<body class="h-full animate-gradient overflow-hidden">
+    <!-- Decorative Elements -->
+    <div class="fixed inset-0 -z-10">
+        <div class="absolute inset-0">
+            <div class="absolute w-96 h-96 -top-48 -left-48 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-float"></div>
+            <div class="absolute w-96 h-96 -top-48 -right-48 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-float" style="animation-delay: -2s;"></div>
+            <div class="absolute w-96 h-96 -bottom-48 -left-48 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-float" style="animation-delay: -4s;"></div>
+            <div class="absolute w-96 h-96 -bottom-48 -right-48 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-float" style="animation-delay: -6s;"></div>
         </div>
-
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-lock"></i></span>
-            </div>
-            <?php echo form_password(['name' => 'password', 'class' => 'form-control', 'id' => 'password', 'placeholder' => 'Masukkan Password', 'required' => 'required']); ?>
-            <div class="input-group-append">
-                <span class="input-group-text show-password" id="togglePassword">
-                    <i class="fas fa-eye"></i>
-                </span>
-            </div>
-        </div>
-
-        <!-- Captcha Input -->
-        <div class="form-captcha">
-    <span id="captcha-question" class="captcha-label"></span> <!-- Teks Captcha -->
-    <div class="input-group">
-        <?php echo form_input([
-            'name' => 'captcha', 
-            'class' => 'form-control captcha-input', 
-            'placeholder' => 'Jawaban', 
-            'required' => 'required', 
-            'id' => 'captcha-answer',
-            'type' => 'tel', // Menggunakan type="tel" untuk menampilkan keyboard angka
-            'inputmode' => 'numeric', // Menampilkan keyboard angka pada perangkat seluler
-            'pattern' => '[0-9]*', // Hanya angka
-        ]); ?>
     </div>
-</div>
 
+    <!-- Main Content -->
+    <div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class=" max-w-md w-full space-y-8 glass rounded-3xl p-8 shadow-2xl slide-up">
+            <?php echo form_open("user/auth", ['class' => 'space-y-6']); ?>
+                <!-- Logo -->
+                <div class="flex flex-col items-center justify-center space-y-4">
+                    <img src="<?php echo base_url() ?>assets/backend/template/assets/images/SIMAS.png" 
+                         alt="SIMAS Logo" 
+                         class="w-32 h-auto transform transition-transform duration-500 hover:scale-110">
+                    <h2 class="text-2xl font-bold text-gray-900">Masuk Kedalam Akun</h2>
+                </div>
 
+                <!-- Email Field -->
+                <div class="group">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-user text-gray-400"></i>
+                        </div>
+                        <?php echo form_input([
+                            'name' => 'email',
+                            'class' => 'block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white bg-opacity-90 backdrop-blur-sm transition-all duration-300',
+                            'placeholder' => 'Masukkan Email',
+                            'required' => 'required'
+                        ]); ?>
+                    </div>
+                </div>
 
-        <p class="text-center mt-3"><a href="<?php echo base_url('user/auth/forgot_password'); ?>">Lupa Password?</a></p>
+                <!-- Password Field -->
+                <div class="group">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray-400"></i>
+                        </div>
+                        <?php echo form_password([
+                            'name' => 'password',
+                            'id' => 'password',
+                            'class' => 'block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white bg-opacity-90 backdrop-blur-sm transition-all duration-300',
+                            'placeholder' => 'Masukkan Password',
+                            'required' => 'required'
+                        ]); ?>
+                        <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <i class="fas fa-eye text-gray-400 hover:text-gray-600 transition-colors duration-200"></i>
+                        </button>
+                    </div>
+                </div>
 
-        <?php echo form_button(['type' => 'submit', 'class' => 'btn btn-primary'], '<i class="fas fa-sign-in-alt"></i> LOGIN'); ?>
-        <?php echo form_close(); ?>
+                <!-- Captcha -->
+                <div class="space-y-2">
+                    <p id="captcha-question" class="text-center text-gray-700 font-medium"></p>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-shield-alt text-gray-400"></i>
+                        </div>
+                        <?php echo form_input([
+                            'name' => 'captcha',
+                            'id' => 'captcha-answer',
+                            'class' => 'block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white bg-opacity-90 backdrop-blur-sm transition-all duration-300',
+                            'placeholder' => 'Jawaban Captcha',
+                            'required' => 'required',
+                            'type' => 'tel',
+                            'inputmode' => 'numeric',
+                            'pattern' => '[0-9]*'
+                        ]); ?>
+                    </div>
+                </div>
+
+                <!-- Forgot Password Link -->
+                <div class="text-right">
+                    <a href="<?php echo base_url('user/auth/forgot_password'); ?>" 
+                       class="text-sm font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-200">
+                        Lupa Password?
+                    </a>
+                </div>
+
+                <!-- Login Button -->
+                <div>
+                    <?php echo form_button([
+                        'type' => 'submit',
+                        'class' => 'group relative w-full flex justify-center py-3 px-4 border border-transparent rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 transform hover:scale-[1.02]'
+                    ], '<i class="fas fa-sign-in-alt mr-2"></i> LOGIN'); ?>
+                </div>
+            <?php echo form_close(); ?>
+        </div>
     </div>
 
     <?php if ($this->session->flashdata('login_success')) : ?>
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Login Berhasil',
-                text: '<?= $this->session->flashdata('login_success'); ?>',
-                showConfirmButton: false,
-                timer: 2000
-            }).then(() => {
-                window.location.href = '<?= base_url("dashboard") ?>';
-            });
-        </script>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Login Berhasil',
+            text: '<?= $this->session->flashdata('login_success'); ?>',
+            showConfirmButton: false,
+            timer: 2000,
+            customClass: {
+                popup: 'animate__animated animate__fadeInUp'
+            }
+        }).then(() => {
+            window.location.href = '<?= base_url("dashboard") ?>';
+        });
+    </script>
     <?php endif; ?>
 
     <?php if ($this->session->flashdata('login_error')) : ?>
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Login Gagal',
-                text: '<?= $this->session->flashdata('login_error'); ?>',
-                showConfirmButton: false,
-                timer: 2000
-            });
-        </script>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Login Gagal',
+            text: '<?= $this->session->flashdata('login_error'); ?>',
+            showConfirmButton: false,
+            timer: 2000,
+            customClass: {
+                popup: 'animate__animated animate__shakeX'
+            }
+        });
+    </script>
     <?php endif; ?>
 
     <script>
+        // Password Toggle
         const togglePassword = document.querySelector('#togglePassword');
         const passwordField = document.querySelector('#password');
 
@@ -330,20 +218,55 @@
             togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
         });
 
-        // Generate random captcha question
+        // Captcha
         function generateCaptcha() {
             const num1 = Math.floor(Math.random() * 10);
             const num2 = Math.floor(Math.random() * 10);
             document.getElementById('captcha-question').innerText = `Berapa hasil dari ${num1} + ${num2}?`;
-            return num1 + num2; // Return the answer
+            return num1 + num2;
         }
 
         let captchaAnswer = generateCaptcha();
 
-        document.getElementById('captcha-answer').addEventListener('input', function () {
+        document.getElementById('captcha-answer').addEventListener('input', function() {
             this.setCustomValidity(this.value != captchaAnswer ? "Jawaban salah" : "");
+        });
+
+        // 3D Card Effect
+        const card = document.querySelector('.card-3d');
+        
+        document.addEventListener('mousemove', (e) => {
+            if (!card) return;
+            
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 30;
+            const rotateY = (centerX - x) / 30;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        document.addEventListener('mouseleave', () => {
+            if (!card) return;
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+        });
+
+        // Input Focus Effects
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('transform', 'scale-[1.02]');
+            });
+            
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('transform', 'scale-[1.02]');
+            });
         });
     </script>
 </body>
-
 </html>

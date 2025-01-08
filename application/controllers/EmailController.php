@@ -22,7 +22,7 @@ class EmailController extends CI_Controller {
         $config['smtp_host'] = 'ssl://smtp.gmail.com';
         $config['smtp_port'] = '465';
         $config['smtp_user'] = 'pikanni658@gmail.com';
-        $config['smtp_pass'] = 'robzgowsbfbvbgkf';
+        $config['smtp_pass'] = 'nczfhawxedbuwlzd';
         $config['mailtype'] = 'html';
         $this->email->initialize($config);
 
@@ -78,7 +78,7 @@ class EmailController extends CI_Controller {
         $config['smtp_host'] = 'ssl://smtp.gmail.com';
         $config['smtp_port'] = '465';
         $config['smtp_user'] = 'pikanni658@gmail.com';
-        $config['smtp_pass'] = 'robzgowsbfbvbgkf';
+        $config['smtp_pass'] = 'nczfhawxedbuwlzd';
         $config['mailtype'] = 'html';
         $this->email->initialize($config);
 
