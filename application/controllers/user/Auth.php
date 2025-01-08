@@ -51,6 +51,15 @@ class Auth extends CI_Controller {
         }
     }
     
+    public function logout() {
+        // Hapus semua session
+        $this->session->unset_userdata('user_data');
+        $this->session->sess_destroy();
+    
+        // Alihkan ke halaman login atau halaman lain
+        redirect('user/auth');
+    }
+    
 
     public function ubah_password() {
         // Cek apakah user sudah login dan memiliki id_mahasiswa di session

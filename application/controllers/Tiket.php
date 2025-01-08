@@ -41,12 +41,14 @@ class Tiket extends CI_Controller
         );
 
         $attr_harga = array(
-            'type' => 'text',
+            'type' => 'number', // Ubah menjadi number untuk memastikan input angka
             'name' => 'harga_tiket',
-            'id' => 'rupiah',
+            'id' => 'harga_tiket',
             'class' => 'form-control',
-            'value' => set_value('harga_tiket')
+            'value' => set_value('harga_tiket', $harga_tiket),
+            'min' => 0 // Tambahkan validasi minimal
         );
+        
 
         $attr_slot = array(
             'type' => 'text',
@@ -117,36 +119,37 @@ class Tiket extends CI_Controller
     }
 
     public function addaction()
-    {
-        $seminar = $this->input->post('seminar', TRUE);
-        $cek_seminar = $this->tkt->cek_seminar($seminar);
-        if ($cek_seminar->num_rows() > 0) {
-            $nama_seminar = $cek_seminar->row()->nama_seminar;
-            $this->session->set_flashdata("warning", "Data seminar {$nama_seminar} sudah ada !");
-            redirect('tiket');
+{
+    $seminar = $this->input->post('seminar', TRUE);
+    $cek_seminar = $this->tkt->cek_seminar($seminar);
+    if ($cek_seminar->num_rows() > 0) {
+        $nama_seminar = $cek_seminar->row()->nama_seminar;
+        $this->session->set_flashdata("warning", "Data seminar {$nama_seminar} sudah ada!");
+        redirect('tiket');
+    } else {
+        $this->_rules();
+        $validasi = $this->form_validation->run();
+        if ($validasi == FALSE) {
+            $this->add();
         } else {
-            $this->_rules();
-            $validasi = $this->form_validation->run();
-            if ($validasi == FALSE) {
-                $this->add();
-            } else {
-                    $harga_tiket = $this->input->post('harga_tiket', TRUE);
-                    $slot_tiket = $this->input->post('slot_tiket', TRUE);
-                 
-                    $hrg_tkt = str_replace(['.', 'Rp'], '', $harga_tiket);
-                    $data = array(
-                        'id_seminar' => $seminar,
-                        'harga_tiket' => $hrg_tkt,
-                        'slot_tiket' => $slot_tiket,
-                        
-                    );
-                    $this->tkt->insert_data($data);
-                    $this->session->set_flashdata('success', 'Data berhasil disimpan!');
-                    redirect('tiket');
-                }
-            
+            $harga_tiket = $this->input->post('harga_tiket', TRUE);
+            $slot_tiket = $this->input->post('slot_tiket', TRUE);
+
+            // Pastikan nilai harga tiket hanya angka
+            $hrg_tkt = preg_replace('/[^\d]/', '', $harga_tiket);
+
+            $data = array(
+                'id_seminar' => $seminar,
+                'harga_tiket' => $hrg_tkt,
+                'slot_tiket' => $slot_tiket,
+            );
+            $this->tkt->insert_data($data);
+            $this->session->set_flashdata('success', 'Data berhasil disimpan!');
+            redirect('tiket');
         }
     }
+}
+
 
     public function update($id)
     {
@@ -175,12 +178,16 @@ class Tiket extends CI_Controller
             );
 
             $attr_harga = array(
-                'type' => 'text',
+                'type' => 'number', // Ubah menjadi number untuk memastikan input angka
                 'name' => 'harga_tiket',
-                'id' => 'rupiah',
+                'id' => 'harga_tiket',
                 'class' => 'form-control',
-                'value' => set_value('harga_tiket', $harga_tiket)
+                'value' => set_value('harga_tiket', $harga_tiket),
+                'min' => 0 // Tambahkan validasi minimal
+                
+                
             );
+            
 
             $attr_slot = array(
                 'type' => 'text',
@@ -249,30 +256,35 @@ class Tiket extends CI_Controller
     }
 
     public function editaction()
-    {
-        $seminar = $this->input->post('seminar', TRUE);
-         
-            $id = $this->input->post('id_tiket', TRUE);
-            $harga_tiket = $this->input->post('harga_tiket', TRUE);
-            $hrg_tkt = str_replace(['.', 'Rp'], '', $harga_tiket);
-            $slot_tiket = $this->input->post('slot_tiket', TRUE);
-            $this->_rules();
-            $validasi = $this->form_validation->run();
-            if ($validasi == FALSE) {
-                $this->update($id);
-            } else {
-               
-                    $data = array(
-                        'harga_tiket' => $hrg_tkt,
-                        'slot_tiket' => $slot_tiket,
-                        
-                    );
-                    $this->tkt->update_data($id, $data);
-                    $this->session->set_flashdata('success', 'Data berhasil disimpan!');
-                    redirect('tiket');
-                }
-            
-        }
+{
+    $seminar = $this->input->post('seminar', TRUE);
+    $id = $this->input->post('id_tiket', TRUE);
+    $harga_tiket = $this->input->post('harga_tiket', TRUE); // Ambil angka langsung
+    $slot_tiket = $this->input->post('slot_tiket', TRUE);
+
+    // Aturan validasi
+    $this->_rules();
+    $validasi = $this->form_validation->run();
+
+    if ($validasi == FALSE) {
+        // Jika validasi gagal, kembali ke halaman update dengan ID tiket
+        $this->update($id);
+    } else {
+        // Data yang akan diperbarui
+        $data = array(
+            'harga_tiket' => $harga_tiket, // Tidak perlu format ulang
+            'slot_tiket' => $slot_tiket,
+        );
+
+        // Update data di database
+        $this->tkt->update_data($id, $data);
+
+        // Set pesan sukses dan alihkan ke halaman tiket
+        $this->session->set_flashdata('success', 'Data berhasil diperbarui!');
+        redirect('tiket');
+    }
+}
+
     
 
     public function delete($id)

@@ -147,148 +147,169 @@
     </section>  
   
     <!-- Featured Categories -->  
-    <section class="py-12 bg-white">  
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
-            <h2 class="text-3xl font-bold text-gray-900 mb-8">Kategori Populer</h2>  
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">  
-                <div class="bg-blue-50 rounded-xl p-6 text-center hover:bg-blue-100 transition cursor-pointer">  
-                    <i class="fas fa-laptop-code text-3xl text-blue-600 mb-3"></i>  
-                    <h3 class="font-semibold">Teknologi</h3>  
-                </div>  
-                <div class="bg-green-50 rounded-xl p-6 text-center hover:bg-green-100 transition cursor-pointer">  
-                    <i class="fas fa-chart-line text-3xl text-green-600 mb-3"></i>  
-                    <h3 class="font-semibold">Bisnis</h3>  
-                </div>  
-                <div class="bg-purple-50 rounded-xl p-6 text-center hover:bg-purple-100 transition cursor-pointer">  
-                    <i class="fas fa-paint-brush text-3xl text-purple-600 mb-3"></i>  
-                    <h3 class="font-semibold">Desain</h3>  
-                </div>  
-                <div class="bg-red-50 rounded-xl p-6 text-center hover:bg-red-100 transition cursor-pointer">  
-                    <i class="fas fa-heartbeat text-3xl text-red-600 mb-3"></i>  
-                    <h3 class="font-semibold">Kesehatan</h3>  
-                </div>  
-            </div>  
-        </div>  
-    </section>  
+    <section class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8">Kategori Populer</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <!-- Teknologi -->
+            <div 
+                onclick="window.location.href='?id_kategori=1';" 
+                class="bg-blue-50 rounded-xl p-6 text-center hover:bg-blue-100 transition cursor-pointer">
+                <i class="fas fa-laptop-code text-3xl text-blue-600 mb-3"></i>
+                <h3 class="font-semibold">Teknologi</h3>
+            </div>
+            
+            <!-- Bisnis -->
+            <div 
+                onclick="window.location.href='?id_kategori=5';" 
+                class="bg-green-50 rounded-xl p-6 text-center hover:bg-green-100 transition cursor-pointer">
+                <i class="fas fa-chart-line text-3xl text-green-600 mb-3"></i>
+                <h3 class="font-semibold">Bisnis</h3>
+            </div>
+            
+            <!-- Desain -->
+            <div 
+                onclick="window.location.href='?id_kategori=11';" 
+                class="bg-purple-50 rounded-xl p-6 text-center hover:bg-purple-100 transition cursor-pointer">
+                <i class="fas fa-paint-brush text-3xl text-purple-600 mb-3"></i>
+                <h3 class="font-semibold">Desain</h3>
+            </div>
+            
+            <!-- Kesehatan -->
+            <div 
+                onclick="window.location.href='?id_kategori=4';" 
+                class="bg-red-50 rounded-xl p-6 text-center hover:bg-red-100 transition cursor-pointer">
+                <i class="fas fa-heartbeat text-3xl text-red-600 mb-3"></i>
+                <h3 class="font-semibold">Kesehatan</h3>
+            </div>
+        </div>
+    </div>
+</section>
+
   
     <!-- Horizontal Seminar Scroll -->  
-    <section id="upcoming" class="py-12 bg-gray-50">  
-        <?php  
-        // Tambahkan ini di bagian atas view setelah section tag  
-        if (empty($seminar_data)) {  
-            echo '<div class="text-center py-8">  
-                    <p class="text-gray-600">Tidak ada seminar yang ditemukan.</p>  
-                  </div>';  
-        } else {  
-            // Debug data  
-            echo '<!-- Debug: Jumlah seminar: ' . count($seminar_data) . ' -->';  
-            foreach ($seminar_data as $seminar) {  
-                echo '<!-- Debug: Seminar ID: ' . $seminar->id_seminar .   
-                     ', Nama: ' . $seminar->nama_seminar .   
-                     ', Harga: ' . $seminar->harga_tiket . ' -->';  
-            }  
-        }  
-        ?>  
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
-            <div class="mb-8">  
-                <h2 class="text-3xl font-bold gradient-text">Seminar Mendatang</h2>  
-                <p class="text-gray-600 mt-2">Geser untuk melihat lebih banyak seminar</p>  
-            </div>  
-              
-            <div class="relative">  
-                <div class="overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing" id="seminar-scroll">  
-                    <div class="flex space-x-6 pb-4">  
-                        <?php foreach ($seminar_data as $seminar): ?>  
-                        <div class="flex-none w-80">  
-                            <div class="bg-white rounded-xl card-shadow hover:shadow-xl transition-all duration-300">  
-                                <img src="<?php echo base_url('uploads/poster/' . $seminar->lampiran); ?>"   
-                                     class="w-full h-48 object-cover rounded-t-xl"   
-                                     alt="<?php echo $seminar->nama_seminar; ?>">  
-                                <div class="p-6">  
-                                    <h3 class="font-semibold text-lg mb-2 line-clamp-2">  
-                                        <?php echo $seminar->nama_seminar; ?>  
-                                    </h3>  
-                                    <div class="flex items-center space-x-2 text-sm text-gray-600 mb-4">  
-                                        <i class="fas fa-calendar"></i>  
-                                        <span><?php echo date('d M Y', strtotime($seminar->tgl_pelaksana)); ?></span>  
-                                    </div>  
-                                    <!-- Progress Bar -->  
-                                    <div class="flex items-center space-x-3 bg-gray-50 rounded-lg p-3 mb-1">  
-                                        <div class="w-full bg-gray-200 rounded-full h-2.5">  
-                                            <div class="h-full rounded-full transition-all duration-500   
-                                                <?php   
-                                                    if($seminar->remaining_days <= 7) {  
-                                                        echo 'bg-red-500';  
-                                                    } else if($seminar->remaining_days <= 14) {  
-                                                        echo 'bg-yellow-500';  
-                                                    } else {  
-                                                        echo 'bg-green-500';  
-                                                    }  
-                                                ?>"  
-                                                style="width: <?php echo number_format($seminar->progress, 0); ?>%">  
-                                            </div>  
-                                        </div>  
-                                        <div class="flex items-center space-x-2 min-w-fit">  
-                                            <i class="fas fa-clock text-gray-600"></i>  
-                                            <span class="font-bold   
-                                                <?php  
-                                                    if($seminar->remaining_days <= 7) echo 'text-red-500';  
-                                                    else if($seminar->remaining_days <= 14) echo 'text-yellow-500';   
-                                                    else echo 'text-green-500';  
-                                                ?>">  
-                                                <?php echo $seminar->remaining_days; ?>  
-                                            </span>  
-                                            <span class="text-sm text-gray-600">Hari tersisa</span>  
-                                        </div>  
-                                    </div>  
-  
-                                    <!-- Price and Action Buttons -->  
-                                    <div class="flex flex-col items-start justify-between w-full gap-3">  
-                                        <span class="text-blue-600 font-semibold">  
-                                            Rp <?php echo number_format($seminar->harga_tiket, 0, ',', '.'); ?>  
-                                        </span>  
-                                        <div class="flex flex-col gap-3 items-center w-full">  
-                                            <?php if ($seminar->is_history): ?>  
-                                                <a href="<?php echo base_url('user/home/seminar_history/' . $seminar->id_seminar); ?>"   
-                                                   class="px-4 py-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors duration-200">  
-                                                    <i class="fas fa-history"></i> History  
-                                                </a>  
-                                            <?php elseif ($seminar->is_slot_habis): ?>  
-                                                <button class="px-4 py-2 bg-red-100 text-red-600 rounded-lg cursor-not-allowed" disabled>  
-                                                    <i class="fas fa-times"></i> Habis  
-                                                </button>  
-                                            <?php elseif (isset($seminar->is_registered) && $seminar->id_stsbyr == 1): ?>  
-                                                <button class="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg cursor-not-allowed" disabled>  
-                                                    <i class="fas fa-check"></i> Diikuti  
-                                                </button>  
-                                            <?php elseif ($seminar->is_registered): ?>  
-                                                <a href="<?php echo base_url('payment/bayar/' . $seminar->id_seminar); ?>"   
-                                                   class="px-4 py-2 bg-yellow-500 w-full text-center text-white rounded-lg hover:bg-yellow-600 transition-colors duration-200">  
-                                                    <i class="fas fa-money-bill"></i> Bayar  
-                                                </a>  
-                                            <?php else: ?>  
-                                                <button class="daftar-seminar px-4 py-2 w-full text-center bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-200"  
-                                                        onclick="window.location.href='<?php echo base_url('user/home/daftar/' . $seminar->id_seminar); ?>'">  
-                                                    <i class="fas fa-user-plus"></i> Daftar  
-                                                </button>  
+    <section id="upcoming" class="py-12 bg-gray-50">
+    <?php  
+    if (empty($seminar_data)) {  
+        echo '<div class="text-center py-8">
+                <p class="text-gray-600">Tidak ada seminar yang ditemukan.</p>
+              </div>';  
+    } else {
+        $seminar_tersisa = array_filter($seminar_data, fn($s) => !$s->is_slot_habis);
+        $jumlah_seminar_tersisa = count($seminar_tersisa);
+        echo '<div class="text-center py-4">
+                <p class="text-gray-800 font-semibold">
+                    Ada <span class="text-blue-600">' . $jumlah_seminar_tersisa . '</span> seminar dengan slot tersedia.
+                </p>
+              </div>';
+    }
+    ?>
 
-                                            <?php endif; ?>  
-                                              
-                                            <a href="<?php echo base_url('user/home/detail/' . $seminar->id_seminar); ?>"   
-                                               class="px-4 py-2 w-full bg-blue-500 text-white text-center rounded-lg hover:bg-blue-600 transition-colors duration-200">  
-                                                <i class="fas fa-info-circle"></i> Detail  
-                                            </a>  
-                                        </div>  
-                                    </div>  
-                                </div>  
-                            </div>  
-                        </div>  
-                        <?php endforeach; ?>  
-                    </div>  
-                </div>  
-            </div>  
-        </div>  
-    </section>  
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold gradient-text">Seminar Mendatang</h2>
+            <p class="text-gray-600 mt-2">Geser untuk melihat lebih banyak seminar</p>
+        </div>
+
+        <div class="relative">
+            <div class="overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing" id="seminar-scroll">
+                <div class="flex space-x-6 pb-4">
+                    <?php foreach ($seminar_data as $seminar): ?>
+                    <div class="flex-none w-80">
+                        <div class="bg-white rounded-xl card-shadow hover:shadow-xl transition-all duration-300">
+                            <img src="<?php echo base_url('uploads/poster/' . $seminar->lampiran); ?>"
+                                 class="w-full h-48 object-cover rounded-t-xl"
+                                 alt="<?php echo $seminar->nama_seminar; ?>">
+                            <div class="p-6">
+                                <h3 class="font-semibold text-lg mb-2 line-clamp-2">
+                                    <?php echo $seminar->nama_seminar; ?>
+                                </h3>
+                                <!-- Nama Vendor -->
+                                <p class="text-sm text-gray-500 mb-4">
+                                    Oleh: <span class="text-gray-700 font-medium"><?php echo $seminar->nama_vendor; ?></span>
+                                </p>
+                                <div class="flex items-center space-x-2 text-sm text-gray-600 mb-4">
+                                    <i class="fas fa-calendar"></i>
+                                    <span><?php echo date('d M Y', strtotime($seminar->tgl_pelaksana)); ?></span>
+                                </div>
+
+                                <!-- Progress Bar -->
+                                <div class="flex items-center space-x-3 bg-gray-50 rounded-lg p-3 mb-1">
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div class="h-full rounded-full transition-all duration-500
+                                            <?php   
+                                                if ($seminar->remaining_days <= 7) {  
+                                                    echo 'bg-red-500';  
+                                                } else if ($seminar->remaining_days <= 14) {  
+                                                    echo 'bg-yellow-500';  
+                                                } else {  
+                                                    echo 'bg-green-500';  
+                                                }  
+                                            ?>"
+                                            style="width: <?php echo number_format($seminar->progress, 0); ?>%">
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2 min-w-fit">
+                                        <i class="fas fa-clock text-gray-600"></i>
+                                        <span class="font-bold
+                                            <?php  
+                                                if ($seminar->remaining_days <= 7) echo 'text-red-500';  
+                                                else if ($seminar->remaining_days <= 14) echo 'text-yellow-500';   
+                                                else echo 'text-green-500';  
+                                            ?>">
+                                            <?php echo $seminar->remaining_days; ?>
+                                        </span>
+                                        <span class="text-sm text-gray-600">Hari tersisa</span>
+                                    </div>
+                                </div>
+
+                                <!-- Price and Action Buttons -->
+                                <div class="flex flex-col items-start justify-between w-full gap-3">
+                                    <span class="text-blue-600 font-semibold">
+                                        Rp <?php echo number_format($seminar->harga_tiket, 0, ',', '.'); ?>
+                                    </span>
+                                    <div class="flex flex-col gap-3 items-center w-full">
+                                        <?php if ($seminar->is_history): ?>
+                                            <a href="<?php echo base_url('user/home/seminar_history/' . $seminar->id_seminar); ?>"
+                                               class="px-4 py-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors duration-200">
+                                                <i class="fas fa-history"></i> History
+                                            </a>
+                                        <?php elseif ($seminar->is_slot_habis): ?>
+                                            <button class="px-4 py-2 bg-red-100 text-red-600 rounded-lg cursor-not-allowed" disabled>
+                                                <i class="fas fa-times"></i> Habis
+                                            </button>
+                                        <?php elseif (isset($seminar->is_registered) && $seminar->id_stsbyr == 1): ?>
+                                            <button class="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg cursor-not-allowed" disabled>
+                                                <i class="fas fa-check"></i> Diikuti
+                                            </button>
+                                        <?php elseif ($seminar->is_registered): ?>
+                                            <a href="<?php echo base_url('payment/bayar/' . $seminar->id_seminar); ?>"
+                                               class="px-4 py-2 bg-yellow-500 w-full text-center text-white rounded-lg hover:bg-yellow-600 transition-colors duration-200">
+                                                <i class="fas fa-money-bill"></i> Bayar
+                                            </a>
+                                        <?php else: ?>
+                                            <button class="daftar-seminar px-4 py-2 w-full text-center bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-200"
+                                                    onclick="window.location.href='<?php echo base_url('user/home/daftar/' . $seminar->id_seminar); ?>'">
+                                                <i class="fas fa-user-plus"></i> Daftar
+                                            </button>
+                                        <?php endif; ?>
+
+                                        <a href="<?php echo base_url('user/home/detail/' . $seminar->id_seminar); ?>"
+                                           class="px-4 py-2 w-full bg-blue-500 text-white text-center rounded-lg hover:bg-blue-600 transition-colors duration-200">
+                                            <i class="fas fa-info-circle"></i> Detail
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
   
     <!-- Why Choose Us -->  
     <section class="py-12 bg-white">  

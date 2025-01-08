@@ -164,13 +164,24 @@ public function get_seminar_by_id($id_seminar) {
 
 
     public function getSeminarData() {
-        // Query untuk mengambil data dari tabel seminar dan tiket
-        $this->db->select('seminar.id_seminar, seminar.nama_seminar, seminar.tgl_pelaksana, seminar.lampiran, tiket.harga_tiket, tiket.slot_tiket');
+        $this->db->select('
+            seminar.id_seminar, 
+            seminar.nama_seminar, 
+            seminar.tgl_pelaksana, 
+            seminar.lampiran, 
+            tiket.harga_tiket, 
+            tiket.slot_tiket, 
+            users.nama_vendor AS nama_vendor
+        ');
         $this->db->from('seminar');
-        $this->db->join('tiket', 'seminar.id_seminar = tiket.id_seminar', 'left');
+        $this->db->join('tiket', 'seminar.id_seminar = tiket.id_seminar', 'inner'); // Ganti ke INNER JOIN
+        $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left');   // Tetap gunakan LEFT JOIN untuk tabel users
         $query = $this->db->get();
         return $query->result();
     }
+    
+    
+    
 
     public function getLokasiSeminar() {
         // Query untuk mengambil data dari tabel lokasi_seminar
@@ -307,4 +318,39 @@ public function get_seminar_by_id($id_seminar) {
         $this->db->order_by('seminar.tgl_pelaksana', 'ASC');
         return $this->db->get()->result();
     }
+
+    
+    public function getCategories() {
+        $this->db->select('*');
+        $this->db->from('kategori_seminar');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function getSeminarsByCategory($id_kategori) {
+        $this->db->select('
+            seminar.id_seminar, 
+            seminar.nama_seminar, 
+            seminar.deskripsi, 
+            seminar.tgl_pelaksana, 
+            tiket.harga_tiket, 
+            seminar.lampiran,
+            users.nama_vendor
+        ');
+        $this->db->from('seminar');
+        $this->db->join('tiket', 'tiket.id_seminar = seminar.id_seminar', 'inner'); // Ganti ke INNER JOIN
+        $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left');   // Tetap gunakan LEFT JOIN untuk tabel users
+        $this->db->where('seminar.id_kategori', $id_kategori); // Filter berdasarkan kategori
+        return $this->db->get()->result();
+    }
+    
+    public function getSeminarVendor() {
+        $this->db->select('seminar.*, users.nama_vendor');
+        $this->db->from('seminar');
+        $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left');
+        return $this->db->get()->result();
+    }    
+    
+   
+    
 }
