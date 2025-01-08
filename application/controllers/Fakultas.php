@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Fakultas extends CI_Controller
+class Fakultas extends MY_Controller
 {
     public function __construct()
     {

@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-class Tiket extends CI_Controller
+class Tiket extends MY_Controller
 {
 
     public function __construct()

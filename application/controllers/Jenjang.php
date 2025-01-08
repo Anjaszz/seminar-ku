@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Jenjang extends CI_Controller
+class Jenjang extends MY_Controller
 {
     public function __construct()
     {
