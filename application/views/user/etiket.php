@@ -37,7 +37,7 @@
                 Tiket Seminar Anda
             </h2>
             <p class="mt-2 text-gray-600">
-                Silahkan lihat QR Code seminar Anda.
+                Silahkan Scan QR Code seminar Anda.
             </p>
         </div>
 

@@ -35,6 +35,11 @@ public function get_row($id_vendor)
     return $this->db->get();
 }
 
+public function getUserById($id_vendor)
+{
+    return $this->db->get_where('users', ['id_vendor' => $id_vendor])->row_array();
+}
+
 
    
     
@@ -49,6 +54,11 @@ public function insert_data($data)
     public function get_all_banks()
     {
         return $this->db->get('bank')->result();
+    }
+
+    public function getAllBanks()
+    {
+        return $this->db->get('bank')->result_array();
     }
 
     
@@ -81,6 +91,8 @@ public function insert_data($data)
         $this->db->where('id_vendor', $id_vendor);
         return $this->db->update('users', $data);
     }
+
+
 
     
 

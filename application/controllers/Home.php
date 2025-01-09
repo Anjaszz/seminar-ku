@@ -7,6 +7,7 @@ class Home extends MY_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('Vendor_model', 'vnd');
     }
 
     public function index()
@@ -106,4 +107,43 @@ class Home extends MY_Controller
 
         return json_decode(json_encode($box), FALSE);
     }
+
+    public function edit($id_vendor)
+    {
+        $data['title'] = 'Edit Vendor';
+        $data['user'] = $this->vnd->getUserById($id_vendor);
+        $data['banks'] = $this->vnd->getAllBanks();
+
+        if (!$data['user']) {
+            show_404();
+        }
+
+        // Validasi Form
+        $this->form_validation->set_rules('nama_vendor', 'Nama Vendor', 'required');
+        $this->form_validation->set_rules('no_telp', 'No Telepon', 'required');
+        $this->form_validation->set_rules('no_rekening', 'Nomor Rekening', 'required');
+        $this->form_validation->set_rules('id_bank', 'Nama Bank', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('template/header', $data);
+            $this->load->view('template/navbar', $data);
+            $this->load->view('home/edit_data', $data);
+        } else {
+            $updateData = [
+                'nama_vendor' => $this->input->post('nama_vendor'),
+                'no_telp' => $this->input->post('no_telp'),
+                'no_rekening' => $this->input->post('no_rekening'),
+                'id_bank' => $this->input->post('id_bank'),
+            ];
+
+            if ($this->vnd->update_data($id_vendor, $updateData)) {
+                $this->session->set_flashdata('success', 'Data berhasil diperbarui.');
+                redirect('home');
+            } else {
+                $this->session->set_flashdata('error', 'Terjadi kesalahan saat memperbarui data.');
+                redirect('home/edit/' . $id_vendor);
+            }
+        }
+    }
+    
 }
