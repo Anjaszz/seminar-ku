@@ -265,9 +265,16 @@
 
                                 <!-- Price and Action Buttons -->
                                 <div class="flex flex-col items-start justify-between w-full gap-3">
-                                    <span class="text-blue-600 font-semibold">
-                                        Rp <?php echo number_format($seminar->harga_tiket, 0, ',', '.'); ?>
-                                    </span>
+                                   <!-- Price text with different style for free seminars -->
+<?php if ($seminar->harga_tiket == 0): ?>
+    <span class="text-green-600 font-medium px-3 py-1 bg-green-100 rounded-full text-sm">
+        Gratis
+    </span>
+<?php else: ?>
+    <span class="text-blue-600 font-semibold">
+        Rp <?php echo number_format($seminar->harga_tiket, 0, ',', '.'); ?>
+    </span>
+<?php endif; ?>
                                     <div class="flex flex-row gap-3 items-center w-full">
                                         <?php if ($seminar->is_history): ?>
                                             <a href="<?php echo base_url('user/home/seminar_history/' . $seminar->id_seminar); ?>"
