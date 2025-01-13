@@ -30,6 +30,35 @@
         .card-shadow {  
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);  
         }  
+        .bot-message, .user-message {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.3s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    #chat-messages::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    #chat-messages::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    #chat-messages::-webkit-scrollbar-thumb {
+        background: #bbbbbb;
+        border-radius: 3px;
+    }
+
+    #chat-messages::-webkit-scrollbar-thumb:hover {
+        background: #999999;
+    }
     </style>  
 </head>  
 <body class="bg-gray-50 mt-20">  
@@ -75,9 +104,9 @@
     <section class="py-8 bg-white shadow-sm">  
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
             <form action="<?php echo base_url('user/home/index'); ?>" method="GET" class="space-y-4">  
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">  
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-2">  
                     <!-- Search Bar -->  
-                    <div class="md:col-span-2">  
+                    <div class="col-span-2">  
                         <div class="relative">  
                             <input type="text"   
                                    name="search"   
@@ -111,7 +140,7 @@
                     <div>  
                         <form method="GET" action="<?php echo base_url('user/home/index'); ?>">  
                             <select name="price_range"   
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"  
+                                    class="w-full px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"  
                                     onchange="this.form.submit()">  
                                 <option value="">Semua Harga</option>  
                                 <option value="free" <?php echo ($this->input->get('price_range') == 'free') ? 'selected' : ''; ?>>Gratis</option>  
@@ -124,19 +153,19 @@
                     </div>  
   
                     <!-- Quick Filters -->  
-                    <div class="flex flex-wrap gap-2 w-full col-span-2">  
+                    <div class="flex flex-wrap gap-3 w-full col-span-2">  
                         <button type="button"   
-                                class="px-4 py-2 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition"  
+                                class="lg:px-4 px-3 py-2 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition"  
                                 onclick="filterNearby()">  
                             <i class="fas fa-map-marker-alt mr-2"></i>Terdekat  
                         </button>  
                         <button type="button"   
-                                class="px-4 py-2 bg-green-100 text-green-600 rounded-full hover:bg-green-200 transition"  
+                                class="lg:px-4 px-3 py-2 bg-green-100 text-green-600 rounded-full hover:bg-green-200 transition"  
                                 onclick="filterToday()">  
                             <i class="fas fa-calendar-day mr-2"></i>Hari Ini  
                         </button>  
                         <button type="button"   
-                                class="px-4 py-2 bg-purple-100 text-purple-600 rounded-full hover:bg-purple-200 transition"  
+                                class="lg:px-4 px-3 py-2 bg-purple-100 text-purple-600 rounded-full hover:bg-purple-200 transition"  
                                 onclick="filterFree()">  
                             <i class="fas fa-ticket-alt mr-2"></i>Gratis  
                         </button>  
@@ -409,7 +438,7 @@
     </section>  
   
     <!-- Testimonials -->  
-    <section class="py-12 bg-gray-50">  
+    <section class="py-12 bg-gray-50 mx-6">  
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">  
             <?php foreach ($testimonials as $testimonial): ?>  
             <div class="bg-white p-6 rounded-xl shadow-md">  
@@ -435,13 +464,75 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">  
             <h2 class="text-3xl font-bold text-white mb-4">Siap untuk Memulai?</h2>  
             <p class="text-xl text-gray-100 mb-8">Daftar sekarang dan kembangkan potensi Anda bersama kami</p>  
-            <a href="daftar" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition" id="startNowButton">  
+            <a  href="<?php echo base_url('daftar/user'); ?>" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition" id="startNowButton">  
                 Mulai Sekarang  
             </a>  
         </div>  
     </section>  
   
-    <script>  
+ <!-- Chatbot Icon -->
+<div id="chatbot-icon" class="fixed bottom-6 right-6 bg-blue-600 w-14 h-14 rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:bg-blue-700 transition-all z-50">
+    <i class="fas fa-comment-dots text-white text-2xl"></i>
+</div>
+
+<!-- Chatbot Interface -->
+<div id="chatbot-container" class="fixed bottom-24 right-6 w-96 bg-white rounded-lg shadow-xl hidden z-50">
+    <!-- Chat Header -->
+    <div class="bg-blue-600 text-white p-4 rounded-t-lg flex justify-between items-center">
+        <div class="flex items-center">
+            <i class="fas fa-robot mr-2"></i>
+            <span class="font-semibold">AI Assistant</span>
+        </div>
+        <button id="close-chat" class="text-white hover:text-gray-200">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <!-- Chat Messages -->
+    <div id="chat-messages" class="p-4 h-80 overflow-y-auto bg-gray-50">
+        <!-- Initial greeting and suggestions -->
+        <div class="bot-message mb-4">
+            <div class="flex items-start">
+                <div class="bg-blue-100 rounded-lg p-3 max-w-[80%]">
+                    <p class="text-gray-800">Halo! Ada yang bisa saya bantu?</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Suggested Questions -->
+        <div class="suggested-questions mb-4">
+            <p class="text-sm text-gray-500 mb-2">Pertanyaan yang sering ditanyakan:</p>
+            <div class="flex flex-col gap-2">
+                <button class="suggest-btn text-left px-3 py-2 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-sm">
+                    Bagaimana cara mendaftar seminar?
+                </button>
+                <button class="suggest-btn text-left px-3 py-2 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-sm">
+                    Apa saja seminar gratis yang tersedia?
+                </button>
+                <button class="suggest-btn text-left px-3 py-2 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-sm">
+                    Bagaimana cara mendapatkan sertifikat seminar?
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Chat Input -->
+    <div class="p-4 border-t">
+        <form id="chat-form" class="flex gap-2">
+            <input type="text" 
+                   id="chat-input" 
+                   class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                   placeholder="Ketik pesan...">
+            <button type="submit" 
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
+    </div>
+</div>
+</body>  
+</html>  
+<script>  
         // Function to check login status and redirect if not logged in  
         function checkLoginAndRegister(seminarId) {  
             <?php if (!$this->session->userdata('user_data')): ?>  
@@ -557,6 +648,132 @@
         function filterFree() {  
             window.location.href = '<?php echo base_url('user/home/index'); ?>?price_range=free';  
         }  
+
+        document.addEventListener('DOMContentLoaded', function() {
+    const chatbotIcon = document.getElementById('chatbot-icon');
+    const chatbotContainer = document.getElementById('chatbot-container');
+    const closeChat = document.getElementById('close-chat');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+
+    // Initial chat content with suggestions
+    const initialChatContent = `
+        <div class="bot-message mb-4">
+            <div class="flex items-start">
+                <div class="bg-blue-100 rounded-lg p-3 max-w-[80%]">
+                    <p class="text-gray-800">Halo! Ada yang bisa saya bantu?</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="suggested-questions mb-4">
+            <p class="text-sm text-gray-500 mb-2">Pertanyaan yang sering ditanyakan:</p>
+            <div class="flex flex-col gap-2">
+                <button class="suggest-btn text-left px-3 py-2 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-sm">
+                    Bagaimana cara mendaftar seminar?
+                </button>
+                <button class="suggest-btn text-left px-3 py-2 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-sm">
+                    Apa saja seminar gratis yang tersedia?
+                </button>
+                <button class="suggest-btn text-left px-3 py-2 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-sm">
+                    Bagaimana cara mendapatkan sertifikat seminar?
+                </button>
+            </div>
+        </div>
+    `;
+
+    // Toggle chat interface
+    chatbotIcon.addEventListener('click', () => {
+        chatbotContainer.classList.toggle('hidden');
+        if (!chatbotContainer.classList.contains('hidden')) {
+            chatInput.focus();
+            // Reset chat to initial state with suggestions
+            chatMessages.innerHTML = initialChatContent;
+            // Add click events to new suggestion buttons
+            addSuggestionListeners();
+        }
+    });
+
+    closeChat.addEventListener('click', () => {
+        chatbotContainer.classList.add('hidden');
+        // Reset chat to initial state
+        chatMessages.innerHTML = initialChatContent;
+        chatInput.value = '';
+        // Add click events to new suggestion buttons
+        addSuggestionListeners();
+    });
+
+    // Function to add click events to suggestion buttons
+    function addSuggestionListeners() {
+        document.querySelectorAll('.suggest-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const question = this.textContent.trim();
+                // Remove suggestions after clicking
+                document.querySelector('.suggested-questions')?.remove();
+                // Send the suggested question
+                handleUserMessage(question);
+            });
+        });
+    }
+
+    // Initial setup of suggestion listeners
+    addSuggestionListeners();
+
+    // Handle user message
+    async function handleUserMessage(message) {
+        // Add user message to chat
+        addMessage(message, 'user');
+        chatInput.value = '';
+
+        try {
+            const response = await fetch('<?php echo base_url("api/chat"); ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            addMessage(data.response, 'bot');
+        } catch (error) {
+            console.error('Error:', error);
+            addMessage('Maaf, terjadi kesalahan. Silakan coba lagi.', 'bot');
+        }
+    }
+
+    // Handle chat form submission
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        // Remove suggestions when user starts typing
+        document.querySelector('.suggested-questions')?.remove();
+        
+        handleUserMessage(message);
+    });
+
+    function addMessage(message, type) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `${type}-message mb-4`;
+        
+        const messageContent = `
+            <div class="flex items-start ${type === 'user' ? 'justify-end' : ''}">
+                <div class="${type === 'user' ? 'bg-blue-600 text-white' : 'bg-blue-100 text-gray-800'} rounded-lg p-3 max-w-[80%]">
+                    <p>${message}</p>
+                </div>
+            </div>
+        `;
+        
+        messageDiv.innerHTML = messageContent;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+});
     </script>  
-</body>  
-</html>  

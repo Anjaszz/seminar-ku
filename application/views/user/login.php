@@ -91,7 +91,7 @@
 
     <!-- Main Content -->
     <div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="card-3d max-w-md w-full space-y-8 glass rounded-3xl p-8 shadow-2xl slide-up">
+        <div class=" max-w-md w-full space-y-8 glass rounded-3xl p-8 shadow-2xl slide-up">
             <?php echo form_open("user/auth", ['class' => 'space-y-6']); ?>
                 <!-- Logo -->
                 <div class="flex flex-col items-center justify-center space-y-4">

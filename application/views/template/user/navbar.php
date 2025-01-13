@@ -112,7 +112,7 @@
            <i class="fas fa-sign-in-alt mr-1"></i> Masuk
        </a>
        
-       <a href="<?php echo base_url('daftar'); ?>"
+       <a href="<?php echo base_url('daftar/user'); ?>"
           class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-all">
            <i class="fas fa-user-plus mr-1"></i> Daftar
        </a>

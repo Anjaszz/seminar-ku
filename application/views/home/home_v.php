@@ -14,21 +14,21 @@
             ];
             $bgColor = $bgColors[$b->color] ?? $bgColors['facebook'];
             ?>
-            <div class="group <?= $bgColor ?> rounded-xl shadow-md overflow-hidden hover:shadow-2xl hover:scale-105 transform transition-all duration-300 ease-in-out">
-                <div class="p-6 relative">
+            <div class="group <?= $bgColor ?> 2xl:rounded-xl xl:rounded-lg shadow-md overflow-hidden hover:shadow-2xl hover:scale-105 transform transition-all duration-300 ease-in-out">
+                <div class="xl:p-3 2xl:p-6 relative">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h3 class="text-3xl font-extrabold text-white">
+                            <h3 class="2xl:text-3xl xl:text-lg font-extrabold text-white">
                                 <?php if ($b->title === 'Total Uang Masuk'): ?>
                                     Rp <?= number_format($b->total, 0, ',', '.') ?>
                                 <?php else: ?>
                                     <?= $b->total ?>
                                 <?php endif; ?>
                             </h3>
-                            <p class="text-white mt-1"><?= $b->title ?></p>
+                            <p class="text-white 2xl:mt-1 mt-0"><?= $b->title ?></p>
                         </div>
                         <a href="<?= $b->link ?>" class="text-white hover:text-black transition-all duration-300">
-                            <i class="fa fa-<?= $b->icon ?> text-2xl transform group-hover:rotate-12 group-hover:scale-110 transition-transform duration-300"></i>
+                            <i class="fa fa-<?= $b->icon ?> 2xl:text-2xl text-lg transform group-hover:rotate-12 group-hover:scale-110 transition-transform duration-300"></i>
                         </a>
                     </div>
                 </div>

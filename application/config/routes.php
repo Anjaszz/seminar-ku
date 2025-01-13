@@ -62,7 +62,7 @@ $route['send_image_emails'] = 'EmailController/send_image_emails';
 $route['profil'] = 'user/profil';
 $route['payment/(:num)'] = 'payment/index/$1';
 $route['chat/(:any)/(:any)'] = 'chat/index/$1/$2';
-
+$route['api/chat'] = 'api/chat/index';
 
 
 

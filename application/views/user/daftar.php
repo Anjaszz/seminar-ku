@@ -53,42 +53,43 @@
             <div class="bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row">
                 <!-- Left Section - Welcome Content -->
                 <div class="lg:w-1/3 bg-gradient-to-br from-blue-600 to-blue-900 p-8 text-white relative overflow-hidden slide-in-left">
-                    <div class="relative z-10">
-                        <h2 class="text-3xl font-bold mb-6">Welcome to SIMAS</h2>
-                        <p class="text-blue-100 mb-8">Join our academic community and start your journey with us.</p>
-                        
-                        <!-- Decorative Elements -->
-                        <div class="space-y-4">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-8 h-8 bg-blue-500 bg-opacity-30 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-graduation-cap"></i>
-                                </div>
-                                <span>Excellence in Education</span>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <div class="w-8 h-8 bg-blue-500 bg-opacity-30 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <span>Vibrant Community</span>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <div class="w-8 h-8 bg-blue-500 bg-opacity-30 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-lightbulb"></i>
-                                </div>
-                                <span>Innovation & Research</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Decorative Circles -->
-                    <div class="absolute -bottom-32 -right-32 w-64 h-64 bg-blue-500 rounded-full opacity-20"></div>
-                    <div class="absolute -bottom-48 -right-48 w-96 h-96 bg-blue-600 rounded-full opacity-20"></div>
+    <div class="relative z-10">
+        <h2 class="text-3xl font-bold mb-6">Selamat Datang di SIMAS</h2>
+        <p class="text-blue-100 mb-8">Bergabunglah dengan komunitas akademik kami dan mulailah perjalanan sukses Anda bersama kami.</p>
+        
+        <!-- Elemen Dekoratif -->
+        <div class="space-y-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-blue-500 bg-opacity-30 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-graduation-cap"></i>
                 </div>
+                <span>Keunggulan dalam Pendidikan</span>
+            </div>
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-blue-500 bg-opacity-30 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-users"></i>
+                </div>
+                <span>Komunitas yang Dinamis</span>
+            </div>
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-blue-500 bg-opacity-30 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <span>Inovasi & Penelitian</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Lingkaran Dekoratif -->
+    <div class="absolute -bottom-32 -right-32 w-64 h-64 bg-blue-500 rounded-full opacity-20"></div>
+    <div class="absolute -bottom-48 -right-48 w-96 h-96 bg-blue-600 rounded-full opacity-20"></div>
+</div>
+
 
                 <!-- Right Section - Form -->
                 <div class="lg:w-2/3 p-8 bg-gray-50 slide-in-right">
                     <form id="form-daftar" action="<?= base_url('daftar/simpan'); ?>" method="post" class="space-y-6">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-8">Personal Information</h3>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-8">Informasi Pribadi</h3>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Nama -->

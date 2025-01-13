@@ -186,7 +186,7 @@
 
         <!-- Right Side - Form -->
         <div class="flex-1  bg-gradient-to-br from-blue-50 to-white custom-scroll">
-            <div class="max-w-3xl mx-auto px-4 py-4">
+            <div class="max-w-3xl mx-auto px-4 py-2">
                 <!-- Back Button -->
                 <div class="mb-4">
                     <a href="javascript:history.back()" 
@@ -197,17 +197,17 @@
                 </div>
 
                 <!-- Form Container -->
-                <div class="glass rounded-2xl p-8 shadow-lg border border-blue-100">
+                <div class="glass rounded-2xl p-6 shadow-lg border border-blue-100">
                     <div class="text-center mb-2">
                         <h2 class="text-2xl font-bold text-gray-900"><?= $title; ?></h2>
-                        <p class="mt-2 text-gray-600">Lengkapi informasi untuk mendaftar sebagai vendor</p>
+                        <p class=" text-gray-600">Lengkapi informasi untuk mendaftar sebagai vendor</p>
                     </div>
 
-                    <?= form_open('daftar/vendor', ['class' => 'space-y-8']); ?>
+                    <?= form_open('daftar/vendor', ['class' => 'space-y-6']); ?>
                         <!-- Personal Information -->
                         <div class="space-y-4">
     <h3 class="text-lg font-medium text-gray-900">Informasi Vendor</h3>
-    <div class="space-y-4">
+    <div class="space-y-2">
         <!-- Nama Vendor -->
         <div class="w-full">
             <label class="block text-sm font-medium text-gray-700 mb-1">Nama Vendor</label>
@@ -252,9 +252,9 @@
     </div>
 </div>
                         <!-- Bank Information -->
-                        <div class="space-y-4">
+                        <div class="space-y-2">
                             <h3 class="text-lg font-medium text-gray-900">Informasi Bank</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                                 <!-- Bank -->
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Nama Bank</label>
@@ -292,7 +292,7 @@
                         </div>
 
                         <!-- Subscription Package -->
-                        <div class="space-y-4">
+                        <div class="space-y-2">
                             <h3 class="text-lg font-medium text-gray-900">Paket Berlangganan</h3>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <!-- 3 Month Package -->
@@ -335,7 +335,7 @@
                         </div>
 
                         <!-- Security Section -->
-                        <div class="space-y-4">
+                        <div class="space-y-2">
                             <h3 class="text-lg font-medium text-gray-900">Keamanan Akun</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <!-- Password -->
