@@ -158,6 +158,20 @@ public function delete_data($id_pendaftaran)
         return $this->db->insert('pendaftaran_seminar', $data);
     }
 
+    public function getHargaTiket($id_seminar) {
+        $this->db->select('harga_tiket');
+        $this->db->from('tiket');
+        $this->db->where('id_seminar', $id_seminar);
+        $query = $this->db->get();
+        
+        if ($query->num_rows() > 0) {
+            return $query->row()->harga_tiket;
+        }
+        
+        return null; // Jika data tidak ditemukan
+    }
+    
+
         public function isRegistered($id_seminar, $id_mahasiswa) {
             $this->db->select('id_pendaftaran, id_stsbyr'); // Pastikan id_pendaftaran disertakan
             $this->db->from('pendaftaran_seminar');

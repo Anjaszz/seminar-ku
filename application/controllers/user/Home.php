@@ -323,27 +323,34 @@ class Home extends CI_Controller {
             return;
         }
     
+        // Cek harga tiket
+        $harga_tiket = $this->Pendaftaran_model->getHargaTiket($id_seminar);
+    
+        // Set id_stsbyr berdasarkan harga_tiket
+        $id_stsbyr = ($harga_tiket == 0) ? 1 : 2; // 1: Gratis, 2: Berbayar
+    
         $data = array(
             'id_seminar' => $id_seminar,
             'id_mahasiswa' => $id_mahasiswa,
             'tgl_daftar' => date('Y-m-d'),
             'jam_daftar' => date('H:i:s'),
-            'id_stsbyr' => 2,
+            'id_stsbyr' => $id_stsbyr,
             'id_metode' => 3
         );
     
         if ($this->Pendaftaran_model->daftarkanSeminar($data)) {
-            
-            $this->session->set_flashdata('message_success', 'Pendaftaran seminar berhasil!, Silahkan lanjutkan pembayaran');
-            
+            if ($id_stsbyr == 1) {
+                $this->session->set_flashdata('message_success', 'Pendaftaran seminar berhasil! Anda sudah terdaftar.');
+            } else {
+                $this->session->set_flashdata('message_success', 'Pendaftaran seminar berhasil! Silahkan lanjutkan pembayaran.');
+            }
         } else {
             $this->session->set_flashdata('message_error', 'Pendaftaran seminar gagal!');
-            
         }
-        redirect('user/home');
     
-        
+        redirect('user/home');
     }
+    
     
 
     public function belumbayar() {

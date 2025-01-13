@@ -108,39 +108,48 @@ class Sponsor extends MY_Controller
     }
 
     public function addaction()
-    {
-        $this->_rules();
-        $validasi = $this->form_validation->run();
-        if ($validasi == FALSE) {
-            $this->add();
+{
+    $this->_rules();
+    $validasi = $this->form_validation->run();
+    if ($validasi == FALSE) {
+        $this->add();
+    } else {
+        $config['upload_path']   = FCPATH . '/uploads/sponsor/';
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size']      = '1000';
+        $config['max_width']     = '5000';
+        $config['max_height']    = '5000';
+        $config['overwrite']     = TRUE;
+        $config['remove_spaces'] = TRUE;
+        $config['encrypt_name']  = TRUE;
+        $this->upload->initialize($config);
+
+        if (!$this->upload->do_upload('foto')) {
+            $this->session->set_flashdata('warning', $this->upload->display_errors());
+            redirect($_SERVER['HTTP_REFERER']);
         } else {
-            $config['upload_path']   = FCPATH . '/uploads/sponsor/';
-            $config['allowed_types'] = 'gif|jpg|png';
-            $config['max_size']  = '1000';
-            $config['max_width']  = '5000';
-            $config['max_height']  = '5000';
-            $config['overwrite'] = TRUE;
-            $config['remove_spaces'] = TRUE;
-            $config['encrypt_name'] = TRUE;
-            $this->upload->initialize($config);
-            if (!$this->upload->do_upload('foto')) {
-                $this->session->set_flashdata('warning', $this->upload->display_errors());
-                redirect($_SERVER['HTTP_REFERER']);
-            } else {
-                $nama_sponsor = $this->input->post('nama_sponsor', TRUE);
-                $seminar = $this->input->post('seminar', TRUE);
-                $foto = $this->upload->data('file_name', TRUE);
-                $data = array(
-                    'nama_sponsor' => $nama_sponsor,
-                    'id_seminar' => $seminar,
-                    'gambar' => $foto,
-                );
-                $this->sp->insert_data($data);
-                $this->session->set_flashdata('success', 'Data berhasil disimpan!');
-                redirect('sponsor');
-            }
+            $nama_sponsor = $this->input->post('nama_sponsor', TRUE);
+            $seminar = $this->input->post('seminar', TRUE);
+            $foto = $this->upload->data('file_name', TRUE);
+
+            // Ambil id_vendor dari session
+            $id_vendor = $this->session->userdata('id_vendor');
+
+            // Tambahkan id_vendor ke dalam data
+            $data = array(
+                'nama_sponsor' => $nama_sponsor,
+                'id_seminar' => $seminar,
+                'gambar' => $foto,
+                'id_vendor' => $id_vendor, // Tambahan id_vendor
+            );
+
+            $this->sp->insert_data($data);
+            $this->session->set_flashdata('success', 'Data berhasil disimpan!');
+            redirect('sponsor');
         }
     }
+}
+
 
     
     public function update($id)

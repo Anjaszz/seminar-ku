@@ -45,7 +45,7 @@ class Tiket extends MY_Controller
             'name' => 'harga_tiket',
             'id' => 'harga_tiket',
             'class' => 'form-control',
-            'value' => set_value('harga_tiket', $harga_tiket),
+            'value' => set_value('harga_tiket'),
             'min' => 0 // Tambahkan validasi minimal
         );
         
@@ -137,9 +137,11 @@ class Tiket extends MY_Controller
 
             // Pastikan nilai harga tiket hanya angka
             $hrg_tkt = preg_replace('/[^\d]/', '', $harga_tiket);
+            $id_vendor = $this->session->userdata('id_vendor');
 
             $data = array(
                 'id_seminar' => $seminar,
+                'id_vendor' => $id_vendor,
                 'harga_tiket' => $hrg_tkt,
                 'slot_tiket' => $slot_tiket,
             );
