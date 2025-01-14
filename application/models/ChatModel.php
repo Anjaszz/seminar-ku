@@ -15,4 +15,6 @@ class ChatModel extends CI_Model {
     public function saveChat($data) {
         return $this->db->insert('chat_komunitas', $data);
     }
+
+    
 }

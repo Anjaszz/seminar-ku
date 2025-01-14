@@ -38,7 +38,7 @@ public function get_seminar_by_id($id_seminar) {
     }
 
         public function getSeminarById($id_seminar) {
-        $this->db->select('nama_seminar');
+        $this->db->select('nama_seminar, id_vendor');
         $this->db->from('seminar');
         $this->db->where('id_seminar', $id_seminar);
         $query = $this->db->get();

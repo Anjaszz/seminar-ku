@@ -8,6 +8,7 @@ class Home extends CI_Controller {
         $this->load->model('Seminar_model');
         $this->load->model('Pendaftaran_model');
         $this->load->model('Sertifikat_model');
+        $this->load->model('Komunitas_model');
         $this->load->model('Prodi_model');
         $this->load->library('session');
         $this->load->library('ciqrcode');
@@ -459,6 +460,72 @@ class Home extends CI_Controller {
         // Jika id_mahasiswa tidak ditemukan, arahkan ke halaman login atau tampilkan pesan error
         redirect('user/auth');  // atau sesuaikan dengan kebutuhan Anda
     }}
+
+    public function gabungKomunitas($id_seminar)
+    {
+        $id_mahasiswa = $this->session->userdata('id_mahasiswa');
+        
+        if (!$id_mahasiswa) {
+            // Redirect to login if not logged in
+            redirect('user/auth');
+        }
+    
+        // Ambil data seminar berdasarkan id_seminar
+        $seminar = $this->Seminar_model->getSeminarById($id_seminar);
+        
+        if (!$seminar) {
+            // Jika seminar tidak ditemukan, tampilkan error
+            $this->session->set_flashdata('error', 'Seminar tidak ditemukan.');
+            redirect('user/home/terdaftar');
+        }
+    
+        // Ambil id_vendor dari seminar
+        $id_vendor = $seminar->id_vendor;
+    
+        // Cek apakah sudah ada data id_mahasiswa dan id_seminar di tabel komunitas
+        
+        $existing_community = $this->Komunitas_model->cekKeanggotaan($id_mahasiswa, $id_seminar);
+    
+        if ($existing_community) {
+            // Jika sudah ada data, arahkan ke halaman chat
+            redirect('user/chat/index/' . $id_vendor . '/' . $id_seminar);
+        } else {
+            // Data yang akan disimpan ke tabel komunitas
+            $data = [
+                'id_seminar' => $id_seminar,
+                'id_mahasiswa' => $id_mahasiswa,
+                'id_vendor' => $id_vendor
+            ];
+    
+            // Menyimpan data ke tabel komunitas
+            $this->Komunitas_model->gabungKomunitas($data);
+    
+            // Set pesan sukses dan redirect kembali
+            $this->session->set_flashdata('success', 'Anda berhasil bergabung dengan komunitas seminar.');
+            redirect('user/home/komunitas');
+        }
+    }
+
+    public function komunitas() {
+        // Mendapatkan id_mahasiswa dari session
+        $id_mahasiswa = $this->session->userdata('id_mahasiswa');
+
+        // Pastikan id_mahasiswa ada dalam session
+        if ($id_mahasiswa) {
+            // Mengambil data chat komunitas berdasarkan id_mahasiswa
+            
+            $data['komunitas_chats'] = $this->Komunitas_model->get_komunitas_chats($id_mahasiswa);
+
+            // Memuat view dan mengirimkan data komunitas_chats ke view
+            
+            $this->load->view('user/komunitas', $data);
+        } else {
+            // Jika session id_mahasiswa tidak ada, redirect ke halaman login
+            redirect('user/auth');
+        }
+    }
+
+
     
     public function batal($id_pendaftaran) {
         // Load model
