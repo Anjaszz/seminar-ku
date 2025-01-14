@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 04, 2025 at 07:43 AM
+-- Generation Time: Jan 14, 2025 at 09:07 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -43,6 +43,34 @@ INSERT INTO `bank` (`id_bank`, `nama_bank`) VALUES
 (4, 'BRI'),
 (5, 'PERMATA BANK'),
 (6, 'UOB');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chat_komunitas`
+--
+
+CREATE TABLE `chat_komunitas` (
+  `id_chat` int(11) NOT NULL,
+  `id_vendor` int(11) NOT NULL,
+  `id_seminar` int(11) NOT NULL,
+  `id_mahasiswa` int(11) NOT NULL,
+  `pesan` text DEFAULT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
+  `tipe_file` enum('text','image','document') DEFAULT 'text',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `chat_komunitas`
+--
+
+INSERT INTO `chat_komunitas` (`id_chat`, `id_vendor`, `id_seminar`, `id_mahasiswa`, `pesan`, `file_path`, `tipe_file`, `created_at`) VALUES
+(1, 1, 14, 42, 'hiii', NULL, 'text', '2025-01-12 20:34:39'),
+(2, 1, 14, 42, 'gimana kabar', NULL, 'text', '2025-01-12 20:36:55'),
+(3, 1, 14, 42, 'hj', NULL, 'text', '2025-01-13 07:07:43'),
+(4, 1, 14, 42, 'we', NULL, 'text', '2025-01-13 07:13:58'),
+(5, 1, 14, 42, 'sdss', NULL, 'text', '2025-01-13 07:16:36');
 
 -- --------------------------------------------------------
 
@@ -373,7 +401,10 @@ CREATE TABLE `pendaftaran_seminar` (
 --
 
 INSERT INTO `pendaftaran_seminar` (`id_pendaftaran`, `id_vendor`, `id_seminar`, `id_mahasiswa`, `tgl_daftar`, `jam_daftar`, `id_stsbyr`, `id_metode`, `id_scan`, `sertifikat`) VALUES
-(353, 0, 3, 40, '2024-12-28', '03:52:31', 2, 3, 0, NULL);
+(353, 0, 3, 40, '2024-12-28', '03:52:31', 2, 3, 0, NULL),
+(354, 0, 3, 42, '2025-01-08', '04:35:52', 2, 3, 0, NULL),
+(356, 0, 14, 42, '2025-01-13', '03:03:13', 1, 3, 0, NULL),
+(357, 0, 8, 42, '2025-01-13', '03:04:19', 2, 3, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -517,7 +548,8 @@ CREATE TABLE `sponsor` (
 INSERT INTO `sponsor` (`id_sponsor`, `id_vendor`, `nama_sponsor`, `gambar`, `id_seminar`) VALUES
 (8, 1, 'Teh botol sosro', 'f77f72030d9b8bc4460a70a6741790ad.jpg', 14),
 (9, 1, 'Nutragen', '29625b88acc99c9a8a3b74b44c0c338c.jpg', 3),
-(10, 0, 'Binary Indonesia', '861dda7fd02729eda0b36350337c4b50.jpg', 4);
+(10, 0, 'Binary Indonesia', '861dda7fd02729eda0b36350337c4b50.jpg', 4),
+(12, 1, 'jkjkjkjkjjkjkjjkkjkj', 'ef3a7cacf28dcd3bdd7450aba131b984.png', 14);
 
 -- --------------------------------------------------------
 
@@ -581,7 +613,7 @@ INSERT INTO `tiket` (`id_tiket`, `id_vendor`, `id_seminar`, `harga_tiket`, `slot
 (6, 0, 3, 50000, 200, '', 29),
 (7, 2, 4, 30000, 300, '', 15),
 (13, 1, 8, 55000, 200, '', 2),
-(14, 0, 14, 12000, 22, '', 1),
+(14, 0, 14, 0, 22, '', 1),
 (15, 0, 12, 23333, 223, '', 0);
 
 -- --------------------------------------------------------
@@ -726,6 +758,14 @@ INSERT INTO `user_mhs` (`id_mahasiswa`, `id_admin`, `nim`, `foto`, `email`, `pas
 --
 ALTER TABLE `bank`
   ADD PRIMARY KEY (`id_bank`);
+
+--
+-- Indexes for table `chat_komunitas`
+--
+ALTER TABLE `chat_komunitas`
+  ADD PRIMARY KEY (`id_chat`),
+  ADD KEY `id_seminar` (`id_seminar`),
+  ADD KEY `id_mahasiswa` (`id_mahasiswa`);
 
 --
 -- Indexes for table `fakultas`
@@ -905,6 +945,12 @@ ALTER TABLE `bank`
   MODIFY `id_bank` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `chat_komunitas`
+--
+ALTER TABLE `chat_komunitas`
+  MODIFY `id_chat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `fakultas`
 --
 ALTER TABLE `fakultas`
@@ -974,7 +1020,7 @@ ALTER TABLE `pembicara`
 -- AUTO_INCREMENT for table `pendaftaran_seminar`
 --
 ALTER TABLE `pendaftaran_seminar`
-  MODIFY `id_pendaftaran` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=354;
+  MODIFY `id_pendaftaran` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=358;
 
 --
 -- AUTO_INCREMENT for table `presensi_seminar`
@@ -992,7 +1038,7 @@ ALTER TABLE `seminar`
 -- AUTO_INCREMENT for table `sponsor`
 --
 ALTER TABLE `sponsor`
-  MODIFY `id_sponsor` tinyint(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_sponsor` tinyint(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `status_kehadiran`
@@ -1039,6 +1085,13 @@ ALTER TABLE `users_groups`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `chat_komunitas`
+--
+ALTER TABLE `chat_komunitas`
+  ADD CONSTRAINT `chat_komunitas_ibfk_1` FOREIGN KEY (`id_seminar`) REFERENCES `seminar` (`id_seminar`),
+  ADD CONSTRAINT `chat_komunitas_ibfk_2` FOREIGN KEY (`id_mahasiswa`) REFERENCES `mahasiswa` (`id_mahasiswa`);
 
 --
 -- Constraints for table `history_seminar`

@@ -27,7 +27,6 @@ class Chat extends CI_Controller {
             'id_seminar' => $id_seminar,
             'id_mahasiswa' => $id_mahasiswa,
             'pesan' => $pesan,
-            'tipe_file' => 'text'
         ];
 
         // Handle file upload
@@ -40,12 +39,21 @@ class Chat extends CI_Controller {
             if ($this->upload->do_upload('file')) {
                 $upload_data = $this->upload->data();
                 $data['file_path'] = 'uploads/chat/' . $upload_data['file_name'];
-                $data['tipe_file'] = $upload_data['file_ext'] === '.pdf' || $upload_data['file_ext'] === '.doc' || $upload_data['file_ext'] === '.docx' 
-                    ? 'document' : 'image';
+
+                // Tentukan tipe file
+                $ext = strtolower($upload_data['file_ext']);
+                $data['tipe_file'] = in_array($ext, ['.pdf', '.doc', '.docx']) ? 'document' : 'image';
+            } else {
+                // Debug untuk upload error
+                log_message('error', 'Upload error: ' . $this->upload->display_errors());
             }
         }
 
-        $this->ChatModel->saveChat($data);
-        redirect('user/chat/index/' . $id_vendor . '/' . $id_seminar);
+        // Simpan data ke database
+        if ($this->ChatModel->saveChat($data)) {
+            redirect('user/chat/index/' . $id_vendor . '/' . $id_seminar);
+        } else {
+            log_message('error', 'Gagal menyimpan data chat ke database.');
+        }
     }
 }

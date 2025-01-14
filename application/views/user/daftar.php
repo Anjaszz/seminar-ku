@@ -312,33 +312,33 @@
         });
 
         // Dynamic Prodi loading with loading animation
-        $('#id_fakultas').change(function () {
-            var fakultas_id = $(this).val();
-            var prodiSelect = $('#id_prodi');
-            
-            if (fakultas_id != '') {
-                // Add loading animation
-                prodiSelect.html('<option value="">Loading...</option>').prop('disabled', true);
-                
+        $('#id_fakultas').on('change', function () {
+            let idFakultas = $(this).val();
+
+            if (idFakultas) {
                 $.ajax({
-                    url: "<?= base_url('daftar/get_prodi_by_fakultas') ?>",
-                    method: "POST",
-                    data: {id_fakultas: fakultas_id},
-                    dataType: "json",
+                    url: '<?= base_url("daftar/get_prodi_by_fakultas") ?>',
+                    type: 'POST',
+                    data: { id_fakultas: idFakultas },
+                    dataType: 'json',
                     success: function (data) {
-                        var options = '<option value="">Pilih Program Studi</option>';
-                        $.each(data, function (key, value) {
-                            options += '<option value="' + value.id_prodi + '">' + value.nama_prodi + '</option>';
-                        });
-                        // Fade out then fade in new options
-                        prodiSelect.fadeOut(200, function() {
-                            $(this).html(options).fadeIn(200);
-                        }).prop('disabled', false);
+                        $('#id_prodi').html('<option value="">Pilih Jurusan</option>');
+                        if (data) {
+                            data.forEach(function (prodi) {
+                                $('#id_prodi').append(`<option value="${prodi.id_prodi}">${prodi.nama_prodi}</option>`);
+                            });
+                        }
                     },
-                    error: function() {
-                        prodiSelect.html('<option value="">Error loading data</option>');
-                    }
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Terjadi kesalahan saat mengambil data jurusan!',
+                        });
+                    },
                 });
+            } else {
+                $('#id_prodi').html('<option value="">Pilih Jurusan</option>');
             }
         });
 
