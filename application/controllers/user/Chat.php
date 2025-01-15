@@ -48,12 +48,15 @@ class Chat extends CI_Controller {
 
         // Ambil jumlah history seminar
         $jumlah_history = $this->User_model->getJumlahHistory($id_mahasiswa);
+
         $jumlah_komunitas = $this->User_model->getJumlahKomunitas($id_mahasiswa);
 
         // Kirim data ke view
         $data['jumlah_seminar'] = $jumlah_seminar;
         $data['jumlah_belum_bayar'] = $jumlah_belum_bayar;
         $data['jumlah_history'] = $jumlah_history;
+        $data['jumlah_komunitas'] = $jumlah_komunitas;
+
     
         // Kirim nama mahasiswa ke view
         $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
