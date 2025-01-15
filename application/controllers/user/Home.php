@@ -8,158 +8,144 @@ class Home extends CI_Controller {
         $this->load->model('Seminar_model');
         $this->load->model('Pendaftaran_model');
         $this->load->model('Sertifikat_model');
+        $this->load->model('Komunitas_model');
         $this->load->model('Prodi_model');
         $this->load->library('session');
         $this->load->library('ciqrcode');
     }
 
-    public function index() {
-        // Data testimoni
-        $testimonials = [
-            [
-                'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png',
-                'name' => 'Ahmad Fadhil',
-                'rating' => 5,
-                'content' => 'Seminar yang sangat informatif dan bermanfaat. Pembicara sangat kompeten dan materi yang disampaikan sangat relevan dengan kebutuhan industri saat ini.'
-            ],
-            [
-                'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png',
-                'name' => 'Sarah Putri',
-                'rating' => 5,
-                'content' => 'Pengalaman yang luar biasa! Saya mendapatkan banyak insight baru dan koneksi yang bermanfaat untuk pengembangan karir saya.'
-            ],
-            [
-                'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png',
-                'name' => 'Reza Prakasa',
-                'rating' => 5,
-                'content' => 'Platform seminar terbaik yang pernah saya ikuti. Sistem pendaftaran yang mudah dan materi yang berkualitas. Sangat direkomendasikan!'
-            ]
-        ];
+   public function index() {
+    // Data testimoni
+    $testimonials = [
+        [
+            'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png',
+            'name' => 'Ahmad Fadhil',
+            'rating' => 5,
+            'content' => 'Seminar yang sangat informatif dan bermanfaat. Pembicara sangat kompeten dan materi yang disampaikan sangat relevan dengan kebutuhan industri saat ini.'
+        ],
+        [
+            'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png',
+            'name' => 'Sarah Putri',
+            'rating' => 5,
+            'content' => 'Pengalaman yang luar biasa! Saya mendapatkan banyak insight baru dan koneksi yang bermanfaat untuk pengembangan karir saya.'
+        ],
+        [
+            'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png',
+            'name' => 'Reza Prakasa',
+            'rating' => 5,
+            'content' => 'Platform seminar terbaik yang pernah saya ikuti. Sistem pendaftaran yang mudah dan materi yang berkualitas. Sangat direkomendasikan!'
+        ]
+    ];
 
-        
-    
-        
-    
-        // Data statistik
-        $data['total_seminars'] = 50;
-        $data['total_participants'] = 1500;
-        $data['success_rate'] = 98;
-        $data['testimonials'] = $testimonials;
-    
-        // Cek apakah pengguna sudah login
-        if ($this->session->userdata('user_data')) {
-            $nim = $this->session->userdata('nim');
-            if (!$nim) {
-                redirect('user/auth');
-            }
-    
-            $mahasiswa = $this->User_model->getMahasiswaByNIM($nim);
-            if (!$mahasiswa) {
-                $this->session->set_flashdata('error', 'Data mahasiswa tidak ditemukan.');
-                redirect('user/auth');
-            }
-    
-            $id_mahasiswa = $this->session->userdata('id_mahasiswa');
-    
-            // Ambil data pengguna
-            $data['jumlah_seminar'] = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
-            $data['jumlah_belum_bayar'] = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
-            $data['jumlah_history'] = $this->User_model->getJumlahHistory($id_mahasiswa);
-            $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
-            $data['lokasi_seminar'] = $this->Seminar_model->getLokasiSeminar();
-        } else {
-            // Jika pengguna belum login, set data default
-            $data['jumlah_seminar'] = 0;
-            $data['jumlah_belum_bayar'] = 0;
-            $data['jumlah_history'] = 0;
-            $data['nama_mahasiswa'] = null; // Atau bisa diisi dengan 'Pengunjung'
-        }
-    
-        // Tangani filter tambahan
-        $search = $this->input->get('search');
-        $id_lokasi = $this->input->get('id_lokasi');
-        $price_range = $this->input->get('price_range');
-        $date = $this->input->get('date');
-        $lat = $this->input->get('lat');
-        $lng = $this->input->get('lng');
-    
-        if ($search) {
-            $filtered_data = $this->Seminar_model->searchSeminars($search);
-        } elseif ($id_lokasi && $id_lokasi != 0) {
-            $filtered_data = $this->Seminar_model->getSeminarDataByLocation($id_lokasi);
-        } elseif ($price_range) {
-            $filtered_data = $this->Seminar_model->getSeminarsByPriceRange($price_range);
-        } elseif ($date === 'today') {
-            $filtered_data = $this->Seminar_model->getTodaySeminars();
-        } elseif ($lat && $lng) {
-            $filtered_data = $this->Seminar_model->getNearbySeminars($lat, $lng);
-        }
-    
-        // Jika tidak ada filter tambahan, gunakan data hasil filter kategori atau default
-        if (empty($filtered_data)) {
-            $filtered_data = $this->Seminar_model->getSeminarData();
-        }
-        $data['categories'] = $this->Seminar_model->getCategories(); // Data kategori seminar
+    // Data statistik
+    $data['total_seminars'] = 50;
+    $data['total_participants'] = 1500;
+    $data['success_rate'] = 98;
+    $data['testimonials'] = $testimonials;
 
-        // Cek filter kategori
-        $id_kategori = $this->input->get('id_kategori');
-        if ($id_kategori) {
-            $filtered_data = $this->Seminar_model->getSeminarsByCategory($id_kategori);
-            // Jika kategori tidak memiliki seminar, set filtered_data menjadi array kosong
-            if (empty($filtered_data)) {
-                $filtered_data = [];
-            }
-        } else {
-            $filtered_data = $this->Seminar_model->getSeminarData(); // Semua seminar
+    // Cek apakah pengguna sudah login
+    if ($this->session->userdata('user_data')) {
+        $nim = $this->session->userdata('nim');
+        if (!$nim) {
+            redirect('user/auth');
         }
 
-       
-    
-        // Proses setiap seminar
-        if (!empty($filtered_data)) {
-            foreach ($filtered_data as &$seminar) {
-                if ($this->session->userdata('user_data')) {
-                    $registration = $this->Pendaftaran_model->isRegistered($seminar->id_seminar, $id_mahasiswa);
-                    $seminar->is_registered = $registration ? true : false;
-                    $seminar->id_stsbyr = $registration ? $registration->id_stsbyr : null;
-                    $seminar->id_pendaftaran = $registration ? $registration->id_pendaftaran : null;
-                    $seminar->is_history = $this->User_model->isHistory($seminar->id_seminar, $id_mahasiswa);
-                } else {
-                    $seminar->is_registered = false;
-                    $seminar->id_stsbyr = null;
-                    $seminar->id_pendaftaran = null;
-                    $seminar->is_history = false;
-                }
-    
-                $tiket_info = $this->User_model->getSlotTiketAndTiketTerjual($seminar->id_seminar);
-                $seminar->is_slot_habis = ($tiket_info && $tiket_info->tiket_terjual >= $tiket_info->slot_tiket);
-    
-                $today = new DateTime();
-                $seminar_date = new DateTime($seminar->tgl_pelaksana);
-                $interval = $today->diff($seminar_date);
-                $remaining_days = $interval->days;
-    
-                $total_duration = 100;
-                $progress = 100 - (($remaining_days / $total_duration) * 100);
-    
-                $seminar->remaining_days = $remaining_days;
-                $seminar->progress = round(max(0, min(100, $progress)));
-            }
+        $mahasiswa = $this->User_model->getMahasiswaByNIM($nim);
+        if (!$mahasiswa) {
+            $this->session->set_flashdata('error', 'Data mahasiswa tidak ditemukan.');
+            redirect('user/auth');
         }
 
-        
+        $id_mahasiswa = $this->session->userdata('id_mahasiswa');
 
-        
-    
-        $data['seminar_data'] = $filtered_data;
-    
-        // Muat tampilan
-        $this->load->view('template/user/header', $data);
-        $this->load->view('template/user/navbar', $data);
-        $this->load->view('user/home', $data);
-        $this->load->view('template/user/footer');
+        // Ambil data pengguna
+        $data['jumlah_seminar'] = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
+        $data['jumlah_belum_bayar'] = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
+        $data['jumlah_history'] = $this->User_model->getJumlahHistory($id_mahasiswa);
+        $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
+        $data['lokasi_seminar'] = $this->Seminar_model->getLokasiSeminar();
+    } else {
+        $data['jumlah_seminar'] = 0;
+        $data['jumlah_belum_bayar'] = 0;
+        $data['jumlah_history'] = 0;
+        $data['nama_mahasiswa'] = null;
+        $data['lokasi_seminar'] = $this->Seminar_model->getLokasiSeminar();
     }
-    
+
+    // Tangani filter tambahan
+    $search = $this->input->get('search');
+    $id_lokasi = $this->input->get('id_lokasi');
+    $price_range = $this->input->get('price_range');
+    $date = $this->input->get('date');
+    $lat = $this->input->get('lat');
+    $lng = $this->input->get('lng');
+    $id_kategori = $this->input->get('id_kategori');
+
+    // Mulai query filter
+    $filtered_data = $this->Seminar_model->getSeminarData();
+
+    if ($search) {
+        $filtered_data = $this->Seminar_model->searchSeminars($search);
+    }
+    if ($id_lokasi && $id_lokasi != 0) {
+        $filtered_data = $this->Seminar_model->getSeminarDataByLocation($id_lokasi);
+    }
+    if ($price_range) {
+        $filtered_data = $this->Seminar_model->getSeminarsByPriceRange($price_range);
+    }
+    if ($date === 'today') {
+        $filtered_data = $this->Seminar_model->getTodaySeminars();
+    }
+    if ($lat && $lng) {
+        $filtered_data = $this->Seminar_model->getNearbySeminars($lat, $lng);
+    }
+    if ($id_kategori) {
+        $filtered_data = $this->Seminar_model->getSeminarsByCategory($id_kategori);
+    }
+
+    $data['categories'] = $this->Seminar_model->getCategories();
+
+    // Proses setiap seminar
+    if (!empty($filtered_data)) {
+        foreach ($filtered_data as &$seminar) {
+            if ($this->session->userdata('user_data')) {
+                $registration = $this->Pendaftaran_model->isRegistered($seminar->id_seminar, $id_mahasiswa);
+                $seminar->is_registered = $registration ? true : false;
+                $seminar->id_stsbyr = $registration ? $registration->id_stsbyr : null;
+                $seminar->id_pendaftaran = $registration ? $registration->id_pendaftaran : null;
+                $seminar->is_history = $this->User_model->isHistory($seminar->id_seminar, $id_mahasiswa);
+            } else {
+                $seminar->is_registered = false;
+                $seminar->id_stsbyr = null;
+                $seminar->id_pendaftaran = null;
+                $seminar->is_history = false;
+            }
+
+            $tiket_info = $this->User_model->getSlotTiketAndTiketTerjual($seminar->id_seminar);
+            $seminar->is_slot_habis = ($tiket_info && $tiket_info->tiket_terjual >= $tiket_info->slot_tiket);
+
+            $today = new DateTime();
+            $seminar_date = new DateTime($seminar->tgl_pelaksana);
+            $interval = $today->diff($seminar_date);
+            $remaining_days = $interval->days;
+
+            $total_duration = 100;
+            $progress = 100 - (($remaining_days / $total_duration) * 100);
+
+            $seminar->remaining_days = $remaining_days;
+            $seminar->progress = round(max(0, min(100, $progress)));
+        }
+    }
+
+    $data['seminar_data'] = $filtered_data;
+
+    // Muat tampilan
+    $this->load->view('template/user/header', $data);
+    $this->load->view('template/user/navbar', $data);
+    $this->load->view('user/home', $data);
+    $this->load->view('template/user/footer');
+}
+ 
     
     
     public function profil() {
@@ -474,6 +460,72 @@ class Home extends CI_Controller {
         // Jika id_mahasiswa tidak ditemukan, arahkan ke halaman login atau tampilkan pesan error
         redirect('user/auth');  // atau sesuaikan dengan kebutuhan Anda
     }}
+
+    public function gabungKomunitas($id_seminar)
+    {
+        $id_mahasiswa = $this->session->userdata('id_mahasiswa');
+        
+        if (!$id_mahasiswa) {
+            // Redirect to login if not logged in
+            redirect('user/auth');
+        }
+    
+        // Ambil data seminar berdasarkan id_seminar
+        $seminar = $this->Seminar_model->getSeminarById($id_seminar);
+        
+        if (!$seminar) {
+            // Jika seminar tidak ditemukan, tampilkan error
+            $this->session->set_flashdata('error', 'Seminar tidak ditemukan.');
+            redirect('user/home/terdaftar');
+        }
+    
+        // Ambil id_vendor dari seminar
+        $id_vendor = $seminar->id_vendor;
+    
+        // Cek apakah sudah ada data id_mahasiswa dan id_seminar di tabel komunitas
+        
+        $existing_community = $this->Komunitas_model->cekKeanggotaan($id_mahasiswa, $id_seminar);
+    
+        if ($existing_community) {
+            // Jika sudah ada data, arahkan ke halaman chat
+            redirect('user/chat/index/' . $id_vendor . '/' . $id_seminar);
+        } else {
+            // Data yang akan disimpan ke tabel komunitas
+            $data = [
+                'id_seminar' => $id_seminar,
+                'id_mahasiswa' => $id_mahasiswa,
+                'id_vendor' => $id_vendor
+            ];
+    
+            // Menyimpan data ke tabel komunitas
+            $this->Komunitas_model->gabungKomunitas($data);
+    
+            // Set pesan sukses dan redirect kembali
+            $this->session->set_flashdata('success', 'Anda berhasil bergabung dengan komunitas seminar.');
+            redirect('user/home/komunitas');
+        }
+    }
+
+    public function komunitas() {
+        // Mendapatkan id_mahasiswa dari session
+        $id_mahasiswa = $this->session->userdata('id_mahasiswa');
+
+        // Pastikan id_mahasiswa ada dalam session
+        if ($id_mahasiswa) {
+            // Mengambil data chat komunitas berdasarkan id_mahasiswa
+            
+            $data['komunitas_chats'] = $this->Komunitas_model->get_komunitas_chats($id_mahasiswa);
+
+            // Memuat view dan mengirimkan data komunitas_chats ke view
+            
+            $this->load->view('user/komunitas', $data);
+        } else {
+            // Jika session id_mahasiswa tidak ada, redirect ke halaman login
+            redirect('user/auth');
+        }
+    }
+
+
     
     public function batal($id_pendaftaran) {
         // Load model

@@ -38,7 +38,7 @@ public function get_seminar_by_id($id_seminar) {
     }
 
         public function getSeminarById($id_seminar) {
-        $this->db->select('nama_seminar');
+        $this->db->select('nama_seminar, id_vendor');
         $this->db->from('seminar');
         $this->db->where('id_seminar', $id_seminar);
         $query = $this->db->get();
@@ -203,13 +203,16 @@ public function get_seminar_by_id($id_seminar) {
     
     public function getSeminarDataByLocation($id_lokasi) {
         // Query untuk mengambil data seminar berdasarkan id_lokasi
-        $this->db->select('seminar.id_seminar, seminar.nama_seminar, seminar.tgl_pelaksana, seminar.lampiran, tiket.harga_tiket, tiket.slot_tiket');
+        $this->db->select('seminar.id_seminar, seminar.nama_seminar, seminar.tgl_pelaksana, seminar.lampiran, tiket.harga_tiket, tiket.slot_tiket, users.nama_vendor');
         $this->db->from('seminar');
         $this->db->join('tiket', 'seminar.id_seminar = tiket.id_seminar', 'left');
+        $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left'); 
         $this->db->where('seminar.id_lokasi', $id_lokasi); // Filter berdasarkan id_lokasi
         $query = $this->db->get();
         return $query->result();
     }
+
+
 
         // Fungsi untuk mengambil semua data seminar yang didaftarkan oleh mahasiswa
         public function getSeminarDaftar($id_mahasiswa) {
@@ -257,10 +260,11 @@ public function get_seminar_by_id($id_seminar) {
     
     public function searchSeminars($keyword) {
         $this->db->select('seminar.*, tiket.harga_tiket, tiket.slot_tiket, lokasi_seminar.nama_provinsi, 
-                           seminar.lampiran, seminar.tgl_pelaksana, seminar.nama_seminar, seminar.id_seminar');
+                           seminar.lampiran, seminar.tgl_pelaksana, seminar.nama_seminar, seminar.id_seminar, users.nama_vendor');
         $this->db->from('seminar');
         $this->db->join('tiket', 'seminar.id_seminar = tiket.id_seminar', 'left');
         $this->db->join('lokasi_seminar', 'seminar.id_lokasi = lokasi_seminar.id_lokasi', 'left');
+        $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left'); 
         $this->db->like('seminar.nama_seminar', $keyword);
         $this->db->or_like('seminar.deskripsi', $keyword);
         $this->db->order_by('seminar.tgl_pelaksana', 'ASC');
@@ -269,10 +273,11 @@ public function get_seminar_by_id($id_seminar) {
     
     public function getSeminarsByPriceRange($range) {
         $this->db->select('seminar.*, tiket.harga_tiket, tiket.slot_tiket, lokasi_seminar.nama_provinsi, 
-                           seminar.lampiran, seminar.tgl_pelaksana, seminar.nama_seminar, seminar.id_seminar');
+                           seminar.lampiran, seminar.tgl_pelaksana, seminar.nama_seminar, seminar.id_seminar, users.nama_vendor');
         $this->db->from('seminar');
         $this->db->join('tiket', 'seminar.id_seminar = tiket.id_seminar', 'left');
         $this->db->join('lokasi_seminar', 'seminar.id_lokasi = lokasi_seminar.id_lokasi', 'left');
+        $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left'); 
     
         switch($range) {
             case 'free':
@@ -299,10 +304,11 @@ public function get_seminar_by_id($id_seminar) {
     
     public function getTodaySeminars() {
         $this->db->select('seminar.*, tiket.harga_tiket, tiket.slot_tiket, lokasi_seminar.nama_provinsi, 
-                           seminar.lampiran, seminar.tgl_pelaksana, seminar.nama_seminar, seminar.id_seminar');
+                           seminar.lampiran, seminar.tgl_pelaksana, seminar.nama_seminar, seminar.id_seminar, users.nama_vendor');
         $this->db->from('seminar');
         $this->db->join('tiket', 'seminar.id_seminar = tiket.id_seminar', 'left');
         $this->db->join('lokasi_seminar', 'seminar.id_lokasi = lokasi_seminar.id_lokasi', 'left');
+        $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left'); 
         $this->db->where('DATE(seminar.tgl_pelaksana)', date('Y-m-d'));
         $this->db->order_by('seminar.tgl_pelaksana', 'ASC');
         return $this->db->get()->result();
@@ -310,10 +316,11 @@ public function get_seminar_by_id($id_seminar) {
     
     public function getNearbySeminars($lat, $lng) {
         $this->db->select('seminar.*, tiket.harga_tiket, tiket.slot_tiket, lokasi_seminar.nama_provinsi, 
-                           seminar.lampiran, seminar.tgl_pelaksana, seminar.nama_seminar, seminar.id_seminar');
+                           seminar.lampiran, seminar.tgl_pelaksana, seminar.nama_seminar, seminar.id_seminar, users.nama_vendor');
         $this->db->from('seminar');
         $this->db->join('tiket', 'seminar.id_seminar = tiket.id_seminar', 'left');
         $this->db->join('lokasi_seminar', 'seminar.id_lokasi = lokasi_seminar.id_lokasi', 'left');
+        $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left'); 
         // ... rest of the distance calculation ...
         $this->db->order_by('seminar.tgl_pelaksana', 'ASC');
         return $this->db->get()->result();
@@ -350,6 +357,7 @@ public function get_seminar_by_id($id_seminar) {
         $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left');
         return $this->db->get()->result();
     }    
+    
     
    
     

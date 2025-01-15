@@ -62,16 +62,22 @@
                             <!-- Action Buttons -->
                             <div class="flex gap-3 mt-4">
                                 <a href="<?php echo base_url('user/home/detail/' . $seminar->id_seminar); ?>" 
-                                   class="flex-1 inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-full text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                                class="flex-1 inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-full text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
                                     <i class="fas fa-info-circle mr-2"></i>
                                     Detail
                                 </a>
                                 <a href="<?php echo base_url('user/generate/etiket/' . $seminar->id_mahasiswa . '/' . $seminar->id_seminar); ?>" 
-                                   class="flex-1 inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-full text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200">
+                                class="flex-1 inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-full text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200">
                                     <i class="fas fa-qrcode mr-2"></i>
                                     E-Tiket
                                 </a>
+                                <a href="<?php echo base_url('user/home/gabungKomunitas/' . $seminar->id_seminar); ?>" 
+                                class="flex-1 inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-full text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                                    <i class="fas fa-users mr-2"></i>
+                                    Gabung Komunitas
+                                </a>
                             </div>
+
                         </div>
                     </div>
                 <?php endforeach; ?>
