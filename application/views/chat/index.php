@@ -37,7 +37,7 @@
                         <div class="<?= $is_sender ? 'bg-[#DCF8C6] rounded-[20px] rounded-tr-none' : 'bg-white rounded-[20px] rounded-tl-none' ?> px-4 py-2 shadow-sm">
                             <?php if (!$is_sender): ?>
                                 <!-- Nama pengirim dengan style baru -->
-                                <div class="text-base font-montserrat font-bold text-emerald-600 mb-1" style="font-family: 'Montserrat', sans-serif;">
+                                <div class="text-base font-montserrat font-bold text-emerald-300 mb-0.1" style="font-family: 'Montserrat', sans-serif;">
                                     <?= $chat['nama_mhs']; ?>
                                 </div>
                             <?php endif; ?>
