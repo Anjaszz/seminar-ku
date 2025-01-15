@@ -10,7 +10,6 @@
         .chat-list {
             list-style: none;
             padding: 0;
-            margin: 0;
         }
         .chat-item {
             display: flex;
@@ -50,7 +49,7 @@
 <body>
     <h1>Daftar Komunitas</h1>
 
-    <ul class="chat-list">
+    <ul class="chat-list mt-20">
         <?php if (!empty($komunitas_chats)): ?>
             <?php foreach ($komunitas_chats as $chat): ?>
                 <li class="chat-item">

@@ -9,12 +9,27 @@
     <title>Chat Komunitas</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
-    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+<body class="bg-gray-100 mt-20">
+    <div class=" max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+        <!-- Header -->
         <!-- Header -->
         <div class="bg-white rounded-t-lg shadow-sm border border-gray-200 p-4">
-            <h3 class="text-xl font-semibold text-gray-800">Chat Komunitas</h3>
-        </div>
+    <div class="flex items-center gap-2">
+        <!-- Icon komunitas -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.62-1M9 20H4v-2a3 3 0 015.62-1M16 3.13a4 4 0 110 7.75M8 3.13a4 4 0 110 7.75M12 17h0" />
+        </svg>
+        <!-- Teks komunitas dan nama seminar -->
+        <span class="text-gray-800 font-medium">Komunitas:</span>
+        <span class="text-blue-600"><?= htmlspecialchars($nama_seminar); ?></span>
+    </div>
+</div>
+
+
+
+
+
+
 
         <!-- Chat Box -->
         <div class="bg-[#E8ECF0] rounded-b-lg shadow-sm border-x border-b border-gray-200 mb-6">
