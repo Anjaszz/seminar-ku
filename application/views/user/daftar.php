@@ -245,6 +245,28 @@
     </div>
 
     <script>
+
+$(document).ready(function () {
+        $('#id_fakultas').change(function () {
+            var fakultas_id = $(this).val();
+            if (fakultas_id != '') {
+                $.ajax({
+                    url: "<?= base_url('daftar/get_prodi_by_fakultas') ?>",
+                    method: "POST",
+                    data: {id_fakultas: fakultas_id},
+                    dataType: "json",
+                    success: function (data) {
+                        var options = '<option value="">Pilih Program Studi</option>';
+                        $.each(data, function (key, value) {
+                            options += '<option value="' + value.id_prodi + '">' + value.nama_prodi + '</option>';
+                        });
+                        $('#id_prodi').html(options);
+                    }
+                });
+            }
+        });
+    });
+    
     $(document).ready(function () {
         // Form submission handler with loading animation
         $('#form-daftar').on('submit', function(e) {
@@ -312,35 +334,7 @@
         });
 
         // Dynamic Prodi loading with loading animation
-        $('#id_fakultas').on('change', function () {
-            let idFakultas = $(this).val();
-
-            if (idFakultas) {
-                $.ajax({
-                    url: '<?= base_url("daftar/get_prodi_by_fakultas") ?>',
-                    type: 'POST',
-                    data: { id_fakultas: idFakultas },
-                    dataType: 'json',
-                    success: function (data) {
-                        $('#id_prodi').html('<option value="">Pilih Jurusan</option>');
-                        if (data) {
-                            data.forEach(function (prodi) {
-                                $('#id_prodi').append(`<option value="${prodi.id_prodi}">${prodi.nama_prodi}</option>`);
-                            });
-                        }
-                    },
-                    error: function () {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Terjadi kesalahan saat mengambil data jurusan!',
-                        });
-                    },
-                });
-            } else {
-                $('#id_prodi').html('<option value="">Pilih Jurusan</option>');
-            }
-        });
+        
 
         // Enhanced password visibility toggle with animation
         $('#togglePassword, #toggleConfirmPassword').on('click', function () {

@@ -13,11 +13,14 @@ class Daftar extends CI_Controller {
     }
 
     public function user() {
+        // Ambil data fakultas dan program studi untuk dropdown
         $data['fakultas'] = $this->daftar_model->getFakultas();
-        $data['jenjang'] = $this->daftar_model->getJenjang();
+        $data['prodi'] = $this->daftar_model->getProdi();
+    
+        // Menampilkan view pendaftaran dengan data fakultas dan prodi
         $this->load->view('user/daftar', $data);
     }
-
+    
     public function simpan() {
         // Set validasi
         $this->form_validation->set_rules('nama_mhs', 'Nama', 'required|callback_alpha_space', [
@@ -40,9 +43,7 @@ class Daftar extends CI_Controller {
         $this->form_validation->set_rules('id_fakultas', 'Fakultas', 'required', [
             'required' => 'Fakultas wajib dipilih!'
         ]);
-        $this->form_validation->set_rules('id_prodi', 'Prodi', 'required', [
-            'required' => 'Program studi wajib dipilih!'
-        ]);
+        
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]', [
             'required' => 'Password wajib diisi!',
             'min_length' => 'Password minimal 6 karakter!'
@@ -51,7 +52,7 @@ class Daftar extends CI_Controller {
             'required' => 'Konfirmasi password wajib diisi!',
             'matches' => 'Password dan konfirmasi password tidak cocok!'
         ]);
-    
+        
         // Jika validasi gagal
         if ($this->form_validation->run() == FALSE) {
             // Ambil error dari form_validation
@@ -71,7 +72,7 @@ class Daftar extends CI_Controller {
                 'no_telp' => $this->input->post('no_telp'),
                 'tanggal_lahir' => $this->input->post('tanggal_lahir'),
                 'id_fakultas' => $this->input->post('id_fakultas'),
-                'id_prodi' => $this->input->post('id_prodi')
+                'id_prodi' => '5'
             ];
     
             // Menyimpan data mahasiswa
@@ -113,6 +114,7 @@ class Daftar extends CI_Controller {
         // Kirim response JSON
         echo json_encode($response);
     }
+    
 
     // Fungsi untuk menghasilkan NIM
     private function generate_nim() {

@@ -7,8 +7,8 @@ class Daftar_model extends CI_Model {
         return $this->db->get('fakultas')->result();
     }
 
-    public function getJenjang() {
-        return $this->db->get('jenjang')->result();
+    public function getProdi() {
+        return $this->db->get('prodi')->result();
     }
 
     public function get_prodi_by_fakultas($id_fakultas) {
