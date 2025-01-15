@@ -566,7 +566,7 @@ class Home extends CI_Controller {
         $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
         // Mendapatkan id_mahasiswa dari session
         $id_mahasiswa = $this->session->userdata('id_mahasiswa');
-        $komunitas_chats = $this->Komunitas_model->get_komunitas_chats($id_mahasiswa);
+        $komunitas_chats = $this->Komunitas_model->get_seminar_by_mahasiswa($id_mahasiswa);
         // Pastikan id_mahasiswa ada dalam session
       
         $data['komunitas_chats'] = $komunitas_chats;
