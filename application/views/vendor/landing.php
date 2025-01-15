@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
@@ -67,7 +68,7 @@
 
     </div>
     <div class=" lg:mt-0 lg:col-span-5 lg:flex">
-                <img src={HeroImage} alt="hero image"/>
+                <img src="<?= base_url('assets/images/heroimage.svg') ?>" alt="hero image" class="h-30 w-auto" />
             </div>  
   </div>
 </section>
@@ -78,13 +79,13 @@
         <div class="max-w-screen-md pb-8 mx-auto lg:pb-16">
             <div class="grid grid-cols-3  text-gray-500 lg:grid-cols-3 dark:text-gray-400">
                 <a href="#" class="flex items-center lg:justify-center">
-                  <img src={LogoSimas} alt="logo simas" />                    
+                  <img src="<?= base_url('assets/images/SIMAS.png') ?>" alt="logo simas" />                    
                 </a>
                 <a href="#" class="flex items-center lg:justify-center">
-                <img src={LogoUnm} alt="logo UNM" className='h-20 w-auto'/>                                              
+                <img src="<?= base_url('assets/images/logo-unm.png') ?>" alt="logo UNM" className='h-20 w-auto'/>                                              
                 </a>
                 <a href="#" class="flex items-center lg:justify-center">
-                <img src={LogoNic} alt="logo NIC" className='h-20 w-auto'/>                                                                     
+                <img src="<?= base_url('assets/images/logo-nic.webp') ?>" alt="logo NIC" className='h-20 w-auto'/>                                                                     
                 </a>
     
 
@@ -124,7 +125,7 @@
                     </ul>
                     <p class="mb-8 font-light lg:text-xl">Semua fitur ini dirancang untuk memberikan pengalaman seminar yang lebih mudah, cepat, dan profesional. Pilih SIMAS sebagai partner terbaik Anda</p>
                 </div>
-                <img class="w-full mb-4 rounded-lg lg:mb-0 lg:flex" src={featureImg} alt="dashboard feature image"/>
+                <img class="w-full mb-4 rounded-lg lg:mb-0 lg:flex" src="<?= base_url('assets/images/image-1.jfif') ?> alt="dashboard feature image"/>
             </div>
           
             <div class="items-center gap-8 lg:grid lg:grid-cols-2 xl:gap-16">
@@ -162,7 +163,7 @@
                     </ul>
                     <p class="font-light lg:text-xl">Gabungkan teknologi modern dan kemudahan manajemen dengan SIMAS. Pastikan setiap seminar yang Anda kelola berjalan lancar tanpa hambatan.</p>
                 </div>
-                <img class="w-full mb-4 rounded-lg lg:mb-0 lg:flex" src={featureImg2} alt="feature image 2"/>
+                <img class="w-full mb-4 rounded-lg lg:mb-0 lg:flex" src="<?= base_url('assets/images/image-2.jfif') ?> "alt="feature image 2"/>
             </div>
            
         </div>
