@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php 
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends CI_Controller {
 
@@ -507,22 +508,58 @@ class Home extends CI_Controller {
     }
 
     public function komunitas() {
-        // Mendapatkan id_mahasiswa dari session
-        $id_mahasiswa = $this->session->userdata('id_mahasiswa');
 
-        // Pastikan id_mahasiswa ada dalam session
-        if ($id_mahasiswa) {
-            // Mengambil data chat komunitas berdasarkan id_mahasiswa
-            
-            $data['komunitas_chats'] = $this->Komunitas_model->get_komunitas_chats($id_mahasiswa);
-
-            // Memuat view dan mengirimkan data komunitas_chats ke view
-            
-            $this->load->view('user/komunitas', $data);
-        } else {
-            // Jika session id_mahasiswa tidak ada, redirect ke halaman login
+        if (!$this->session->userdata('user_data')) {
+            redirect('user/auth'); // Redirect to login if not logged in
+        }
+    
+        // Ambil NIM dari session
+        $nim = $this->session->userdata('nim');
+    
+        if (!$nim) {
+            redirect('user/auth'); // Jika NIM tidak ada di session, redirect ke login
+        }
+    
+        // Ambil data mahasiswa berdasarkan NIM
+        $mahasiswa = $this->User_model->getMahasiswaByNIM($nim);
+        if (!$mahasiswa) {
+            $this->session->set_flashdata('error', 'Data mahasiswa tidak ditemukan.');
             redirect('user/auth');
         }
+        $this->load->model('User_model'); // Sesuaikan nama model Anda
+        
+        // Ambil data jumlah
+        $id_mahasiswa = $this->session->userdata('id_mahasiswa'); // Ambil id mahasiswa dari session
+
+        // Ambil jumlah seminar yang diikuti
+        $jumlah_seminar = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
+
+        // Ambil jumlah belum bayar
+        $jumlah_belum_bayar = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
+
+        // Ambil jumlah history seminar
+        $jumlah_history = $this->User_model->getJumlahHistory($id_mahasiswa);
+
+        // Kirim data ke view
+        $data['jumlah_seminar'] = $jumlah_seminar;
+        $data['jumlah_belum_bayar'] = $jumlah_belum_bayar;
+        $data['jumlah_history'] = $jumlah_history;
+    
+        // Kirim nama mahasiswa ke view
+        $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
+        // Mendapatkan id_mahasiswa dari session
+        $id_mahasiswa = $this->session->userdata('id_mahasiswa');
+        $komunitas_chats = $this->Komunitas_model->get_komunitas_chats($id_mahasiswa);
+        // Pastikan id_mahasiswa ada dalam session
+      
+        $data['komunitas_chats'] = $komunitas_chats;
+
+        // Memuat view dan mengirimkan data komunitas_chats ke view
+        $this->load->view('template/user/header', $data);
+        $this->load->view('template/user/navbar', $data);
+        $this->load->view('user/komunitas', $data);
+        $this->load->view('template/user/footer');
+        
     }
 
 
