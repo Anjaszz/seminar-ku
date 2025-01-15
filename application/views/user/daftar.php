@@ -244,29 +244,9 @@
         </div>
     </div>
 
-    <script>
 
-$(document).ready(function () {
-        $('#id_fakultas').change(function () {
-            var fakultas_id = $(this).val();
-            if (fakultas_id != '') {
-                $.ajax({
-                    url: "<?= base_url('daftar/get_prodi_by_fakultas') ?>",
-                    method: "POST",
-                    data: {id_fakultas: fakultas_id},
-                    dataType: "json",
-                    success: function (data) {
-                        var options = '<option value="">Pilih Program Studi</option>';
-                        $.each(data, function (key, value) {
-                            options += '<option value="' + value.id_prodi + '">' + value.nama_prodi + '</option>';
-                        });
-                        $('#id_prodi').html(options);
-                    }
-                });
-            }
-        });
-    });
-    
+
+    <script>
     $(document).ready(function () {
         // Form submission handler with loading animation
         $('#form-daftar').on('submit', function(e) {
@@ -289,32 +269,32 @@ $(document).ready(function () {
                 data: $(this).serialize(),
                 dataType: 'json',
                 success: function(response) {
-                    if (response.status == 'success') {
-                        // Success animation and redirect
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Pendaftaran Berhasil!',
-                            text: response.message,
-                            showConfirmButton: false,
-                            timer: 2000,
-                            customClass: {
-                                popup: 'animate__animated animate__fadeInUp'
-                            }
-                        }).then(function() {
-                            window.location.href = 'user/index';
-                        });
-                    } else {
-                        // Error animation
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Pendaftaran Gagal',
-                            html: response.message,
-                            customClass: {
-                                popup: 'animate__animated animate__shakeX'
-                            }
-                        });
-                    }
-                },
+    if (response.status == 'success') {
+        // Success animation and redirect
+        Swal.fire({
+            icon: 'success',
+            title: 'Pendaftaran Berhasil!',
+            text: response.message,
+            showConfirmButton: false,
+            timer: 2000,
+            customClass: {
+                popup: 'animate__animated animate__fadeInUp'
+            }
+        }).then(function() {
+            window.location.href = response.redirect; // Gunakan URL dari response
+        });
+    } else {
+        // Error animation
+        Swal.fire({
+            icon: 'error',
+            title: 'Pendaftaran Gagal',
+            html: response.message,
+            customClass: {
+                popup: 'animate__animated animate__shakeX'
+            }
+        });
+    }
+},
                 error: function(xhr, status, error) {
                     Swal.fire({
                         icon: 'error',
@@ -334,12 +314,62 @@ $(document).ready(function () {
         });
 
         // Dynamic Prodi loading with loading animation
-        
+        $('#id_fakultas').change(function () {
+            var fakultas_id = $(this).val();
+            if (fakultas_id != '') {
+                const prodiSelect = $('#id_prodi');
+                
+                // Tambahkan animasi loading pada dropdown prodi
+                prodiSelect.prop('disabled', true)
+                    .html('<option value="">Loading...</option>')
+                    .parent('.relative')
+                    .addClass('opacity-75');
+
+                $.ajax({
+                    url: "<?= base_url('daftar/get_prodi_by_fakultas') ?>",
+                    method: "POST",
+                    data: {id_fakultas: fakultas_id},
+                    dataType: "json",
+                    success: function (data) {
+                        var options = '<option value="">Pilih Program Studi</option>';
+                        $.each(data, function (key, value) {
+                            options += '<option value="' + value.id_prodi + '">' + value.nama_prodi + '</option>';
+                        });
+                        
+                        // Animasi fade saat mengupdate opsi
+                        prodiSelect
+                            .fadeOut(200, function() {
+                                $(this).html(options).fadeIn(200);
+                            })
+                            .prop('disabled', false)
+                            .parent('.relative')
+                            .removeClass('opacity-75');
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Gagal memuat data Program Studi',
+                            customClass: {
+                                popup: 'animate__animated animate__shakeX'
+                            }
+                        });
+                        
+                        prodiSelect
+                            .html('<option value="">Pilih Program Studi</option>')
+                            .prop('disabled', false)
+                            .parent('.relative')
+                            .removeClass('opacity-75');
+                    }
+                });
+            }
+        });
 
         // Enhanced password visibility toggle with animation
-        $('#togglePassword, #toggleConfirmPassword').on('click', function () {
-            const field = $(this).prev('input');
-            const icon = $(this).find('i');
+        $('#togglePassword, #toggleConfirmPassword').on('click', function() {
+            const button = $(this);
+            const input = button.siblings('input');
+            const icon = button.find('i');
             
             // Animate icon rotation
             icon.css({
@@ -348,9 +378,11 @@ $(document).ready(function () {
             });
             
             setTimeout(() => {
-                const type = field.attr('type') === 'password' ? 'text' : 'password';
-                field.attr('type', type);
-                icon.toggleClass('fa-eye fa-eye-slash').css('transform', 'rotate(0deg)');
+                const type = input.attr('type') === 'password' ? 'text' : 'password';
+                input.attr('type', type);
+                icon
+                    .toggleClass('fa-eye fa-eye-slash')
+                    .css('transform', 'rotate(0deg)');
             }, 150);
         });
 
@@ -405,3 +437,4 @@ $(document).ready(function () {
             }
         });
     });
+</script>
