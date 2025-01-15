@@ -96,6 +96,9 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 3l-6 6-6-6m6 6v12"/>  
                         </svg>  
                         Grup Komunitas  
+                        <span class="ml-2 px-1 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-600">  
+                            <?php echo $jumlah_komunitas; ?>  
+                        </span>  
                     </a> 
   
                     <!-- Tombol Logout -->  

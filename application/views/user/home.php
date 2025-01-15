@@ -325,9 +325,10 @@
                                             </a>
                                         <?php else: ?>
                                             <button class="daftar-seminar px-4 py-2 w-full text-center bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-200"
-                                                    onclick="window.location.href='<?php echo base_url('user/home/daftar/' . $seminar->id_seminar); ?>'">
-                                                <i class="fas fa-user-plus"></i> Daftar
+                                                 onclick="confirmRegistration('<?php echo $seminar->id_seminar; ?>')">
+                                                 <i class="fas fa-user-plus"></i> Daftar
                                             </button>
+
                                         <?php endif; ?>
 
                                         <a href="<?php echo base_url('user/home/detail/' . $seminar->id_seminar); ?>"
@@ -533,247 +534,123 @@
 </body>  
 </html>  
 <script>  
-        // Function to check login status and redirect if not logged in  
-        function checkLoginAndRegister(seminarId) {  
-            <?php if (!$this->session->userdata('user_data')): ?>  
-                // Jika pengguna belum login, arahkan ke halaman login  
-                window.location.href = '<?php echo base_url('user/auth'); ?>';  
-            <?php else: ?>  
-                // Jika pengguna sudah login, lanjutkan dengan pendaftaran seminar  
-                console.log("Mendaftar seminar ID: " + seminarId);  
-                // Tambahkan logika pendaftaran seminar di sini  
-            <?php endif; ?>  
-        }  
-  
-        // Mulai Sekarang Button  
-        document.getElementById('startNowButton').addEventListener('click', function() {  
-            <?php if (!$this->session->userdata('user_data')): ?>  
-                // Jika pengguna belum login, arahkan ke halaman login  
-                window.location.href = '<?php echo base_url('user/auth'); ?>';  
-            <?php else: ?>  
-                // Jika pengguna sudah login, lakukan tindakan lain jika diperlukan  
-                console.log("Pengguna sudah login, lakukan tindakan lain jika diperlukan.");  
-            <?php endif; ?>  
-        });  
-  
-        // Add smooth scrolling behavior for seminar cards  
-        const scrollContainer = document.getElementById('seminar-scroll');  
-        let isDown = false;  
-        let startX;  
-        let scrollLeft;  
-  
-        scrollContainer.addEventListener('mousedown', (e) => {  
-            isDown = true;  
-            scrollContainer.style.cursor = 'grabbing';  
-            startX = e.pageX - scrollContainer.offsetLeft;  
-            scrollLeft = scrollContainer.scrollLeft;  
-        });  
-  
-        scrollContainer.addEventListener('mouseleave', () => {  
-            isDown = false;  
-            scrollContainer.style.cursor = 'grab';  
-        });  
-  
-        scrollContainer.addEventListener('mouseup', () => {  
-            isDown = false;  
-            scrollContainer.style.cursor = 'grab';  
-        });  
-  
-        scrollContainer.addEventListener('mousemove', (e) => {  
-            if (!isDown) return;  
-            e.preventDefault();  
-            const x = e.pageX - scrollContainer.offsetLeft;  
-            const walk = (x - startX) * 2;  
-            scrollContainer.scrollLeft = scrollLeft - walk;  
-        });  
-  
-        // Flash Messages  
-        <?php if ($this->session->flashdata('message_success')): ?>  
-            Swal.fire({  
-                icon: 'success',  
-                title: 'Berhasil',  
-                text: '<?php echo $this->session->flashdata('message_success'); ?>',  
-                showConfirmButton: false,  
-                timer: 2000  
-            });  
-        <?php endif; ?>  
-  
-        <?php if ($this->session->flashdata('message_error')): ?>  
-            Swal.fire({  
-                icon: 'error',  
-                title: 'Gagal',  
-                text: '<?php echo $this->session->flashdata('message_error'); ?>',  
-                showConfirmButton: false,  
-                timer: 2000  
-            });  
-        <?php endif; ?>  
-  
-        function filterNearby() {  
-            if (navigator.geolocation) {  
-                navigator.geolocation.getCurrentPosition(function(position) {  
-                    // Here you would typically send these coordinates to your backend  
-                    // and filter seminars based on distance  
-                    const lat = position.coords.latitude;  
-                    const lng = position.coords.longitude;  
-                      
-                    // Add these as hidden inputs to your form and submit  
-                    const form = document.createElement('form');  
-                    form.method = 'GET';  
-                    form.action = '<?php echo base_url('user/home/index'); ?>';  
-                      
-                    const latInput = document.createElement('input');  
-                    latInput.type = 'hidden';  
-                    latInput.name = 'lat';  
-                    latInput.value = lat;  
-                      
-                    const lngInput = document.createElement('input');  
-                    lngInput.type = 'hidden';  
-                    lngInput.name = 'lng';  
-                    lngInput.value = lng;  
-                      
-                    form.appendChild(latInput);  
-                    form.appendChild(lngInput);  
-                    document.body.appendChild(form);  
-                    form.submit();  
-                });  
-            } else {  
-                alert('Geolocation is not supported by this browser.');  
-            }  
-        }  
-  
-        function filterToday() {  
-            window.location.href = '<?php echo base_url('user/home/index'); ?>?date=today';  
-        }  
-  
-        function filterFree() {  
-            window.location.href = '<?php echo base_url('user/home/index'); ?>?price_range=free';  
-        }  
-
-        document.addEventListener('DOMContentLoaded', function() {
-    const chatbotIcon = document.getElementById('chatbot-icon');
-    const chatbotContainer = document.getElementById('chatbot-container');
-    const closeChat = document.getElementById('close-chat');
-    const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-input');
-    const chatMessages = document.getElementById('chat-messages');
-
-    // Initial chat content with suggestions
-    const initialChatContent = `
-        <div class="bot-message mb-4">
-            <div class="flex items-start">
-                <div class="bg-blue-100 rounded-lg p-3 max-w-[80%]">
-                    <p class="text-gray-800">Halo! Ada yang bisa saya bantu?</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="suggested-questions mb-4">
-            <p class="text-sm text-gray-500 mb-2">Pertanyaan yang sering ditanyakan:</p>
-            <div class="flex flex-col gap-2">
-                <button class="suggest-btn text-left px-3 py-2 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-sm">
-                    Bagaimana cara mendaftar seminar?
-                </button>
-                <button class="suggest-btn text-left px-3 py-2 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-sm">
-                    Apa saja seminar gratis yang tersedia?
-                </button>
-                <button class="suggest-btn text-left px-3 py-2 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-sm">
-                    Bagaimana cara mendapatkan sertifikat seminar?
-                </button>
-            </div>
-        </div>
-    `;
-
-    // Toggle chat interface
-    chatbotIcon.addEventListener('click', () => {
-        chatbotContainer.classList.toggle('hidden');
-        if (!chatbotContainer.classList.contains('hidden')) {
-            chatInput.focus();
-            // Reset chat to initial state with suggestions
-            chatMessages.innerHTML = initialChatContent;
-            // Add click events to new suggestion buttons
-            addSuggestionListeners();
+  // Fungsi untuk konfirmasi pendaftaran menggunakan SweetAlert
+function confirmRegistration(seminarId) {
+    Swal.fire({
+        title: 'Konfirmasi Pendaftaran',
+        text: 'Apakah Anda yakin ingin mendaftar ke seminar ini?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, daftar',
+        cancelButtonText: 'Tidak',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            checkLoginAndRegister(seminarId); // Panggil fungsi untuk proses pendaftaran
+        } else {
+            Swal.fire('Pendaftaran dibatalkan', '', 'info');
         }
     });
+}
 
-    closeChat.addEventListener('click', () => {
-        chatbotContainer.classList.add('hidden');
-        // Reset chat to initial state
-        chatMessages.innerHTML = initialChatContent;
-        chatInput.value = '';
-        // Add click events to new suggestion buttons
-        addSuggestionListeners();
+// Fungsi untuk mengecek login dan mendaftarkan seminar
+function checkLoginAndRegister(seminarId) {
+    <?php if (!$this->session->userdata('user_data')): ?>
+        // Jika pengguna belum login, arahkan ke halaman login
+        window.location.href = '<?php echo base_url('user/auth'); ?>';
+    <?php else: ?>
+        // Jika pengguna sudah login, lakukan proses pendaftaran
+        window.location.href = '<?php echo base_url('user/home/daftar/'); ?>' + seminarId;
+    <?php endif; ?>
+}
+
+// Flash Messages
+<?php if ($this->session->flashdata('message_success')): ?>
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil',
+        text: '<?php echo $this->session->flashdata('message_success'); ?>',
+        showConfirmButton: false,
+        timer: 2000
     });
+<?php endif; ?>
 
-    // Function to add click events to suggestion buttons
-    function addSuggestionListeners() {
-        document.querySelectorAll('.suggest-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const question = this.textContent.trim();
-                // Remove suggestions after clicking
-                document.querySelector('.suggested-questions')?.remove();
-                // Send the suggested question
-                handleUserMessage(question);
-            });
-        });
-    }
-
-    // Initial setup of suggestion listeners
-    addSuggestionListeners();
-
-    // Handle user message
-    async function handleUserMessage(message) {
-        // Add user message to chat
-        addMessage(message, 'user');
-        chatInput.value = '';
-
-        try {
-            const response = await fetch('<?php echo base_url("api/chat"); ?>', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ message })
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            addMessage(data.response, 'bot');
-        } catch (error) {
-            console.error('Error:', error);
-            addMessage('Maaf, terjadi kesalahan. Silakan coba lagi.', 'bot');
-        }
-    }
-
-    // Handle chat form submission
-    chatForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const message = chatInput.value.trim();
-        if (!message) return;
-
-        // Remove suggestions when user starts typing
-        document.querySelector('.suggested-questions')?.remove();
-        
-        handleUserMessage(message);
+<?php if ($this->session->flashdata('message_error')): ?>
+    Swal.fire({
+        icon: 'error',
+        title: 'Gagal',
+        text: '<?php echo $this->session->flashdata('message_error'); ?>',
+        showConfirmButton: false,
+        timer: 2000
     });
+<?php endif; ?>
 
-    function addMessage(message, type) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `${type}-message mb-4`;
-        
-        const messageContent = `
-            <div class="flex items-start ${type === 'user' ? 'justify-end' : ''}">
-                <div class="${type === 'user' ? 'bg-blue-600 text-white' : 'bg-blue-100 text-gray-800'} rounded-lg p-3 max-w-[80%]">
-                    <p>${message}</p>
-                </div>
-            </div>
-        `;
-        
-        messageDiv.innerHTML = messageContent;
-        chatMessages.appendChild(messageDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
+// Smooth scrolling untuk seminar cards
+const scrollContainer = document.getElementById('seminar-scroll');
+let isDown = false;
+let startX;
+let scrollLeft;
+
+scrollContainer.addEventListener('mousedown', (e) => {
+    isDown = true;
+    scrollContainer.style.cursor = 'grabbing';
+    startX = e.pageX - scrollContainer.offsetLeft;
+    scrollLeft = scrollContainer.scrollLeft;
 });
+
+scrollContainer.addEventListener('mouseleave', () => {
+    isDown = false;
+    scrollContainer.style.cursor = 'grab';
+});
+
+scrollContainer.addEventListener('mouseup', () => {
+    isDown = false;
+    scrollContainer.style.cursor = 'grab';
+});
+
+scrollContainer.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - scrollContainer.offsetLeft;
+    const walk = (x - startX) * 2;
+    scrollContainer.scrollLeft = scrollLeft - walk;
+});
+
+// Filter seminar berdasarkan lokasi, tanggal, dan harga
+function filterNearby() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+
+            const form = document.createElement('form');
+            form.method = 'GET';
+            form.action = '<?php echo base_url('user/home/index'); ?>';
+
+            const latInput = document.createElement('input');
+            latInput.type = 'hidden';
+            latInput.name = 'lat';
+            latInput.value = lat;
+
+            const lngInput = document.createElement('input');
+            lngInput.type = 'hidden';
+            lngInput.name = 'lng';
+            lngInput.value = lng;
+
+            form.appendChild(latInput);
+            form.appendChild(lngInput);
+            document.body.appendChild(form);
+            form.submit();
+        });
+    } else {
+        alert('Geolocation is not supported by this browser.');
+    }
+}
+
+function filterToday() {
+    window.location.href = '<?php echo base_url('user/home/index'); ?>?date=today';
+}
+
+function filterFree() {
+    window.location.href = '<?php echo base_url('user/home/index'); ?>?price_range=free';
+}   
     </script>  

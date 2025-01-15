@@ -63,12 +63,14 @@ class Home extends CI_Controller {
         $data['jumlah_seminar'] = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
         $data['jumlah_belum_bayar'] = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
         $data['jumlah_history'] = $this->User_model->getJumlahHistory($id_mahasiswa);
+        $data['jumlah_komunitas'] = $this->User_model->getJumlahKomunitas($id_mahasiswa);
         $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
         $data['lokasi_seminar'] = $this->Seminar_model->getLokasiSeminar();
     } else {
         $data['jumlah_seminar'] = 0;
         $data['jumlah_belum_bayar'] = 0;
         $data['jumlah_history'] = 0;
+        $data['jumlah_komunitas'] = 0;
         $data['nama_mahasiswa'] = null;
         $data['lokasi_seminar'] = $this->Seminar_model->getLokasiSeminar();
     }
@@ -169,6 +171,7 @@ class Home extends CI_Controller {
         $data['jumlah_seminar'] = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
         $data['jumlah_belum_bayar'] = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
         $data['jumlah_history'] = $this->User_model->getJumlahHistory($id_mahasiswa);
+        $data['jumlah_komunitas'] = $this->User_model->getJumlahKomunitas($id_mahasiswa);
         $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
         // Ambil data jurusan dari tabel prodi
         $data['prodi'] = $this->User_model->getAllProdi();
@@ -266,17 +269,20 @@ class Home extends CI_Controller {
                     $data['jumlah_seminar'] = $this->User_model->getJumlahSeminarDiikuti($mahasiswa->id_mahasiswa);
                     $data['jumlah_belum_bayar'] = $this->User_model->getJumlahBelumBayar($mahasiswa->id_mahasiswa);
                     $data['jumlah_history'] = $this->User_model->getJumlahHistory($mahasiswa->id_mahasiswa);
+                    $data['jumlah_komunitas'] = $this->User_model->getJumlahKomunitas($mahasiswa->id_mahasiswa);
                     $data['nama_mahasiswa'] = "Hi, " . $mahasiswa->nama_mhs;
                 } else {
                     $data['jumlah_seminar'] = 0;
                     $data['jumlah_belum_bayar'] = 0;
                     $data['jumlah_history'] = 0;
+                    $data['jumlah_komunitas'] = 0;
                     $data['nama_mahasiswa'] = "Hi, Pengunjung";
                 }
             } else {
                 $data['jumlah_seminar'] = 0;
                 $data['jumlah_belum_bayar'] = 0;
                 $data['jumlah_history'] = 0;
+                $data['jumlah_komunitas'] = 0;
                 $data['nama_mahasiswa'] = "Hi, Pengunjung";
             }
         } else {
@@ -284,6 +290,7 @@ class Home extends CI_Controller {
             $data['jumlah_seminar'] = 0;
             $data['jumlah_belum_bayar'] = 0;
             $data['jumlah_history'] = 0;
+            $data['jumlah_komunitas'] = 0;
             $data['nama_mahasiswa'] = "Hi, Pengunjung";
         }
     
@@ -372,10 +379,13 @@ class Home extends CI_Controller {
         // Ambil jumlah history seminar
         $jumlah_history = $this->User_model->getJumlahHistory($id_mahasiswa);
 
+        $jumlah_komunitas = $this->User_model->getJumlahKomunitas($id_mahasiswa);
+
         // Kirim data ke view
         $data['jumlah_seminar'] = $jumlah_seminar;
         $data['jumlah_belum_bayar'] = $jumlah_belum_bayar;
         $data['jumlah_history'] = $jumlah_history;
+        $data['jumlah_komunitas'] = $jumlah_komunitas;
     
         // Kirim nama mahasiswa ke view
         $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
@@ -434,11 +444,15 @@ class Home extends CI_Controller {
 
         // Ambil jumlah history seminar
         $jumlah_history = $this->User_model->getJumlahHistory($id_mahasiswa);
+        // Ambil jumlah history seminar
+        $jumlah_komunitas = $this->User_model->getJumlahKomunitas($id_mahasiswa);
+
 
         // Kirim data ke view
         $data['jumlah_seminar'] = $jumlah_seminar;
         $data['jumlah_belum_bayar'] = $jumlah_belum_bayar;
         $data['jumlah_history'] = $jumlah_history;
+        $data['jumlah_komunitas'] = $jumlah_komunitas;
     
         // Kirim nama mahasiswa ke view
         $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
@@ -540,10 +554,13 @@ class Home extends CI_Controller {
         // Ambil jumlah history seminar
         $jumlah_history = $this->User_model->getJumlahHistory($id_mahasiswa);
 
+        $jumlah_komunitas = $this->User_model->getJumlahKomunitas($id_mahasiswa);
+
         // Kirim data ke view
         $data['jumlah_seminar'] = $jumlah_seminar;
         $data['jumlah_belum_bayar'] = $jumlah_belum_bayar;
         $data['jumlah_history'] = $jumlah_history;
+        $data['jumlah_komunitas'] = $jumlah_komunitas;
     
         // Kirim nama mahasiswa ke view
         $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
@@ -604,6 +621,7 @@ class Home extends CI_Controller {
         $jumlah_seminar = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
         $jumlah_belum_bayar = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
         $jumlah_history = $this->User_model->getJumlahHistory($id_mahasiswa);
+        $jumlah_komunitas = $this->User_model->getJumlahKomunitas($id_mahasiswa);
     
         // Ambil data history seminar termasuk tanggal pelaksanaan
         $history_seminar = $this->Sertifikat_model->get_by_mahasiswa_id($id_mahasiswa);
@@ -614,6 +632,7 @@ class Home extends CI_Controller {
             'jumlah_seminar' => $jumlah_seminar,
             'jumlah_belum_bayar' => $jumlah_belum_bayar,
             'jumlah_history' => $jumlah_history,
+            'jumlah_komunitas' => $jumlah_komunitas,
             'nama_mahasiswa' => $mahasiswa->nama_mhs,
         );
     
@@ -650,6 +669,7 @@ public function file()
     $jumlah_seminar = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
     $jumlah_belum_bayar = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
     $jumlah_history = $this->User_model->getJumlahHistory($id_mahasiswa);
+    $jumlah_komunitas = $this->User_model->getJumlahKomunitas($id_mahasiswa);
     $file_data = $this->File_model->get_by_mahasiswa_id($id_mahasiswa);
 
     
@@ -659,6 +679,7 @@ public function file()
         'jumlah_seminar' => $jumlah_seminar,
         'jumlah_belum_bayar' => $jumlah_belum_bayar,
         'jumlah_history' => $jumlah_history,
+        'jumlah_komunitas' => $jumlah_komunitas,
         'nama_mahasiswa' => $mahasiswa->nama_mhs,
         'file_data' => $file_data,  // Pastikan seminar_data dikirim ke view
     );

@@ -147,6 +147,11 @@ class User_model extends CI_Model {
         return $this->db->count_all_results('history_seminar'); // Ganti dengan tabel yang sesuai
     }
 
+    public function getJumlahKomunitas($id_mahasiswa) {
+        $this->db->where('id_mahasiswa', $id_mahasiswa);
+        return $this->db->count_all_results('komunitas'); // Ganti dengan tabel yang sesuai
+    }
+
     
         
     public function getNimByIdMahasiswa($id_mahasiswa) {

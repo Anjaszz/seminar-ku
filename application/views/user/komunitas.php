@@ -1,3 +1,5 @@
+<script src="https://cdn.tailwindcss.com"></script>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
