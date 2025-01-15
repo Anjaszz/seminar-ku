@@ -17,14 +17,12 @@ class Chat extends CI_Controller {
     }
 
     public function index($id_vendor, $id_seminar) {
-
         if (!$this->session->userdata('user_data')) {
             redirect('user/auth'); // Redirect to login if not logged in
         }
     
         // Ambil NIM dari session
         $nim = $this->session->userdata('nim');
-    
         if (!$nim) {
             redirect('user/auth'); // Jika NIM tidak ada di session, redirect ke login
         }
@@ -35,43 +33,35 @@ class Chat extends CI_Controller {
             $this->session->set_flashdata('error', 'Data mahasiswa tidak ditemukan.');
             redirect('user/auth');
         }
+    
         $this->load->model('User_model'); // Sesuaikan nama model Anda
-        
+    
         // Ambil data jumlah
         $id_mahasiswa = $this->session->userdata('id_mahasiswa'); // Ambil id mahasiswa dari session
-
-        // Ambil jumlah seminar yang diikuti
-        $jumlah_seminar = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
-
-        // Ambil jumlah belum bayar
-        $jumlah_belum_bayar = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
-
-        // Ambil jumlah history seminar
-        $jumlah_history = $this->User_model->getJumlahHistory($id_mahasiswa);
-
-        $jumlah_komunitas = $this->User_model->getJumlahKomunitas($id_mahasiswa);
-
-        // Kirim data ke view
-        $data['jumlah_seminar'] = $jumlah_seminar;
-        $data['jumlah_belum_bayar'] = $jumlah_belum_bayar;
-        $data['jumlah_history'] = $jumlah_history;
-        $data['jumlah_komunitas'] = $jumlah_komunitas;
-
     
-        // Kirim nama mahasiswa ke view
+        $data['jumlah_seminar'] = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
+        $data['jumlah_belum_bayar'] = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
+        $data['jumlah_history'] = $this->User_model->getJumlahHistory($id_mahasiswa);
+        $data['jumlah_komunitas'] = $this->User_model->getJumlahKomunitas($id_mahasiswa);
+    
+        // Ambil nama seminar berdasarkan id_seminar
+        $seminar = $this->db->get_where('seminar', ['id_seminar' => $id_seminar])->row();
+        $data['nama_seminar'] = $seminar ? $seminar->nama_seminar : 'Nama Seminar Tidak Ditemukan';
+    
+        // Kirim data mahasiswa
         $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
-        // Mendapatkan id_mahasiswa dari session
-        $id_mahasiswa = $this->session->userdata('id_mahasiswa');
-
+    
+        // Mendapatkan data chat
         $data['chats'] = $this->ChatModel->getChats($id_vendor, $id_seminar);
         $data['id_vendor'] = $id_vendor;
         $data['id_seminar'] = $id_seminar;
-
+    
         $this->load->view('template/user/header', $data);
         $this->load->view('template/user/navbar', $data);
         $this->load->view('chat/index', $data);
         $this->load->view('template/user/footer');
     }
+    
 
     public function send() {
         $id_vendor = $this->input->post('id_vendor');

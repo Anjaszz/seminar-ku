@@ -4,170 +4,406 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <title>Document</title>
+    <style>
+        @keyframes pulse-light {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        .button-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .button-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 8px;
+            background: inherit;
+            filter: blur(8px);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s;
+        }
+        .button-wrapper:hover::after {
+            opacity: 0.4;
+        }
+        .gradient-blur {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(139, 92, 246, 0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .price-badge {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .cta-button {
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(139, 92, 246, 0.5);
+        }
+        /* Animasi hover untuk card */
+.pricing-card {
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Efek hover untuk tombol */
+.pricing-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.pricing-button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    transition: transform 0.3s ease;
+    border-radius: inherit;
+}
+
+.pricing-button:hover::after {
+    transform: scale(1);
+    opacity: 0;
+}
+
+/* Efek highlight untuk popular plan */
+.popular-card {
+    animation: highlight-popular 1s ease-in-out infinite alternate;
+}
+
+@keyframes highlight-popular {
+    0% {
+        box-shadow: 0 0 10px rgba(128, 90, 213, 0.2);
+    }
+    100% {
+        box-shadow: 0 0 20px rgba(128, 90, 213, 0.4);
+    }
+}
+
+/* Icon check animation */
+.check-icon {
+    display: inline-block;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.pricing-card:hover .check-icon {
+    transform: scale(1.2);
+    color: #2dd4bf; /* Warna hijau hover */
+}
+
+    </style>
 </head>
 <body>
-<header class="fixed w-full">
-        <nav class="bg-white border-gray-200 py-5 dark:bg-gray-900 shadow-md">
-            <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
-                <a href="<?= base_url() ?>" class="flex items-center">
-                    <img src="<?= base_url('assets/images/fav.png') ?>" class="h-6 mr-3 sm:h-9" alt="SIMAS Logo" />
-                    <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">SIMAS</span>
-                </a>
-                <div class="flex items-center lg:order-2">
-                    <a href="#" class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 lg:px-12 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">
-                        Daftar
+<header class="fixed w-full z-50">
+    <nav class="bg-white border-gray-200 py-5 dark:bg-gray-900 shadow-md">
+        <div class="flex flex-wrap items-center justify-between max-w-screen px-4 mx-auto">
+            <!-- Logo -->
+            <a href="<?= base_url() ?>" class="flex items-center">
+                <img src="<?= base_url('assets/images/fav.png') ?>" class="h-6 mr-3 sm:h-9" alt="SIMAS Logo" />
+                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">SIMAS</span>
+            </a>
+
+            <div class="sm:flex  gap-4 lg:order-2 hidden">
+                    <a href="<?= site_url('daftar/vendor'); ?>" class="inline-flex items-center justify-center px-6 py-3 text-sm font-medium text-white transition-all duration-300 ease-in-out bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg hover:from-purple-700 hover:to-indigo-700 focus:ring-4 focus:ring-purple-300 focus:outline-none dark:focus:ring-purple-800 shadow-lg hover:shadow-purple-500/50 dark:shadow-lg dark:hover:shadow-purple-800/80 transform hover:-translate-y-0.5 active:translate-y-0 group">
+                        <span class="relative flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                            </svg>
+                            Daftar
+                        </span>
                     </a>
-                    <button type="button" onclick="toggleMenu()" class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-                        <span class="sr-only">Open main menu</span>
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-                        </svg>
-                    </button>
+
+                    <a href="<?= site_url('auth/login'); ?>" class="inline-flex items-center justify-center px-6 py-3 text-sm font-medium transition-all duration-300 ease-in-out bg-white text-purple-600 border-2 border-purple-600 rounded-lg hover:bg-purple-50 focus:ring-4 focus:ring-purple-300 focus:outline-none dark:bg-gray-800 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-gray-700 dark:focus:ring-purple-800 shadow-lg hover:shadow-purple-500/30 dark:shadow-lg dark:hover:shadow-purple-800/60 transform hover:-translate-y-0.5 active:translate-y-0 group">
+                        <span class="relative flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                            </svg>
+                            Masuk
+                        </span>
+                    </a>
                 </div>
-                <div class="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
-                    <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-                        <li>
-                            <a href="<?= base_url() ?>" class="block py-2 pl-3 pr-4 text-black bg-purple-700 rounded lg:bg-transparent lg:p-0 dark:text-white">Home</a>
-                        </li>
-                        <li>
-                            <a href="#testimoni" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Testimoni</a>
-                        </li>
-                        <li>
-                            <a href="#price" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Harga</a>
-                        </li>
-                        <li>
-                            <a href="#feature" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Fitur</a>
-                        </li>
-                        <li>
-                            <a href="https://wa.me/6282258040148" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Kontak</a>
-                        </li>
-                    </ul>
+
+            <!-- Toggle Button for Mobile -->
+            <button type="button" onclick="toggleMenu()" class="inline-flex items-center p-2 mr-2 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                <span class="sr-only">Open main menu</span>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+
+            <!-- Menu -->
+            <div class="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
+                <!-- Menu List -->
+                <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+                    <li>
+                        <a href="<?= base_url() ?>" class="block py-2 pl-3 pr-4 text-black bg-purple-700 rounded lg:bg-transparent lg:p-0 dark:text-white">Home</a>
+                    </li>
+                    <li>
+                        <a href="#testimoni" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Testimoni</a>
+                    </li>
+                    <li>
+                        <a href="#price" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Harga</a>
+                    </li>
+                    <li>
+                        <a href="#feature" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Fitur</a>
+                    </li>
+                    <li>
+                        <a href="https://wa.me/6282258040148" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Kontak</a>
+                    </li>
+                </ul>
+
+                <!-- Buttons for Mobile -->
+                <div class="flex flex-col gap-4 mt-4 lg:hidden mx-2">
+                    <a href="<?= site_url('daftar/vendor'); ?>" class="inline-flex items-center justify-center px-6 py-3 text-sm font-medium text-white transition-all duration-300 ease-in-out bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg hover:from-purple-700 hover:to-indigo-700 focus:ring-4 focus:ring-purple-300 focus:outline-none dark:focus:ring-purple-800 shadow-lg hover:shadow-purple-500/50 dark:shadow-lg dark:hover:shadow-purple-800/80 transform hover:-translate-y-0.5 active:translate-y-0 group">
+                        <span class="relative flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                            </svg>
+                            Daftar
+                        </span>
+                    </a>
+
+                    <a href="<?= site_url('auth/login'); ?>" class="inline-flex items-center justify-center px-6 py-3 text-sm font-medium transition-all duration-300 ease-in-out bg-white text-purple-600 border-2 border-purple-600 rounded-lg hover:bg-purple-50 focus:ring-4 focus:ring-purple-300 focus:outline-none dark:bg-gray-800 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-gray-700 dark:focus:ring-purple-800 shadow-lg hover:shadow-purple-500/30 dark:shadow-lg dark:hover:shadow-purple-800/60 transform hover:-translate-y-0.5 active:translate-y-0 group">
+                        <span class="relative flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                            </svg>
+                            Masuk
+                        </span>
+                    </a>
                 </div>
             </div>
-        </nav>
-    </header>
-    <section className="bg-white dark:bg-gray-900 h-[45rem] pt-0 lg:pt-20">
-  <div className="grid max-w-screen-xl px-4  pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 ">
-    <div className="mr-auto lg:ml-14 place-self-center lg:col-span-7 mt-10">
-      <h1 className="max-w-2xl mb-4 lg:mb-8 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl dark:text-white">
-      Kelola Seminar Anda dengan Mudah
-      </h1>
-      <p className="max-w-2xl mb-6 font-medium font-sans text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-      Platform modern untuk mengatur seminar, mulai dari registrasi hingga laporan akhir, semuanya dalam satu tempat.
-      </p>
-      <div className="space-y-4 sm:flex sm:space-y-0 sm:space-x-4 ">
-  <a
-    href="#"
-    className="hover:text-white inline-flex items-center justify-center w-full px-16 py-3 text-xl font-medium text-center text-gray-900 border border-gray-200 rounded-lg sm:w-auto relative overflow-hidden group"
-  >
-    <span className="absolute inset-0 bg-purple-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-0"></span>
-    <span className="relative z-10 ">Mulai Seminar</span>
-  </a>
-</div>
+        </div>
+    </nav>
+</header>
 
-    </div>
-    <div class=" lg:mt-0 lg:col-span-5 lg:flex">
-                <img src="<?= base_url('assets/images/heroimage.svg') ?>" alt="hero image" class="h-30 w-auto" />
-            </div>  
-  </div>
-</section>
+    <section class="container mx-auto px-4 py-24 md:py-24">
+        <div class="grid items-center gap-8 md:grid-cols-2">
+            <!-- Left Column -->
+            <div class="flex flex-col gap-6">
+                <h1 class="text-4xl text-gray-800 font-extrabold tracking-tight sm:text-5xl md:text-6xl">
+                Kelola Seminar Anda dengan Mudah
+                </h1>
+                <p class="text-lg text-gray-600">
+                Platform modern untuk mengatur seminar, mulai dari registrasi hingga laporan akhir, semuanya dalam satu tempat.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <!-- GitHub Button -->
+                    <a href="<?= site_url('daftar/vendor'); ?>" class="inline-flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white text-lg font-bold rounded-lg hover:bg-blue-800">
+   
+    Daftar Sekarang
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M9 5l7 7-7 7" />
+    </svg>
+</a>
+
+
+
+                   
+                </div>
+            </div>
+            <!-- Right Column -->
+            <div class="relative mx-auto w-full max-w-lg">
+                <img 
+                    src="assets/images/heroimage.svg"
+                    alt="Digital products and brands illustration"
+                    class="w-full h-auto"
+                />
+            </div>
+        </div>
+    </section>
 
     
   
     <section class="bg-white dark:bg-gray-900">
-        <div class="max-w-screen-md pb-8 mx-auto lg:pb-16">
-            <div class="grid grid-cols-3  text-gray-500 lg:grid-cols-3 dark:text-gray-400">
-                <a href="#" class="flex items-center lg:justify-center">
-                  <img src="<?= base_url('assets/images/SIMAS.png') ?>" alt="logo simas" />                    
-                </a>
-                <a href="#" class="flex items-center lg:justify-center">
-                <img src="<?= base_url('assets/images/logo-unm.png') ?>" alt="logo UNM" className='h-20 w-auto'/>                                              
-                </a>
-                <a href="#" class="flex items-center lg:justify-center">
-                <img src="<?= base_url('assets/images/logo-nic.webp') ?>" alt="logo NIC" className='h-20 w-auto'/>                                                                     
-                </a>
-    
+    <div class="max-w-screen-md mx-auto py-8 lg:py-16">
+        <h2 class="text-center text-xl font-semibold text-gray-700 dark:text-gray-300 mb-6">Our Sponsors</h2>
+        <div class="grid grid-cols-3 sm:gap-6 gap-1 items-center">
+            <!-- Sponsor 1 -->
+            <a href="#" class="flex items-center justify-center p-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition">
+                <img src="<?= base_url('assets/images/SIMAS.png') ?>" alt="Logo SIMAS" class="sm:h-16 h-10 w-auto object-contain" />
+            </a>
+            <!-- Sponsor 2 -->
+            <a href="#" class="flex items-center justify-center p-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition">
+                <img src="<?= base_url('assets/images/logo-unm.png') ?>" alt="Logo UNM" class="sm:h-16 h-10 w-auto object-contain" />
+            </a>
+            <!-- Sponsor 3 -->
+            <a href="#" class="flex items-center justify-center p-3 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition">
+                <img src="<?= base_url('assets/images/logo-nic.png') ?>" alt="Logo NIC" class="sm:h-16 h-10 w-auto object-contain" />
+            </a>
+        </div>
+    </div>
+</section>
 
+    
+  
+<section class="bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900">
+        <div class="max-w-screen-xl px-4 py-16 mx-auto space-y-16 lg:py-24 lg:px-6">
+            <!-- First Feature Section -->
+            <div class="relative">
+                <!-- Decorative background -->
+                <div class="absolute inset-0 bg-gradient-to-r from-purple-100/50 to-blue-100/50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-3xl opacity-20"></div>
+                
+                <div class="items-center gap-8 lg:grid lg:grid-cols-2 xl:gap-16 relative">
+                    <div class="space-y-8">
+                        <div class="space-y-4">
+                            <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+                                Mengapa anda harus memilih SIMAS?
+                            </h2>
+                            <p class="text-lg text-gray-500 dark:text-gray-400">
+                                Temukan berbagai keunggulan yang menjadikan SIMAS solusi terbaik untuk manajemen seminar Anda.
+                            </p>
+                        </div>
+
+                        <ul class="space-y-4 border-t border-gray-200 dark:border-gray-700 pt-8">
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-purple-500 dark:text-purple-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-base font-medium text-gray-900 dark:text-white">
+                                    Presensi kehadiran dengan QR Code
+                                </span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-purple-500 dark:text-purple-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-base font-medium text-gray-900 dark:text-white">
+                                    Laporan Seminar Otomatis
+                                </span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-purple-500 dark:text-purple-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-base font-medium text-gray-900 dark:text-white">
+                                    Antarmuka Mudah Digunakan
+                                </span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-purple-500 dark:text-purple-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-base font-medium text-gray-900 dark:text-white">
+                                    Generate otomatis Sertifikat
+                                </span>
+                            </li>
+                        </ul>
+
+                        <p class="text-lg text-gray-500 dark:text-gray-400">
+                            Semua fitur ini dirancang untuk memberikan pengalaman seminar yang lebih mudah, cepat, dan profesional. Pilih SIMAS sebagai partner terbaik Anda
+                        </p>
+                    </div>
+
+                    <div class="mt-8 lg:mt-0">
+                        <div class="overflow-hidden rounded-2xl shadow-xl">
+                            <img class="w-full h-full object-cover" src="<?= base_url('assets/images/image-1.png') ?>" alt="Feature illustration" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Feature Section -->
+            <div class="relative">
+                <!-- Decorative background -->
+                <div class="absolute inset-0 bg-gradient-to-r from-purple-100/50 to-blue-100/50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-3xl opacity-20"></div>
+                
+                <div class="items-center gap-8 lg:grid lg:grid-cols-2 xl:gap-16 relative">
+                    <div class="space-y-8 lg:order-2">
+                        <div class="space-y-4">
+                            <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+                                Keunggulan yang Kami Tawarkan
+                            </h2>
+                            <p class="text-lg text-gray-500 dark:text-gray-400">
+                                Kami menghadirkan solusi inovatif yang dirancang untuk memberikan pengalaman seminar terbaik.
+                            </p>
+                        </div>
+
+                        <ul class="space-y-4 border-t border-gray-200 dark:border-gray-700 pt-8">
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-purple-500 dark:text-purple-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-base font-medium text-gray-900 dark:text-white">
+                                    Akses Kapan Saja dan di Mana Saja
+                                </span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-purple-500 dark:text-purple-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-base font-medium text-gray-900 dark:text-white">
+                                    Manajemen Data Terintegrasi
+                                </span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-purple-500 dark:text-purple-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-base font-medium text-gray-900 dark:text-white">
+                                    Notifikasi Real-Time
+                                </span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-purple-500 dark:text-purple-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-base font-medium text-gray-900 dark:text-white">
+                                    Dukungan Pelaporan Visual
+                                </span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-purple-500 dark:text-purple-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-base font-medium text-gray-900 dark:text-white">
+                                    Skalabilitas untuk Berbagai Kebutuhan
+                                </span>
+                            </li>
+                        </ul>
+
+                        <p class="text-lg text-gray-500 dark:text-gray-400">
+                            Gabungkan teknologi modern dan kemudahan manajemen dengan SIMAS. Pastikan setiap seminar yang Anda kelola berjalan lancar tanpa hambatan.
+                        </p>
+                    </div>
+
+                    <div class="mt-8 lg:mt-0 lg:order-1">
+                        <div class="overflow-hidden rounded-2xl shadow-xl">
+                            <img class="w-full h-full object-cover" src="<?= base_url('assets/images/image-2.png') ?>" alt="Feature illustration" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-    
-  
-    <section class="bg-gray-50 dark:bg-gray-800" id='feature'>
-        <div class="max-w-screen-xl px-4 py-8 mx-auto space-y-12 lg:space-y-20 lg:py-24 lg:px-6">
-            <div class="items-center gap-8 lg:grid lg:grid-cols-2 xl:gap-16">
-                <div class="text-gray-500 sm:text-lg dark:text-gray-400">
-                    <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">Mengapa anda harus memilih SIMAS?</h2>
-                    <p class="mb-8 font-light lg:text-xl">Temukan berbagai keunggulan yang menjadikan SIMAS solusi terbaik untuk manajemen seminar Anda.</p>
-                   
-                    <ul role="list" class="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700">
-                        <li class="flex space-x-3">
-                           
-                            <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">Presensi kehadiran dengan QR Code</span>
-                        </li>
-                        <li class="flex space-x-3">
-                           
-                            <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">Laporan Seminar Otomatis</span>
-                        </li>
-                        <li class="flex space-x-3">
-                           
-                            <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">Antarmuka Mudah Digunakan</span>
-                        </li>
-                        <li class="flex space-x-3">
-                           
-                            <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">Generate otomatis Sertifikat</span>
-                        </li>
-                    </ul>
-                    <p class="mb-8 font-light lg:text-xl">Semua fitur ini dirancang untuk memberikan pengalaman seminar yang lebih mudah, cepat, dan profesional. Pilih SIMAS sebagai partner terbaik Anda</p>
-                </div>
-                <img class="w-full mb-4 rounded-lg lg:mb-0 lg:flex" src="<?= base_url('assets/images/image-1.jfif') ?> alt="dashboard feature image"/>
-            </div>
-          
-            <div class="items-center gap-8 lg:grid lg:grid-cols-2 xl:gap-16">
-                
-                <div class="text-gray-500 sm:text-lg dark:text-gray-400">
-                    <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">Keunggulan yang Kami Tawarkan</h2>
-                    <p class="mb-8 font-light lg:text-xl">Kami menghadirkan solusi inovatif yang dirancang untuk memberikan pengalaman seminar terbaik.</p>
-                   
-                    <ul role="list" class="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700">
-                        <li class="flex space-x-3">
-                           
-                            <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">Akses Kapan Saja dan di Mana Saja</span>
-                        </li>
-                        <li class="flex space-x-3">
-                           
-                            <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">Manajemen Data Terintegrasi</span>
-                        </li>
-                        <li class="flex space-x-3">
-                           
-                            <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">Notifikasi Real-Time</span>
-                        </li>
-                        <li class="flex space-x-3">
-                           
-                            <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">Dukungan Pelaporan Visual</span>
-                        </li>
-                        <li class="flex space-x-3">
-                           
-                            <svg class="flex-shrink-0 w-5 h-5 text-purple-500 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span class="text-base font-medium leading-tight text-gray-900 dark:text-white">Skalabilitas untuk Berbagai Kebutuhan</span>
-                        </li>
-                    </ul>
-                    <p class="font-light lg:text-xl">Gabungkan teknologi modern dan kemudahan manajemen dengan SIMAS. Pastikan setiap seminar yang Anda kelola berjalan lancar tanpa hambatan.</p>
-                </div>
-                <img class="w-full mb-4 rounded-lg lg:mb-0 lg:flex" src="<?= base_url('assets/images/image-2.jfif') ?> "alt="feature image 2"/>
-            </div>
-           
-        </div>
-      </section>
     
   
     <section class="bg-white dark:bg-gray-900" id='testimoni'>
@@ -207,111 +443,301 @@
     
   
     
-  
-    <section class="bg-white dark:bg-gray-900" id='price'>
-        <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-24 lg:px-6">
-            <div class="max-w-screen-md mx-auto mb-8 text-center lg:mb-12">
-                <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">Harga Layanan SIMAS</h2>
-                <p class="mb-5 font-light text-gray-500 sm:text-xl dark:text-gray-400">SIMAS menawarkan paket Lifetime Access yang memungkinkan Anda menikmati semua fitur premium SIMAS dengan bayar sekali hanya Rp 50.000. Tidak ada biaya bulanan, tidak ada biaya tersembunyi cukup bayar sekali untuk mengelola seminar Anda dengan mudah dan efisien selamanya</p>
-            </div>
-            <div class="">
-               
+      <section class="bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="max-w-3xl mx-auto text-center mb-16">
+            <h2 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
+                Investasi untuk Kesuksesan Seminar Anda
+            </h2>
+            <p class="text-xl text-gray-600 dark:text-gray-300">
+                Pilih paket yang sesuai dengan kebutuhan Anda. Nikmati kemudahan mengelola seminar dengan SIMAS.
+            </p>
+        </div>
 
-               
-                <div class="flex flex-col max-w-lg p-6 mx-auto text-center text-gray-900 bg-white border border-gray-100 rounded-lg shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-                    <h3 class="mb-4 text-2xl font-semibold">Lifetime</h3>
-                    <p class="font-light text-gray-500 sm:text-lg dark:text-gray-400">Solusi Seminar Hemat dan Seumur Hidup</p>
-                    <div class="flex items-baseline justify-center my-8">
-                        <span class="mr-2 text-5xl font-extrabold">Rp.50.000</span>
-                        <span class="text-gray-500 dark:text-gray-400" dark:text-gray-400>/selamanya</span>
-                    </div>
-                   
-                    <ul role="list" class="mb-8 space-y-4 text-left">
-                        <li class="flex items-center space-x-3">
-                           
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                            <span>Akses Selamanya,Nikmati semua fitur SIMAS tanpa batas waktu, kapan saja Anda butuhkan.</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                           
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                            <span>Tidak Perlu Pembaruan,Cukup bayar sekali dan nikmati akses tanpa perlu memperbarui paket atau berurusan dengan tagihan tahunan.</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                           
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                            <span>Kemudahan Pengelolaan,Dari pendaftaran peserta hingga laporan, semuanya dapat dilakukan dengan beberapa klik saja.</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                           
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                            <span>Layanan Support,Akses ke dukungan pelanggan untuk membantu Anda mengelola seminar kapan saja Anda membutuhkan bantuan.</span>
-                        </li>
-                        <li class="flex items-center space-x-3">
-                           
-                            <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                            <span>Selalu Mendapatkan Update Fitur</span>
-                        </li>
-                    </ul>
-                    <a href="#" class="text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-purple-900">Daftar Sekarang</a>
-                </div>
-               
-
+        <!-- Pricing Cards -->
+        <div class="grid lg:grid-cols-3 gap-8 lg:gap-12">
+    <!-- Starter Plan -->
+    <div class="pricing-card rounded-2xl bg-white dark:bg-gray-800 shadow-lg p-8 transition-all duration-300 hover:shadow-xl">
+        <div class="text-center">
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Starter</h3>
+            <p class="text-gray-500 dark:text-gray-400 mb-6">
+                Mulai perjalanan seminar Anda dengan fitur lengkap
+            </p>
+            <div class="flex items-center justify-center mb-6">
+                <span class="text-4xl font-bold text-gray-900 dark:text-white">Rp</span>
+                <span class="text-5xl font-bold text-gray-900 dark:text-white mx-2">50.000</span>
+                <span class="text-gray-500 dark:text-gray-400">/3 Bulan</span>
             </div>
         </div>
-      </section>
+
+        <ul class="space-y-4 mb-8">
+            <li class="flex items-center hover:animate-pulse transition-transform duration-200 hover:scale-105">
+                <i class="far fa-check-circle check-icon fa-lg" style="color: #00f0a8;"></i>
+                <span class="text-gray-600 dark:text-gray-300 ml-3">
+                    Akses ke semua fitur premium SIMAS
+                </span>
+            </li>
+            <li class="flex items-center hover:animate-pulse transition-transform duration-200 hover:scale-105">
+                <i class="far fa-check-circle check-icon fa-lg" style="color: #00f0a8;"></i>
+                <span class="text-gray-600 dark:text-gray-300 ml-3">
+                    Manajemen seminar yang mudah
+                </span>
+            </li>
+            <li class="flex items-center hover:animate-pulse transition-transform duration-200 hover:scale-105">
+                <i class="far fa-check-circle check-icon fa-lg" style="color: #00f0a8;"></i>
+                <span class="text-gray-600 dark:text-gray-300 ml-3">
+                    Sistem pendaftaran otomatis
+                </span>
+            </li>
+            <li class="flex items-center hover:animate-pulse transition-transform duration-200 hover:scale-105">
+                <i class="far fa-check-circle check-icon fa-lg" style="color: #00f0a8;"></i>
+                <span class="text-gray-600 dark:text-gray-300 ml-3">
+                    Dukungan pelanggan
+                </span>
+            </li>
+        </ul>
+
+        <button class="w-full py-4 px-6 rounded-xl font-medium transition-colors duration-200 bg-purple-100 hover:bg-purple-200 text-purple-600 dark:bg-purple-900 dark:hover:bg-purple-800 dark:text-purple-100">
+            Mulai Sekarang
+        </button>
+    </div>
+
+    <!-- Popular Plan -->
+    <div class="pricing-card rounded-2xl bg-white dark:bg-gray-800 shadow-xl border-2 border-purple-500 transform lg:-translate-y-4 p-8 transition-all duration-300 hover:shadow-xl">
+        <div class="absolute -top-5 left-0 right-0 mx-auto w-32 rounded-full bg-purple-500 text-white text-sm py-1 text-center font-medium">
+            Terpopuler
+        </div>
+
+        <div class="text-center">
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Popular</h3>
+            <p class="text-gray-500 dark:text-gray-400 mb-6">
+                Solusi terpopuler untuk seminar berkala
+            </p>
+            <div class="flex items-center justify-center mb-6">
+                <span class="text-4xl font-bold text-gray-900 dark:text-white">Rp</span>
+                <span class="text-5xl font-bold text-gray-900 dark:text-white ">70.000</span>
+                <span class="text-gray-500 dark:text-gray-400">/6 Bulan</span>
+            </div>
+        </div>
+
+        <ul class="space-y-4 mb-8">
+            <li class="flex items-center hover:animate-bounce transition-transform duration-200 hover:scale-105">
+                <i class="far fa-check-circle check-icon fa-lg" style="color: #00f0a8;"></i>
+                <span class="text-gray-600 dark:text-gray-300 ml-3">
+                    Semua fitur Starter
+                </span>
+            </li>
+            <li class="flex items-center hover:animate-bounce transition-transform duration-200 hover:scale-105">
+                <i class="far fa-check-circle check-icon fa-lg" style="color: #00f0a8;"></i>
+                <span class="text-gray-600 dark:text-gray-300 ml-3">
+                    Dashboard analitik lengkap
+                </span>
+            </li>
+            <li class="flex items-center hover:animate-bounce transition-transform duration-200 hover:scale-105">
+                <i class="far fa-check-circle check-icon fa-lg" style="color: #00f0a8;"></i>
+                <span class="text-gray-600 dark:text-gray-300 ml-3">
+                    Prioritas dukungan pelanggan
+                </span>
+            </li>
+            <li class="flex items-center hover:animate-bounce transition-transform duration-200 hover:scale-105">
+                <i class="far fa-check-circle check-icon fa-lg" style="color: #00f0a8;"></i>
+                <span class="text-gray-600 dark:text-gray-300 ml-3">
+                    Update fitur terbaru
+                </span>
+            </li>
+        </ul>
+
+        <button class="w-full py-4 px-6 rounded-xl font-medium transition-colors duration-200 bg-purple-600 hover:bg-purple-700 text-white">
+            Mulai Sekarang
+        </button>
+    </div>
+
+    <!-- Professional Plan -->
+    <div class="pricing-card rounded-2xl bg-white dark:bg-gray-800 shadow-lg p-8 transition-all duration-300 hover:shadow-xl">
+        <div class="text-center">
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Professional</h3>
+            <p class="text-gray-500 dark:text-gray-400 mb-6">
+                Untuk penyelenggara seminar profesional
+            </p>
+            <div class="flex items-center justify-center mb-6">
+                <span class="text-4xl font-bold text-gray-900 dark:text-white">Rp</span>
+                <span class="text-5xl font-bold text-gray-900 dark:text-white ">100.000</span>
+                <span class="text-gray-500 dark:text-gray-400">/1 Tahun</span>
+            </div>
+        </div>
+
+        <ul class="space-y-4 mb-8">
+            <li class="flex items-center hover:animate-pulse transition-transform duration-200 hover:scale-105">
+                <i class="far fa-check-circle check-icon fa-lg" style="color: #00f0a8;"></i>
+                <span class="text-gray-600 dark:text-gray-300 ml-3">
+                    Semua fitur Popular
+                </span>
+            </li>
+            <li class="flex items-center hover:animate-pulse transition-transform duration-200 hover:scale-105">
+                <i class="far fa-check-circle check-icon fa-lg" style="color: #00f0a8;"></i>
+                <span class="text-gray-600 dark:text-gray-300 ml-3">
+                    Laporan analitik khusus
+                </span>
+            </li>
+            <li class="flex items-center hover:animate-pulse transition-transform duration-200 hover:scale-105">
+                <i class="far fa-check-circle check-icon fa-lg" style="color: #00f0a8;"></i>
+                <span class="text-gray-600 dark:text-gray-300 ml-3">
+                    Dukungan prioritas 24/7
+                </span>
+            </li>
+            <li class="flex items-center hover:animate-pulse transition-transform duration-200 hover:scale-105">
+                <i class="far fa-check-circle check-icon fa-lg" style="color: #00f0a8;"></i>
+                <span class="text-gray-600 dark:text-gray-300 ml-3">
+                    Fitur kustomisasi lanjutan
+                </span>
+            </li>
+        </ul>
+
+        <button class="w-full py-4 px-6 rounded-xl font-medium transition-colors duration-200 bg-purple-100 hover:bg-purple-200 text-purple-600 dark:bg-purple-900 dark:hover:bg-purple-800 dark:text-purple-100">
+            Mulai Sekarang
+        </button>
+    </div>
+</div>
+
+
+
+        <!-- Footer CTA -->
+        <div class="mt-12 text-center">
+            <p class="text-gray-500 dark:text-gray-400">
+                Butuh solusi khusus? 
+                <a href="#contact" class="text-purple-600 hover:text-purple-700 font-medium">
+                    Hubungi kami
+                </a>
+            </p>
+        </div>
+    </div>
+</section>
   
    
-    <section class="bg-gray-50 dark:bg-gray-800">
-        <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
+    <section class="relative overflow-hidden bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 py-16 sm:py-24">
+        <!-- Gradient Blurs -->
+        <div class="gradient-blur top-0 left-1/4 opacity-75"></div>
+        <div class="gradient-blur bottom-0 right-1/4 opacity-75"></div>
+
+        <div class="relative max-w-screen-xl px-4 mx-auto">
             <div class="max-w-screen-md mx-auto text-center">
-                <h2 class="mb-4 text-3xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white">Siap Mengelola Seminar Anda dengan SIMAS?</h2>
-                <p class="mb-6 font-normal text-gray-500 dark:text-gray-400 md:text-lg">Jangan tunggu lebih lama lagi! Daftar sekarang dan nikmati kemudahan dalam mengelola seminar dengan SIMAS. Dengan harga terjangkau hanya Rp 50.000 untuk akses seumur hidup, Anda dapat menikmati berbagai fitur canggih yang akan mempermudah setiap tahap seminar Anda. Mulai dari pendaftaran peserta hingga laporan lengkap, SIMAS siap membantu Anda.</p>
-                <a href="#" class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-4 mr-2 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">Gabung Sekarang dan Mulai Kelola Seminar Anda</a>
+                <!-- Price Badge -->
+                <div class="inline-block price-badge">
+                    <div class="mb-8 inline-flex items-center justify-center px-4 py-2 bg-purple-100 dark:bg-purple-900/30 rounded-full">
+                        <svg class="w-5 h-5 text-purple-600 dark:text-purple-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.715-5.349L11 6.477V16h2a1 1 0 110 2H7a1 1 0 110-2h2V6.477L6.237 7.582l1.715 5.349a1 1 0 01-.285 1.05A3.989 3.989 0 015 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.616a1 1 0 01.894-1.79l1.599.8L9 4.323V3a1 1 0 011-1zm-5 8.274l-.818 2.552c.25.112.526.174.818.174.292 0 .569-.062.818-.174L5 10.274zm10 0l-.818 2.552c.25.112.526.174.818.174.292 0 .569-.062.818-.174L15 10.274z"/>
+                        </svg>
+                        <span class="text-sm font-semibold text-purple-600 dark:text-purple-400">Mulai dengan hanya Rp.50.000</span>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <h2 class="mb-6 text-4xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white md:text-5xl">
+                    Siap Mengelola Seminar Anda dengan SIMAS?
+                </h2>
+                
+                <p class="mb-8 text-lg font-normal text-gray-600 dark:text-gray-300 lg:text-xl">
+                    Jangan tunggu lebih lama lagi! Daftar sekarang dan nikmati kemudahan dalam mengelola seminar dengan SIMAS. 
+                    <span class="block mt-4">
+                        Dengan akses seumur hidup, Anda dapat menikmati berbagai fitur canggih yang akan mempermudah setiap tahap seminar Anda.
+                    </span>
+                </p>
+
+                <!-- Features List -->
+                <div class="mb-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
+                        <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-gray-700 dark:text-gray-300">Pendaftaran Peserta</span>
+                    </div>
+                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
+                        <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-gray-700 dark:text-gray-300">Sertifikat Digital</span>
+                    </div>
+                    <div class="flex items-center space-x-3 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
+                        <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-gray-700 dark:text-gray-300">Laporan Lengkap</span>
+                    </div>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="flex flex-col items-center justify-center space-y-4">
+                    <a href="<?= site_url('daftar/vendor'); ?>" class="cta-button inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl hover:from-purple-700 hover:to-indigo-700 focus:ring-4 focus:ring-purple-300 focus:outline-none dark:focus:ring-purple-800 shadow-lg">
+                        <span>Gabung Sekarang</span>
+                        <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Mulai kelola seminar Anda dengan lebih profesional</p>
+                </div>
             </div>
         </div>
     </section>
-    <footer class="bg-white dark:bg-gray-800">
-        <div class="max-w-screen-xl p-4 mx-auto lg:py-5 md:p-8 lg:p-6">
-
-            <div class=" border-gray-200 sm:mx-auto dark:border-gray-700 ">
-            <div class="text-center">
-                <a href="#" class="flex items-center justify-center mb-5 text-2xl font-semibold text-gray-900 dark:text-white">
-                    <img src={Logo} class="h-6 mr-3 sm:h-9" alt="SIMAS Logo" />
-                    SIMAS
-                </a>
-                <span class="block text-sm text-center text-gray-500 dark:text-gray-400">© 2024 SIMAS. All Rights Reserved. 
-                </span>
-                <ul class="flex justify-center mt-5 space-x-5">
-                    <li>
-                        <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" /></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" /></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white dark:text-gray-400">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z" clip-rule="evenodd" /></svg>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            </div>
+    <footer class="bg-white text-black py-8">
+  <div class="container mx-auto">
+    <div class="flex flex-wrap -mx-4">
+      <div class="w-full lg:w-1/4 px-4 mb-8">
+        <img src="<?php echo base_url('assets/backend/template/assets/images/SIMAS.png'); ?>" alt="Logo" class="mb-4 md:w-full w-56">
+        <p class="text-gray-600">Sistem Manajemen Seminar</p>
+        <div class="flex space-x-4 mt-4">
+          <a href="#" class="hover:opacity-80 transition-opacity duration-200">
+            <img src="<?php echo base_url('assets/images/appstore.svg'); ?>" alt="App Store" class="h-12">
+          </a>
+          <a href="#" class="hover:opacity-80 transition-opacity duration-200">
+            <img src="<?php echo base_url('assets/images/googleplay.svg'); ?>" alt="Play Store" class="h-12">
+          </a>
         </div>
-    </footer>
+      </div>
+      <div class="w-full lg:w-1/4 px-4 mb-8">
+        <h5 class="mb-4 text-xl font-bold">Menu</h5>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-gray-600 hover:text-black transition-colors duration-200">Beranda</a></li>
+          <li><a href="#" class="text-gray-600 hover:text-black transition-colors duration-200">Seminar</a></li>
+          <li><a href="#" class="text-gray-600 hover:text-black transition-colors duration-200">Tentang Kami</a></li>
+          <li><a href="#" class="text-gray-600 hover:text-black transition-colors duration-200">Kontak</a></li>
+        </ul>
+      </div>
+      <div class="w-full lg:w-1/4 px-4 mb-8">
+        <h5 class="mb-4 text-xl font-bold">Kontak Kami</h5>
+        <p class="text-gray-600 mb-2">Jl. Raya Jatiwaringin No.2, RT.8/RW.13, Cipinang Melayu, Kec. Makasar, Kota Jakarta Timur, DKI Jakarta 13620</p>
+        <p class="text-gray-600">Email: info@simaseminar.com<br>Telp: +62 571 1297 160</p>
+      </div>
+      <div class="w-full lg:w-1/4 px-4 mb-8">
+        <h5 class="mb-4 text-xl font-bold">Ikuti Kami</h5>
+        <div class="flex space-x-4">
+          <a href="#" class="text-gray-400 hover:text-black transition-colors duration-200">
+            <i class="fab fa-facebook text-2xl"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-black transition-colors duration-200">
+            <i class="fab fa-twitter text-2xl"></i>  
+          </a>
+          <a href="#" class="text-gray-400 hover:text-black transition-colors duration-200">
+            <i class="fab fa-instagram text-2xl"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-black transition-colors duration-200">
+            <i class="fab fa-youtube text-2xl"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <hr class="border-gray-800 my-8">
+    <div class="text-center text-gray-600">
+      <p>&copy; 2024 Sistem Manajemen Seminar. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
 </body>
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById("mobile-menu-2");
+        menu.classList.toggle("hidden");
+    }
+</script>
+
 </html>
