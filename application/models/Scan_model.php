@@ -96,5 +96,7 @@ class Scan_model extends CI_Model
     public function insert_data_history($history_data) {
         return $this->db->insert('history_seminar', $history_data);
     }
+
+    
     
 }

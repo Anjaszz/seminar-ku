@@ -37,6 +37,14 @@ public function get_seminar_by_id($id_seminar) {
         return $query->row(); // Mengembalikan satu baris hasil
     }
 
+    public function get_all_jenis() {
+        return $this->db->get('jenis_seminar')->result_array();
+    }
+    
+    public function get_jenis_by_id($id) {
+        return $this->db->get_where('jenis_seminar', ['id_jenis' => $id])->row_array();
+    }
+
         public function getSeminarById($id_seminar) {
         $this->db->select('nama_seminar, id_vendor');
         $this->db->from('seminar');

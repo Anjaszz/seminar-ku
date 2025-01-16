@@ -55,6 +55,40 @@
                     <?php endif; ?>
                 </div>
 
+                <!-- Tambahkan kode ini setelah field Nama Seminar -->
+<!-- Jenis Seminar -->
+<div>
+    <label for="id_jenis" class="block text-sm font-medium text-gray-700">Jenis Seminar</label>
+    <div class="mt-1">
+        <select name="id_jenis" id="id_jenis" 
+                class="px-4 py-2 block w-full border-2 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm
+                       <?= form_error('id_jenis') ? 'border-red-300' : ''; ?>"
+                required>
+            <option value="">-- Pilih Jenis Seminar --</option>
+            <?php foreach ($jenis_seminar as $jenis): ?>
+                <option value="<?= $jenis['id_jenis']; ?>" 
+                        <?= (isset($seminar['id_jenis']) && $seminar['id_jenis'] == $jenis['id_jenis']) || set_value('id_jenis') == $jenis['id_jenis'] ? 'selected' : ''; ?>>
+                    <?= $jenis['nama_jenis']; ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <?php if(form_error('id_jenis')): ?>
+        <p class="mt-1 text-sm text-red-600"><?= form_error('id_jenis'); ?></p>
+    <?php endif; ?>
+</div>
+
+<!-- Link Seminar (Awalnya Tersembunyi) -->
+<div id="linkSeminarField" class="hidden">
+    <label for="link_seminar" class="block text-sm font-medium text-gray-700">Link Seminar</label>
+    <div class="mt-1">
+        <input type="url" name="link_seminar" id="link_seminar" 
+               placeholder="Contoh: https://meet.google.com/xxx-yyyy-zzz"
+               value="<?= isset($seminar['link_seminar']) ? $seminar['link_seminar'] : set_value('link_seminar'); ?>"
+               class="px-4 py-2 block w-full border-2 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+    </div>
+</div>
+
                 <!-- Kategori Seminar -->
                 <div>
                     <label for="id_kategori" class="block text-sm font-medium text-gray-700">Kategori Seminar</label>
@@ -78,22 +112,28 @@
                 </div>
 
                 <!-- Lokasi Seminar -->
-                <div>
-                    <label for="id_lokasi" class="block text-sm font-medium text-gray-700">Lokasi Seminar</label>
-                    <div class="mt-1">
-                        <select name="id_lokasi" id="id_lokasi" 
-                                class="px-4 py-2 block w-full border-2 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                                required>
-                            <option value="">-- Pilih Lokasi --</option>
-                            <?php foreach ($lokasi_seminar as $lokasi): ?>
-                                <option value="<?= $lokasi['id_lokasi']; ?>" 
-                                        <?= (isset($seminar['id_lokasi']) && $seminar['id_lokasi'] == $lokasi['id_lokasi']) || set_value('id_lokasi') == $lokasi['id_lokasi'] ? 'selected' : ''; ?>>
-                                    <?= $lokasi['nama_provinsi']; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                </div>
+                <!-- Lokasi Seminar -->
+<div>
+    <label for="id_lokasi" class="block text-sm font-medium text-gray-700">Lokasi Seminar</label>
+    <div class="mt-1">
+        <select name="id_lokasi" id="id_lokasi" 
+                class="px-4 py-2 block w-full border-2 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                required>
+            <option value="">-- Pilih Lokasi --</option>
+            <?php foreach ($lokasi_seminar as $lokasi): ?>
+                <option value="<?= $lokasi['id_lokasi']; ?>" 
+                        <?= (isset($seminar['id_lokasi']) && $seminar['id_lokasi'] == $lokasi['id_lokasi']) || 
+                            set_value('id_lokasi') == $lokasi['id_lokasi'] ? 'selected' : ''; ?>
+                        <?= $lokasi['id_lokasi'] == '38' ? 'data-is-online="true"' : ''; ?>>
+                    <?= $lokasi['nama_provinsi']; ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <?php if(form_error('id_lokasi')): ?>
+        <p class="mt-1 text-sm text-red-600"><?= form_error('id_lokasi'); ?></p>
+    <?php endif; ?>
+</div>
 
                 <!-- Detail Lokasi -->
                 <div>
@@ -228,6 +268,69 @@
     </div>
 
     <script>
+
+// Tambahkan kode ini di dalam script yang sudah ada
+document.addEventListener('DOMContentLoaded', function() {
+    const jenisSeminarSelect = document.getElementById('id_jenis');
+    const lokasiSelect = document.getElementById('id_lokasi');
+    const detailLokasiInput = document.getElementById('lokasi');
+    const linkSeminarField = document.getElementById('linkSeminarField');
+    const linkSeminarInput = document.getElementById('link_seminar');
+
+    // Pastikan form tidak bisa disubmit jika lokasi belum dipilih
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        if (!lokasiSelect.value) {
+            e.preventDefault();
+            alert('Silakan pilih lokasi seminar');
+            return false;
+        }
+    });
+
+    jenisSeminarSelect.addEventListener('change', function() {
+        const isOnline = this.options[this.selectedIndex].text.toLowerCase().includes('online');
+        
+        if (isOnline) {
+            // Tampilkan field link dan jadikan wajib
+            linkSeminarField.classList.remove('hidden');
+            linkSeminarInput.setAttribute('required', 'required');
+            
+            // Set lokasi untuk online (ID: 38)
+            lokasiSelect.value = '38';
+            lokasiSelect.disabled = false; // Penting: jangan disable untuk memastikan nilai terkirim
+            lokasiSelect.setAttribute('readonly', 'readonly'); // Gunakan readonly sebagai gantinya
+            
+            // Set detail lokasi
+            detailLokasiInput.value = 'Seminar Online';
+            detailLokasiInput.readOnly = true;
+
+            // Tambahan: log untuk debugging
+            console.log('Lokasi value setelah set:', lokasiSelect.value);
+        } else {
+            // Sembunyikan field link dan hapus required
+            linkSeminarField.classList.add('hidden');
+            linkSeminarInput.removeAttribute('required');
+            
+            // Reset lokasi
+            lokasiSelect.removeAttribute('readonly');
+            lokasiSelect.value = '';
+            
+            // Reset detail lokasi
+            detailLokasiInput.readOnly = false;
+            detailLokasiInput.value = '';
+        }
+    });
+
+    // Tambahan: log untuk debugging saat halaman dimuat
+    console.log('Initial lokasi value:', lokasiSelect.value);
+    
+    // Jika ada nilai jenis yang sudah terpilih saat halaman dimuat
+    if (jenisSeminarSelect.value) {
+        jenisSeminarSelect.dispatchEvent(new Event('change'));
+    }
+});
+
+
         // Form validation and preview handlers
         document.addEventListener('DOMContentLoaded', function() {
             // File input preview
