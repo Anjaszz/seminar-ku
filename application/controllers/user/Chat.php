@@ -68,39 +68,55 @@ class Chat extends CI_Controller {
         $id_seminar = $this->input->post('id_seminar');
         $id_mahasiswa = $this->session->userdata('id_mahasiswa');
         $pesan = $this->input->post('pesan');
-
+        $id_chat = $this->input->post('id_chat');
+    
         $data = [
             'id_vendor' => $id_vendor,
             'id_seminar' => $id_seminar,
             'id_mahasiswa' => $id_mahasiswa,
             'pesan' => $pesan,
         ];
-
-        // Handle file upload
-        if (!empty($_FILES['file']['name'])) {
-            $config['upload_path'] = './uploads/chat/';
-            $config['allowed_types'] = 'jpg|png|jpeg|pdf|doc|docx';
-            $config['max_size'] = 2048; // 2MB
-            $this->upload->initialize($config);
-
-            if ($this->upload->do_upload('file')) {
-                $upload_data = $this->upload->data();
-                $data['file_path'] = 'uploads/chat/' . $upload_data['file_name'];
-
-                // Tentukan tipe file
-                $ext = strtolower($upload_data['file_ext']);
-                $data['tipe_file'] = in_array($ext, ['.pdf', '.doc', '.docx']) ? 'document' : 'image';
-            } else {
-                // Debug untuk upload error
-                log_message('error', 'Upload error: ' . $this->upload->display_errors());
-            }
-        }
-
-        // Simpan data ke database
-        if ($this->ChatModel->saveChat($data)) {
-            redirect('user/chat/index/' . $id_vendor . '/' . $id_seminar);
+    
+        // Jika ada id_chat, berarti ini adalah edit
+        if (!empty($id_chat)) {
+            $this->ChatModel->updateChat($id_chat, $data);
         } else {
-            log_message('error', 'Gagal menyimpan data chat ke database.');
+            // Handle file upload dan save seperti sebelumnya
+            if (!empty($_FILES['file']['name'])) {
+                $config['upload_path'] = './uploads/chat/';
+                $config['allowed_types'] = 'jpg|png|jpeg|pdf|doc|docx';
+                $config['max_size'] = 2048;
+                $this->upload->initialize($config);
+    
+                if ($this->upload->do_upload('file')) {
+                    $upload_data = $this->upload->data();
+                    $data['file_path'] = 'uploads/chat/' . $upload_data['file_name'];
+                    $ext = strtolower($upload_data['file_ext']);
+                    $data['tipe_file'] = in_array($ext, ['.pdf', '.doc', '.docx']) ? 'document' : 'image';
+                }
+            }
+    
+            $this->ChatModel->saveChat($data);
+        }
+    
+        redirect('user/chat/index/' . $id_vendor . '/' . $id_seminar);
+    }
+    
+    public function delete() {
+        $id_chat = $this->input->post('id_chat');
+        $chat = $this->ChatModel->getChatById($id_chat);
+    
+        // Validasi kepemilikan chat
+        if ($chat && $chat['id_mahasiswa'] == $this->session->userdata('id_mahasiswa')) {
+            // Hapus file jika ada
+            if (!empty($chat['file_path']) && file_exists(FCPATH . $chat['file_path'])) {
+                unlink(FCPATH . $chat['file_path']);
+            }
+    
+            $result = $this->ChatModel->deleteChat($id_chat);
+            echo json_encode(['success' => $result]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
         }
     }
 }

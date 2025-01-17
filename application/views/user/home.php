@@ -101,80 +101,106 @@
     </header>  
   
     <!-- Search and Filter Section -->  
-    <section class="py-8 bg-white shadow-sm">  
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
-            <form action="<?php echo base_url('user/home/index'); ?>" method="GET" class="space-y-4">  
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-2">  
-                    <!-- Search Bar -->  
-                    <div class="col-span-2">  
-                        <div class="relative">  
-                            <input type="text"   
-                                   name="search"   
-                                   placeholder="Cari seminar..."   
-                                   value="<?php echo $this->input->get('search'); ?>"  
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">  
-                            <button type="submit" class="absolute right-2 top-2 text-gray-500">  
-                                <i class="fas fa-search"></i>  
-                            </button>  
-                        </div>  
-                    </div>  
-  
-                    <!-- Location Filter -->  
-                    <div>  
-                        <form method="GET" action="<?php echo base_url('user/home/index'); ?>">  
-                            <select name="id_lokasi"   
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"  
-                                    onchange="this.form.submit()">  
-                                <option value="">Semua Lokasi</option>  
-                                <?php foreach ($lokasi_seminar as $lokasi): ?>  
-                                <option value="<?php echo $lokasi->id_lokasi; ?>"   
-                                        <?php echo ($this->input->get('id_lokasi') == $lokasi->id_lokasi) ? 'selected' : ''; ?>>  
-                                    <?php echo $lokasi->nama_provinsi; ?>  
-                                </option>  
-                                <?php endforeach; ?>  
-                            </select>  
-                        </form>  
-                    </div>  
-  
-                    <!-- Price Filter -->  
-                    <div>  
-                        <form method="GET" action="<?php echo base_url('user/home/index'); ?>">  
-                            <select name="price_range"   
-                                    class="w-full px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"  
-                                    onchange="this.form.submit()">  
-                                <option value="">Semua Harga</option>  
-                                <option value="free" <?php echo ($this->input->get('price_range') == 'free') ? 'selected' : ''; ?>>Gratis</option>  
-                                <option value="paid" <?php echo ($this->input->get('price_range') == 'paid') ? 'selected' : ''; ?>>Berbayar</option>  
-                                <option value="0-50000" <?php echo ($this->input->get('price_range') == '0-50000') ? 'selected' : ''; ?>>Rp 0 - 50.000</option>  
-                                <option value="50000-100000" <?php echo ($this->input->get('price_range') == '50000-100000') ? 'selected' : ''; ?>>Rp 50.000 - 100.000</option>  
-                                <option value="100000+" <?php echo ($this->input->get('price_range') == '100000+') ? 'selected' : ''; ?>>Rp 100.000+</option>  
-                            </select>  
-                        </form>  
-                    </div>  
-  
-                    <!-- Quick Filters -->  
-                    <div class="flex flex-wrap gap-3 w-full col-span-2">  
-                        <button type="button"   
-                                class="lg:px-4 px-3 py-2 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition"  
-                                onclick="filterNearby()">  
-                            <i class="fas fa-map-marker-alt mr-2"></i>Terdekat  
-                        </button>  
-                        <button type="button"   
-                                class="lg:px-4 px-3 py-2 bg-green-100 text-green-600 rounded-full hover:bg-green-200 transition"  
-                                onclick="filterToday()">  
-                            <i class="fas fa-calendar-day mr-2"></i>Hari Ini  
-                        </button>  
-                        <button type="button"   
-                                class="lg:px-4 px-3 py-2 bg-purple-100 text-purple-600 rounded-full hover:bg-purple-200 transition"  
-                                onclick="filterFree()">  
-                            <i class="fas fa-ticket-alt mr-2"></i>Gratis  
+    <!-- Modifikasi bagian filter di view -->
+<section class="py-8 bg-white shadow-sm">  
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
+        <form action="<?php echo base_url('user/home/index'); ?>" method="GET" class="space-y-4">  
+            <div class="grid grid-cols-1 md:grid-cols-6 gap-2">  
+                <!-- Search Bar -->  
+                <div class="col-span-2">  
+                    <div class="relative">  
+                        <input type="text"   
+                               name="search"   
+                               placeholder="Cari seminar..."   
+                               value="<?php echo $this->input->get('search'); ?>"  
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">  
+                        <button type="submit" class="absolute right-2 top-2 text-gray-500">  
+                            <i class="fas fa-search"></i>  
                         </button>  
                     </div>  
                 </div>  
-            </form>  
-        </div>  
-    </section>  
+
+                <!-- Kategori Seminar -->
+                <div>
+                    <select name="id_kategori" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            onchange="this.form.submit()">
+                        <option value="">Semua Kategori</option>
+                        <?php foreach ($kategori_seminar as $kategori): ?>
+                        <option value="<?php echo $kategori->id_kategori; ?>"
+                                <?php echo ($this->input->get('id_kategori') == $kategori->id_kategori) ? 'selected' : ''; ?>>
+                            <?php echo $kategori->nama_kategori; ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <!-- Jenis Seminar -->
+                <div>
+                    <select name="id_jenis" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            onchange="this.form.submit()">
+                        <option value="">Semua Jenis</option>
+                        <?php foreach ($jenis_seminar as $jenis): ?>
+                        <option value="<?php echo $jenis->id_jenis; ?>"
+                                <?php echo ($this->input->get('id_jenis') == $jenis->id_jenis) ? 'selected' : ''; ?>>
+                            <?php echo $jenis->nama_jenis; ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <!-- Location Filter -->  
+                <div>  
+                    <select name="id_lokasi"   
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"  
+                            onchange="this.form.submit()">  
+                        <option value="">Semua Lokasi</option>  
+                        <?php foreach ($lokasi_seminar as $lokasi): ?>  
+                        <option value="<?php echo $lokasi->id_lokasi; ?>"   
+                                <?php echo ($this->input->get('id_lokasi') == $lokasi->id_lokasi) ? 'selected' : ''; ?>>  
+                            <?php echo $lokasi->nama_provinsi; ?>  
+                        </option>  
+                        <?php endforeach; ?>  
+                    </select>  
+                </div>  
   
+                <!-- Price Filter -->  
+                <div>  
+                    <select name="price_range"   
+                            class="w-full px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"  
+                            onchange="this.form.submit()">  
+                        <option value="">Semua Harga</option>  
+                        <option value="free" <?php echo ($this->input->get('price_range') == 'free') ? 'selected' : ''; ?>>Gratis</option>  
+                        <option value="paid" <?php echo ($this->input->get('price_range') == 'paid') ? 'selected' : ''; ?>>Berbayar</option>  
+                        <option value="0-50000" <?php echo ($this->input->get('price_range') == '0-50000') ? 'selected' : ''; ?>>Rp 0 - 50.000</option>  
+                        <option value="50000-100000" <?php echo ($this->input->get('price_range') == '50000-100000') ? 'selected' : ''; ?>>Rp 50.000 - 100.000</option>  
+                        <option value="100000+" <?php echo ($this->input->get('price_range') == '100000+') ? 'selected' : ''; ?>>Rp 100.000+</option>  
+                    </select>  
+                </div>  
+            </div>
+
+            <!-- Quick Filters -->  
+            <div class="flex flex-wrap gap-3 w-full mt-4">  
+                <button type="button"   
+                        class="lg:px-4 px-3 py-2 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition"  
+                        onclick="filterNearby()">  
+                    <i class="fas fa-map-marker-alt mr-2"></i>Terdekat  
+                </button>  
+                <button type="button"   
+                        class="lg:px-4 px-3 py-2 bg-green-100 text-green-600 rounded-full hover:bg-green-200 transition"  
+                        onclick="filterToday()">  
+                    <i class="fas fa-calendar-day mr-2"></i>Hari Ini  
+                </button>  
+                <button type="button"   
+                        class="lg:px-4 px-3 py-2 bg-purple-100 text-purple-600 rounded-full hover:bg-purple-200 transition"  
+                        onclick="filterFree()">  
+                    <i class="fas fa-ticket-alt mr-2"></i>Gratis  
+                </button>  
+            </div>  
+        </form>  
+    </div>  
+</section>
     <!-- Featured Categories -->  
     <section class="py-12 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -375,9 +401,15 @@
 
                     <!-- Price and Action Buttons -->
                     <div class="flex flex-col items-start justify-between w-full gap-3">
-                        <span class="text-blue-600 font-semibold">
-                            Rp <?php echo number_format($seminar->harga_tiket, 0, ',', '.'); ?>
-                        </span>
+                    <?php if ($seminar->harga_tiket == 0): ?>
+    <span class="text-green-600 font-medium px-3 py-1 bg-green-100 rounded-full text-sm">
+        Gratis
+    </span>
+<?php else: ?>
+    <span class="text-blue-600 font-semibold">
+        Rp <?php echo number_format($seminar->harga_tiket, 0, ',', '.'); ?>
+    </span>
+<?php endif; ?>
                         <div class="flex flex-row gap-3 items-center w-full">
                             <?php if ($seminar->is_slot_habis): ?>
                                 <button class="px-4 py-2 bg-red-100 text-red-600 rounded-lg cursor-not-allowed" disabled>

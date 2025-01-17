@@ -14,6 +14,7 @@ class Genqr extends MY_Controller {
         ]);
         $this->load->model('Genqr_model', 'gen');
         $this->load->library('ciqrcode');
+        $this->load->library('encryption');
     }
 
     public function index()
@@ -36,8 +37,11 @@ class Genqr extends MY_Controller {
         $seminar = $this->db->get_where('seminar', ['id_seminar' => $id_seminar])->row();
         
         if ($seminar) {
-            // Generate QR Code
-            $params['data'] = $id_seminar; // Hanya berisi id_seminar
+            // Generate URL untuk presensi dengan IP tetap dan endpoint baru
+            $verification_url = 'http://192.168.0.8/seminar-ku/user/presensi/hadir/' . $id_seminar;
+    
+            // Generate QR Code dengan URL presensi
+            $params['data'] = $verification_url;
             $params['level'] = 'H';
             $params['size'] = 10;
             $qr_image = 'seminar_' . $id_seminar . '_qr.png';
@@ -53,7 +57,8 @@ class Genqr extends MY_Controller {
             $data = array(
                 'title' => 'QR Code Presensi',
                 'seminar' => $seminar,
-                'qr_image' => $qr_image
+                'qr_image' => $qr_image,
+                'verification_url' => $verification_url // URL untuk debugging
             );
             
             $this->template->load('template/template_v', 'genqr/result_v', $data);
