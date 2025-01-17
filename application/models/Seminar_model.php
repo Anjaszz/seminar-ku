@@ -69,7 +69,40 @@ public function get_seminar_by_id($id_seminar) {
     
         return $this->db->get()->result();
     }
+    public function get_data_online()
+{
+    // Ambil id_vendor dari session
+    $id_vendor = $this->session->userdata('id_vendor');
     
+    // Lakukan join antara tabel seminar, tiket, dan users
+    $this->db->select('seminar.*, tiket.*, users.nama_vendor'); 
+    $this->db->from('seminar');
+    $this->db->join('tiket', 'tiket.id_seminar = seminar.id_seminar', 'left');
+    $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left');
+    
+    // Filter berdasarkan id_vendor dan id_jenis
+    $this->db->where('seminar.id_vendor', $id_vendor);
+    $this->db->where('seminar.id_jenis', 1); // Menambahkan filter untuk id_jenis = 1
+    
+    return $this->db->get()->result();
+}
+public function get_data_offline()
+{
+    // Ambil id_vendor dari session
+    $id_vendor = $this->session->userdata('id_vendor');
+    
+    // Lakukan join antara tabel seminar, tiket, dan users
+    $this->db->select('seminar.*, tiket.*, users.nama_vendor'); 
+    $this->db->from('seminar');
+    $this->db->join('tiket', 'tiket.id_seminar = seminar.id_seminar', 'left');
+    $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left');
+    
+    // Filter berdasarkan id_vendor dan id_jenis
+    $this->db->where('seminar.id_vendor', $id_vendor);
+    $this->db->where('seminar.id_jenis', 2); // Menambahkan filter untuk id_jenis = 1
+    
+    return $this->db->get()->result();
+}
         
     public function insert_data($data)
     {

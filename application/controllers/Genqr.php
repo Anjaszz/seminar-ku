@@ -19,12 +19,12 @@ class Genqr extends MY_Controller {
     public function index()
     {
         $title = 'QRCode Presensi Online';
-        $get_seminar = $this->sm->get_data();
+        $get_seminar_online = $this->sm->get_data_online();
         $latest_seminar_id = $this->sc->get_latest_seminar_id(); 
 
         $data = [
             'title' => $title,
-            'seminar' => $get_seminar,
+            'seminar' => $get_seminar_online,
             'latest_seminar_id' => $latest_seminar_id, 
         ];
 
