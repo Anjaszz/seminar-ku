@@ -453,10 +453,10 @@
                                     <i class="fas fa-check"></i> Diikuti
                                 </button>
                             <?php else: ?>
-                                <button class="daftar-seminar px-4 py-2 w-full text-center bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-200"
-                                        onclick="window.location.href='<?php echo base_url('user/home/daftar/' . $seminar->id_seminar); ?>'">
-                                    <i class="fas fa-user-plus"></i> Daftar
-                                </button>
+                                <button class="daftar-seminar px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-200 w-full"
+        data-seminar-id="<?php echo $seminar->id_seminar; ?>">
+    <i class="fas fa-user-plus"></i> Daftar
+</button>
                             <?php endif; ?>
 
                             <a href="<?php echo base_url('user/home/detail/' . $seminar->id_seminar); ?>"
@@ -643,53 +643,53 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
  
 <script>  
-  // Fungsi untuk konfirmasi pendaftaran menggunakan SweetAlert
-// Fungsi untuk konfirmasi pendaftaran menggunakan SweetAlert
-function confirmRegistration(seminarId) {
-    Swal.fire({
-        title: 'Konfirmasi Pendaftaran',
-        text: 'Apakah Anda yakin ingin mendaftar ke seminar ini?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya, Daftar!',
-        cancelButtonText: 'Batal',
-        reverseButtons: true
-    }).then((result) => {
-        if (result.isConfirmed) {
-            checkLoginAndRegister(seminarId);
-        }
-    });
-}
-
-// Fungsi untuk mengecek login dan mendaftarkan seminar
-function checkLoginAndRegister(seminarId) {
-    // Cek status login
-    const isLoggedIn = <?php echo $this->session->userdata('user_data') ? 'true' : 'false'; ?>;
+document.addEventListener('DOMContentLoaded', function() {
+    const daftarButtons = document.querySelectorAll('.daftar-seminar');
     
-    if (!isLoggedIn) {
-        // Jika belum login, tampilkan SweetAlert dan arahkan ke halaman login
-        Swal.fire({
-            title: 'Login Diperlukan',
-            text: 'Anda harus login terlebih dahulu untuk mendaftar seminar',
-            icon: 'info',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Login Sekarang',
-            cancelButtonText: 'Nanti Saja'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = '<?php echo base_url('user/auth'); ?>';
-            }
+    daftarButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const seminarId = this.dataset.seminarId;
+            
+            Swal.fire({
+                title: 'Konfirmasi Pendaftaran',
+                text: 'Apakah Anda yakin ingin mendaftar ke seminar ini?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Daftar!',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Cek status login
+                    const isLoggedIn = <?php echo $this->session->userdata('user_data') ? 'true' : 'false'; ?>;
+                    
+                    if (!isLoggedIn) {
+                        Swal.fire({
+                            title: 'Login Diperlukan',
+                            text: 'Anda harus login terlebih dahulu untuk mendaftar seminar',
+                            icon: 'info',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Login Sekarang',
+                            cancelButtonText: 'Nanti Saja'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = '<?php echo base_url('user/auth'); ?>';
+                            }
+                        });
+                    } else {
+                        window.location.href = '<?php echo base_url('user/home/daftar/'); ?>' + seminarId;
+                    }
+                }
+            });
         });
-    } else {
-        // Jika sudah login, lakukan pendaftaran
-        window.location.href = baseUrl + 'user/home/daftar/' + seminarId;
-    }
-}
-
+    });
+});
 // Tambahkan event listener untuk tombol daftar
 document.addEventListener('DOMContentLoaded', function() {
     const daftarButtons = document.querySelectorAll('.daftar-seminar');
