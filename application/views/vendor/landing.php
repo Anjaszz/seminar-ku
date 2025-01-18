@@ -498,9 +498,11 @@
             </li>
         </ul>
 
-        <button class="w-full py-4 px-6 rounded-xl font-medium transition-colors duration-200 bg-purple-100 hover:bg-purple-200 text-purple-600 dark:bg-purple-900 dark:hover:bg-purple-800 dark:text-purple-100">
-            Mulai Sekarang
+        <a href="<?= site_url('daftar/vendor'); ?>">
+        <button  class="w-full py-4 px-6 rounded-xl font-medium transition-colors duration-200 bg-purple-100 hover:bg-purple-200 text-purple-600 dark:bg-purple-900 dark:hover:bg-purple-800 dark:text-purple-100">
+        Mulai Sekarang
         </button>
+        </a>
     </div>
 
     <!-- Popular Plan -->
@@ -547,10 +549,11 @@
                 </span>
             </li>
         </ul>
-
-        <button class="w-full py-4 px-6 rounded-xl font-medium transition-colors duration-200 bg-purple-600 hover:bg-purple-700 text-white">
-            Mulai Sekarang
+        <a href="<?= site_url('daftar/vendor'); ?>">
+        <button  class="w-full py-4 px-6 rounded-xl font-medium transition-colors duration-200 bg-purple-600 hover:bg-purple-200 text-white dark:bg-purple-900 dark:hover:bg-purple-800 dark:text-purple-100">
+        Mulai Sekarang
         </button>
+        </a>
     </div>
 
     <!-- Professional Plan -->
@@ -594,9 +597,12 @@
             </li>
         </ul>
 
-        <button class="w-full py-4 px-6 rounded-xl font-medium transition-colors duration-200 bg-purple-100 hover:bg-purple-200 text-purple-600 dark:bg-purple-900 dark:hover:bg-purple-800 dark:text-purple-100">
-            Mulai Sekarang
+        <a href="<?= site_url('daftar/vendor'); ?>">
+        <button  class="w-full py-4 px-6 rounded-xl font-medium transition-colors duration-200 bg-purple-100 hover:bg-purple-200 text-purple-600 dark:bg-purple-900 dark:hover:bg-purple-800 dark:text-purple-100">
+        Mulai Sekarang
         </button>
+        </a>
+       
     </div>
 </div>
 
@@ -679,13 +685,16 @@
             </div>
         </div>
     </section>
-    <footer class="bg-white text-black py-8">
-  <div class="container mx-auto">
+
+
+<footer class="bg-white text-black py-8">
+  <div class="container mx-auto px-4">
     <div class="flex flex-wrap -mx-4">
-      <div class="w-full lg:w-1/4 px-4 mb-8">
+      <!-- Section 1 -->
+      <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8">
         <img src="<?php echo base_url('assets/backend/template/assets/images/SIMAS.png'); ?>" alt="Logo" class="mb-4 md:w-full w-56">
         <p class="text-gray-600">Sistem Manajemen Seminar</p>
-        <div class="flex space-x-4 mt-4">
+        <div class="flex flex-wrap space-x-4 mt-4">
           <a href="#" class="hover:opacity-80 transition-opacity duration-200">
             <img src="<?php echo base_url('assets/images/appstore.svg'); ?>" alt="App Store" class="h-12">
           </a>
@@ -694,7 +703,8 @@
           </a>
         </div>
       </div>
-      <div class="w-full lg:w-1/4 px-4 mb-8">
+      <!-- Section 2 -->
+      <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8">
         <h5 class="mb-4 text-xl font-bold">Menu</h5>
         <ul class="space-y-2">
           <li><a href="#" class="text-gray-600 hover:text-black transition-colors duration-200">Beranda</a></li>
@@ -703,12 +713,14 @@
           <li><a href="#" class="text-gray-600 hover:text-black transition-colors duration-200">Kontak</a></li>
         </ul>
       </div>
-      <div class="w-full lg:w-1/4 px-4 mb-8">
+      <!-- Section 3 -->
+      <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8">
         <h5 class="mb-4 text-xl font-bold">Kontak Kami</h5>
         <p class="text-gray-600 mb-2">Jl. Raya Jatiwaringin No.2, RT.8/RW.13, Cipinang Melayu, Kec. Makasar, Kota Jakarta Timur, DKI Jakarta 13620</p>
         <p class="text-gray-600">Email: info@simaseminar.com<br>Telp: +62 571 1297 160</p>
       </div>
-      <div class="w-full lg:w-1/4 px-4 mb-8">
+      <!-- Section 4 -->
+      <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8">
         <h5 class="mb-4 text-xl font-bold">Ikuti Kami</h5>
         <div class="flex space-x-4">
           <a href="#" class="text-gray-400 hover:text-black transition-colors duration-200">
@@ -732,6 +744,7 @@
     </div>
   </div>
 </footer>
+
 </body>
 <script>
     function toggleMenu() {
