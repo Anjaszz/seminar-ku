@@ -244,52 +244,69 @@
   
     <!-- Horizontal Seminar Scroll -->  
     <section id="upcoming" class="py-12 bg-gray-50">
-    <?php  
-    if (empty($seminar_data)) {  
-        echo '<div class="text-center py-8">
-                <p class="text-gray-600">Tidak ada seminar yang ditemukan.</p>
-              </div>';  
-    } else {
-        $seminar_tersisa = array_filter($seminar_data, fn($s) => !$s->is_slot_habis);
-        $jumlah_seminar_tersisa = count($seminar_tersisa);
-        echo '<div class="text-center py-4">
-                <p class="text-gray-800 font-semibold">
-                    Ada <span class="text-blue-600">' . $jumlah_seminar_tersisa . '</span> seminar dengan slot tersedia.
-                </p>
-              </div>';
-    }
-    ?>
-
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-8">
             <h2 class="text-3xl font-bold gradient-text">Seminar Mendatang</h2>
-            <p class="text-gray-600 mt-2">Geser untuk melihat lebih banyak seminar</p>
+            <p class="text-gray-600 mt-2">Seminar terdekat dalam 6 minggu ke depan</p>
+            
+            <?php if (empty($upcoming_seminars)): ?>
+                <div class="text-center py-8">
+                    <p class="text-gray-600">Belum ada seminar yang akan datang.</p>
+                </div>
+            <?php else: ?>
+                <?php 
+                    $available_seminars = array_filter($upcoming_seminars, function($s) { 
+                        return !$s->is_slot_habis; 
+                    });
+                ?>
+                <div class="text-center py-4">
+                    <p class="text-gray-800 font-semibold">
+                        Ada <span class="text-blue-600"><?php echo count($available_seminars); ?></span> seminar dengan slot tersedia
+                    </p>
+                </div>
+            <?php endif; ?>
         </div>
 
+        <?php if (!empty($upcoming_seminars)): ?>
         <div class="relative">
             <div class="overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing" id="seminar-scroll">
                 <div class="flex space-x-6 pb-4">
-                    <?php foreach ($seminar_data as $seminar): ?>
+                    <?php foreach ($upcoming_seminars as $seminar): ?>
                     <div class="flex-none w-80">
                         <div class="bg-white rounded-xl card-shadow hover:shadow-xl transition-all duration-300">
+                            <!-- Poster Seminar -->
                             <img src="<?php echo base_url('uploads/poster/' . $seminar->lampiran); ?>"
                                  class="w-full h-48 object-cover rounded-t-xl"
                                  alt="<?php echo $seminar->nama_seminar; ?>">
+                            
                             <div class="p-6">
+                                <!-- Judul Seminar -->
                                 <h3 class="font-semibold text-lg mb-2 line-clamp-2">
                                     <?php echo $seminar->nama_seminar; ?>
                                 </h3>
-                                <!-- Nama Vendor -->
-                                <p class="text-sm text-gray-500 ">
+                                
+                                <!-- Info Vendor -->
+                                <p class="text-sm text-gray-500 mb-2">
                                     Oleh: <span class="text-gray-700 font-medium"><?php echo $seminar->nama_vendor; ?></span>
                                 </p>
-                                <div class="flex items-center space-x-2 text-sm text-gray-600 ">
-                                    <i class="fas fa-calendar"></i>
-                                    <span><?php echo date('d M Y', strtotime($seminar->tgl_pelaksana)); ?></span>
+                                
+                                <!-- Tanggal dan Countdown -->
+                                <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center text-sm text-gray-600">
+                                        <i class="fas fa-calendar mr-2"></i>
+                                        <span><?php echo date('d M Y', strtotime($seminar->tgl_pelaksana)); ?></span>
+                                    </div>
+                                    <div class="text-sm">
+                                        <?php if ($seminar->remaining_days == 0): ?>
+                                            <span class="text-red-500 font-medium">Hari ini</span>
+                                        <?php else: ?>
+                                            <span class="text-blue-500 font-medium"><?php echo $seminar->remaining_days; ?> hari lagi</span>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
 
                                 <!-- Progress Bar -->
-                                <div class="flex items-center space-x-3 bg-gray-50 rounded-lg md:p-3 p-1 mb-1">
+                                <div class="flex items-center space-x-3 bg-gray-50 rounded-lg p-3 mb-4">
                                     <div class="w-full bg-gray-200 rounded-full h-2.5">
                                         <div class="h-full rounded-full transition-all duration-500
                                             <?php   
@@ -304,61 +321,40 @@
                                             style="width: <?php echo number_format($seminar->progress, 0); ?>%">
                                         </div>
                                     </div>
-                                    <div class="flex items-center space-x-2 min-w-fit">
-                                        <i class="fas fa-clock text-gray-600"></i>
-                                        <span class="font-bold
-                                            <?php  
-                                                if ($seminar->remaining_days <= 7) echo 'text-red-500';  
-                                                else if ($seminar->remaining_days <= 14) echo 'text-yellow-500';   
-                                                else echo 'text-green-500';  
-                                            ?>">
-                                            <?php echo $seminar->remaining_days; ?>
-                                        </span>
-                                        <span class="text-sm text-gray-600">Hari tersisa</span>
-                                    </div>
                                 </div>
 
-                                <!-- Price and Action Buttons -->
+                                <!-- Harga -->
                                 <div class="flex flex-col items-start justify-between w-full gap-3">
-                                   <!-- Price text with different style for free seminars -->
-<?php if ($seminar->harga_tiket == 0): ?>
-    <span class="text-green-600 font-medium px-3 py-1 bg-green-100 rounded-full text-sm">
-        Gratis
-    </span>
-<?php else: ?>
-    <span class="text-blue-600 font-semibold">
-        Rp <?php echo number_format($seminar->harga_tiket, 0, ',', '.'); ?>
-    </span>
-<?php endif; ?>
+                                    <?php if ($seminar->harga_tiket == 0): ?>
+                                        <span class="text-green-600 font-medium px-3 py-1 bg-green-100 rounded-full text-sm">
+                                            Gratis
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="text-blue-600 font-semibold">
+                                            Rp <?php echo number_format($seminar->harga_tiket, 0, ',', '.'); ?>
+                                        </span>
+                                    <?php endif; ?>
+
+                                    <!-- Tombol Aksi -->
                                     <div class="flex flex-row gap-3 items-center w-full">
-                                        <?php if ($seminar->is_history): ?>
-                                            <a href="<?php echo base_url('user/home/seminar_history/' . $seminar->id_seminar); ?>"
-                                               class="px-4 py-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors duration-200">
-                                                <i class="fas fa-history"></i> History
-                                            </a>
-                                        <?php elseif ($seminar->is_slot_habis): ?>
-                                            <button class="px-4 py-2 bg-red-100 text-red-600 rounded-lg cursor-not-allowed" disabled>
-                                                <i class="fas fa-times"></i> Habis
-                                            </button>
-                                        <?php elseif (isset($seminar->is_registered) && $seminar->id_stsbyr == 1): ?>
-                                            <button class="px-4 py-2 bg-gray-100 w-full text-gray-600 rounded-lg cursor-not-allowed" disabled>
-                                                <i class="fas fa-check"></i> Diikuti
+                                        <?php if ($seminar->is_slot_habis): ?>
+                                            <button class="px-4 py-2 bg-red-100 text-red-600 rounded-lg cursor-not-allowed w-full" disabled>
+                                                <i class="fas fa-times"></i> Slot Penuh
                                             </button>
                                         <?php elseif ($seminar->is_registered): ?>
-                                            <a href="<?php echo base_url('payment/bayar/' . $seminar->id_seminar); ?>"
-                                               class="px-4 py-2 bg-yellow-500 w-full text-center text-white rounded-lg hover:bg-yellow-600 transition-colors duration-200">
-                                                <i class="fas fa-money-bill"></i> Bayar
-                                            </a>
-                                        <?php else: ?>
-                                            <button class="daftar-seminar px-4 py-2 w-full text-center bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-200"
-                                                 onclick="confirmRegistration('<?php echo $seminar->id_seminar; ?>')">
-                                                 <i class="fas fa-user-plus"></i> Daftar
+                                            <button class="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg cursor-not-allowed w-full" disabled>
+                                                <i class="fas fa-check"></i> Terdaftar
                                             </button>
-
+                                        <?php else: ?>
+                                            <button class="daftar-seminar px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-200 w-full"
+                                                    data-seminar-id="<?php echo $seminar->id_seminar; ?>"
+                                                    onclick="confirmRegistration('<?php echo $seminar->id_seminar; ?>')">
+                                                <i class="fas fa-user-plus"></i> Daftar
+                                            </button>
                                         <?php endif; ?>
 
                                         <a href="<?php echo base_url('user/home/detail/' . $seminar->id_seminar); ?>"
-                                           class="px-4 py-2 w-full bg-blue-500 text-white text-center rounded-lg hover:bg-blue-600 transition-colors duration-200">
+                                           class="px-4 py-2 bg-blue-500 text-white text-center rounded-lg hover:bg-blue-600 transition-colors duration-200 w-full">
                                             <i class="fas fa-info-circle"></i> Detail
                                         </a>
                                     </div>
@@ -370,9 +366,9 @@
                 </div>
             </div>
         </div>
+        <?php endif; ?>
     </div>
 </section>
-
 <!-- All Seminars Section -->  
 <section class="py-12 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -564,58 +560,67 @@
     </div>
 </div>
 </body>  
-</html>  
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ 
 <script>  
   // Fungsi untuk konfirmasi pendaftaran menggunakan SweetAlert
+// Fungsi untuk konfirmasi pendaftaran menggunakan SweetAlert
 function confirmRegistration(seminarId) {
     Swal.fire({
         title: 'Konfirmasi Pendaftaran',
         text: 'Apakah Anda yakin ingin mendaftar ke seminar ini?',
         icon: 'question',
         showCancelButton: true,
-        confirmButtonText: 'Ya, daftar',
-        cancelButtonText: 'Tidak',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Daftar!',
+        cancelButtonText: 'Batal',
+        reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
-            checkLoginAndRegister(seminarId); // Panggil fungsi untuk proses pendaftaran
-        } else {
-            Swal.fire('Pendaftaran dibatalkan', '', 'info');
+            checkLoginAndRegister(seminarId);
         }
     });
 }
 
 // Fungsi untuk mengecek login dan mendaftarkan seminar
 function checkLoginAndRegister(seminarId) {
-    <?php if (!$this->session->userdata('user_data')): ?>
-        // Jika pengguna belum login, arahkan ke halaman login
-        window.location.href = '<?php echo base_url('user/auth'); ?>';
-    <?php else: ?>
-        // Jika pengguna sudah login, lakukan proses pendaftaran
-        window.location.href = '<?php echo base_url('user/home/daftar/'); ?>' + seminarId;
-    <?php endif; ?>
+    // Cek status login
+    const isLoggedIn = <?php echo $this->session->userdata('user_data') ? 'true' : 'false'; ?>;
+    
+    if (!isLoggedIn) {
+        // Jika belum login, tampilkan SweetAlert dan arahkan ke halaman login
+        Swal.fire({
+            title: 'Login Diperlukan',
+            text: 'Anda harus login terlebih dahulu untuk mendaftar seminar',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Login Sekarang',
+            cancelButtonText: 'Nanti Saja'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '<?php echo base_url('user/auth'); ?>';
+            }
+        });
+    } else {
+        // Jika sudah login, lakukan pendaftaran
+        window.location.href = baseUrl + 'user/home/daftar/' + seminarId;
+    }
 }
 
-// Flash Messages
-<?php if ($this->session->flashdata('message_success')): ?>
-    Swal.fire({
-        icon: 'success',
-        title: 'Berhasil',
-        text: '<?php echo $this->session->flashdata('message_success'); ?>',
-        showConfirmButton: false,
-        timer: 2000
+// Tambahkan event listener untuk tombol daftar
+document.addEventListener('DOMContentLoaded', function() {
+    const daftarButtons = document.querySelectorAll('.daftar-seminar');
+    daftarButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const seminarId = this.getAttribute('data-seminar-id');
+            confirmRegistration(seminarId);
+        });
     });
-<?php endif; ?>
-
-<?php if ($this->session->flashdata('message_error')): ?>
-    Swal.fire({
-        icon: 'error',
-        title: 'Gagal',
-        text: '<?php echo $this->session->flashdata('message_error'); ?>',
-        showConfirmButton: false,
-        timer: 2000
-    });
-<?php endif; ?>
-
+});
 // Smooth scrolling untuk seminar cards
 const scrollContainer = document.getElementById('seminar-scroll');
 let isDown = false;
@@ -686,3 +691,5 @@ function filterFree() {
     window.location.href = '<?php echo base_url('user/home/index'); ?>?price_range=free';
 }   
     </script>  
+
+</html> 
