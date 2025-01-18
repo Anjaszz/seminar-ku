@@ -1,11 +1,12 @@
 <!DOCTYPE html>  
 <html lang="en">  
 <head>  
-    <title>Home</title>  
+    <title>SIMAS</title>  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <script src="https://cdn.tailwindcss.com"></script>  
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>  
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">  
+    <link rel="icon" type="image/x-icon" href="assets/logo.svg">
     <style>  
         @keyframes float {  
             0% { transform: translateY(0px); }  
@@ -67,7 +68,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
             <div class="text-center">  
                 <h1 class="text-4xl font-extrabold text-white sm:text-5xl lg:text-6xl animate-float">  
-                    Selamat datang, <?php echo $nama_mahasiswa; ?>!  
+                    Selamat datang, <?php echo $nama_mahasiswa; ?>👋 
                 </h1>  
                 <p class="mt-4 text-xl text-gray-100">  
                     Platform Seminar Terbaik untuk Pengembangan Karirmu  
@@ -489,15 +490,58 @@
     </section>  
   
     <!-- CTA Section -->  
-    <section class="py-16 bg-gradient-to-r from-blue-600 to-purple-600">  
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">  
-            <h2 class="text-3xl font-bold text-white mb-4">Siap untuk Memulai?</h2>  
-            <p class="text-xl text-gray-100 mb-8">Daftar sekarang dan kembangkan potensi Anda bersama kami</p>  
-            <a  href="<?php echo base_url('daftar/user'); ?>" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition" id="startNowButton">  
-                Mulai Sekarang  
-            </a>  
-        </div>  
-    </section>  
+    <section class="relative py-20 bg-gradient-to-br from-blue-600 to-purple-700 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-700 opacity-75"></div>
+        
+        <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="relative z-10">
+                <div class="mb-8 space-y-4">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-white leading-tight tracking-tight">
+                        Transformasikan Seminar Anda dengan SIMAS
+                    </h2>
+                    <p class="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
+                        Gabung sebagai vendor dan nikmati solusi manajemen seminar tercanggih. Tingkatkan pengalaman dan efisiensi acara Anda dalam satu platform cerdas.
+                    </p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="<?php echo base_url('/landingvendor'); ?>" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-full text-blue-700 bg-white hover:bg-blue-50 transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Daftar Jadi Vendor Sekarang
+                    </a>
+                    <a href="#" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border border-white text-base font-bold rounded-full text-white hover:bg-white/10 transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Pelajari Lebih Lanjut
+                    </a>
+                </div>
+
+                <div class="mt-12 flex justify-center items-center space-x-4 opacity-70">
+                    <div class="flex items-center text-white">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m7.5 0c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3-1.346 3-3 3zm0 0c-1.954 0-3.5 1.546-3.5 3.5s1.546 3.5 3.5 3.5 3.5-1.546 3.5-3.5S22.454 9 20.5 9zM3 20v-4a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+                        </svg>
+                        <span class="text-sm">Manajemen Seminar Profesional</span>
+                    </div>
+                    <div class="flex items-center text-white">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-sm">Keuntungan Finansial Maksimal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Optional Background Shapes -->
+        <div class="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
+            <div class="absolute bottom-0 left-0 w-80 h-80 bg-white/10 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
+        </div>
+    </section>
   
  <!-- Chatbot Icon -->
 <div id="chatbot-icon" class="fixed bottom-6 right-6 bg-blue-600 w-14 h-14 rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:bg-blue-700 transition-all z-50">
@@ -690,6 +734,138 @@ function filterToday() {
 function filterFree() {
     window.location.href = '<?php echo base_url('user/home/index'); ?>?price_range=free';
 }   
+<<<<<<< HEAD
     </script>  
 
 </html> 
+=======
+
+document.addEventListener('DOMContentLoaded', function() {
+    const chatbotIcon = document.getElementById('chatbot-icon');
+    const chatbotContainer = document.getElementById('chatbot-container');
+    const closeChat = document.getElementById('close-chat');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+
+    // Initial chat content with suggestions
+    const initialChatContent = `
+        <div class="bot-message mb-4">
+            <div class="flex items-start">
+                <div class="bg-blue-100 rounded-lg p-3 max-w-[80%]">
+                    <p class="text-gray-800">Halo! Ada yang bisa saya bantu?</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="suggested-questions mb-4">
+            <p class="text-sm text-gray-500 mb-2">Pertanyaan yang sering ditanyakan:</p>
+            <div class="flex flex-col gap-2">
+                <button class="suggest-btn text-left px-3 py-2 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-sm">
+                    Bagaimana cara mendaftar seminar?
+                </button>
+                <button class="suggest-btn text-left px-3 py-2 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-sm">
+                    Apa saja seminar gratis yang tersedia?
+                </button>
+                <button class="suggest-btn text-left px-3 py-2 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors text-sm">
+                    Bagaimana cara mendapatkan sertifikat seminar?
+                </button>
+            </div>
+        </div>
+    `;
+
+    // Toggle chat interface
+    chatbotIcon.addEventListener('click', () => {
+        chatbotContainer.classList.toggle('hidden');
+        if (!chatbotContainer.classList.contains('hidden')) {
+            chatInput.focus();
+            // Reset chat to initial state with suggestions
+            chatMessages.innerHTML = initialChatContent;
+            // Add click events to new suggestion buttons
+            addSuggestionListeners();
+        }
+    });
+
+    closeChat.addEventListener('click', () => {
+        chatbotContainer.classList.add('hidden');
+        // Reset chat to initial state
+        chatMessages.innerHTML = initialChatContent;
+        chatInput.value = '';
+        // Add click events to new suggestion buttons
+        addSuggestionListeners();
+    });
+
+    // Function to add click events to suggestion buttons
+    function addSuggestionListeners() {
+        document.querySelectorAll('.suggest-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const question = this.textContent.trim();
+                // Remove suggestions after clicking
+                document.querySelector('.suggested-questions')?.remove();
+                // Send the suggested question
+                handleUserMessage(question);
+            });
+        });
+    }
+
+    // Initial setup of suggestion listeners
+    addSuggestionListeners();
+
+    // Handle user message
+    async function handleUserMessage(message) {
+        // Add user message to chat
+        addMessage(message, 'user');
+        chatInput.value = '';
+
+        try {
+            const response = await fetch('<?php echo base_url("api/chat"); ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            addMessage(data.response, 'bot');
+        } catch (error) {
+            console.error('Error:', error);
+            addMessage('Maaf, terjadi kesalahan. Silakan coba lagi.', 'bot');
+        }
+    }
+
+    // Handle chat form submission
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        // Remove suggestions when user starts typing
+        document.querySelector('.suggested-questions')?.remove();
+        
+        handleUserMessage(message);
+    });
+
+    function addMessage(message, type) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `${type}-message mb-4`;
+        
+        const messageContent = `
+            <div class="flex items-start ${type === 'user' ? 'justify-end' : ''}">
+                <div class="${type === 'user' ? 'bg-blue-600 text-white' : 'bg-blue-100 text-gray-800'} rounded-lg p-3 max-w-[80%]">
+                    <p>${message}</p>
+                </div>
+            </div>
+        `;
+        
+        messageDiv.innerHTML = messageContent;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+});
+    </script>  
+>>>>>>> ec194f26fe61d73f115ff1f23d4114b74ebe2da0

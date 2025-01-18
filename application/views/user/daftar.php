@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Daftar Mahasiswa</title>
+    <title>Daftar peserta</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="shortcut icon" href="<?php echo base_url('assets/images/fav.png') ?>" />
 
     <style>
         @keyframes slideInLeft {
@@ -44,6 +45,13 @@
         .form-background {
             background-image: radial-gradient(circle at 30% 107%, #3b82f6 0%, #1d4ed8 5%, #1e3a8a 45%, #172554 60%, #0c1630 90%);
         }
+        
+input[type="number"]::-webkit-inner-spin-button, 
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
     </style>
 </head>
 <body class="h-full form-background">
@@ -93,7 +101,7 @@
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Nama -->
-                            <div class="group transform transition-all duration-300 hover:scale-[1.02]">
+                            <div class="group transform transition-all duration-300 ">
                                 <div class="relative">
                                     <input type="text" id="nama_mhs" name="nama_mhs" 
                                         class="peer w-full px-4 py-3 rounded-xl border-2 border-gray-200 placeholder-transparent focus:border-blue-500 focus:outline-none bg-white"
@@ -108,7 +116,7 @@
                             </div>
 
                             <!-- Email -->
-                            <div class="group transform transition-all duration-300 hover:scale-[1.02]">
+                            <div class="group transform transition-all duration-300 ">
                                 <div class="relative">
                                     <input type="email" id="email" name="email" 
                                         class="peer w-full px-4 py-3 rounded-xl border-2 border-gray-200 placeholder-transparent focus:border-blue-500 focus:outline-none bg-white"
@@ -123,7 +131,7 @@
                             </div>
 
                             <!-- No. Telpon -->
-                            <div class="group transform transition-all duration-300 hover:scale-[1.02]">
+                            <div class="group transform transition-all duration-300 ">
                                 <div class="relative">
                                     <input type="tel" id="no_telp" name="no_telp" 
                                         class="peer w-full px-4 py-3 rounded-xl border-2 border-gray-200 placeholder-transparent focus:border-blue-500 focus:outline-none bg-white"
@@ -138,7 +146,7 @@
                             </div>
 
                             <!-- Usia -->
-                            <div class="group transform transition-all duration-300 hover:scale-[1.02]">
+                            <div class="group transform transition-all duration-300 ">
                                 <div class="relative">
                                     <input type="number" id="tanggal_lahir" name="tanggal_lahir" 
                                         class="peer w-full px-4 py-3 rounded-xl border-2 border-gray-200 placeholder-transparent focus:border-blue-500 focus:outline-none bg-white"
@@ -153,7 +161,7 @@
                             </div>
 
                             <!-- Departemen -->
-                            <div class="group transform transition-all duration-300 hover:scale-[1.02]">
+                            <div class="group transform transition-all duration-300 ">
                                 <div class="relative">
                                     <select id="id_fakultas" name="id_fakultas" 
                                         class="peer w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none bg-white appearance-none"
@@ -173,7 +181,7 @@
                             </div>
 
                             <!-- Jurusan -->
-                            <div class="group transform transition-all duration-300 hover:scale-[1.02]">
+                            <div class="group transform transition-all duration-300 ">
                                 <div class="relative">
                                     <select id="id_prodi" name="id_prodi" 
                                         class="peer w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none bg-white appearance-none"
@@ -190,7 +198,7 @@
                             </div>
 
                             <!-- Password -->
-                            <div class="group transform transition-all duration-300 hover:scale-[1.02]">
+                            <div class="group transform transition-all duration-300 ">
                                 <div class="relative">
                                     <input type="password" id="password" name="password" 
                                         class="peer w-full px-4 py-3 rounded-xl border-2 border-gray-200 placeholder-transparent focus:border-blue-500 focus:outline-none bg-white"
@@ -209,7 +217,7 @@
                             </div>
 
                             <!-- Confirm Password -->
-                            <div class="group transform transition-all duration-300 hover:scale-[1.02]">
+                            <div class="group transform transition-all duration-300 ">
                                 <div class="relative">
                                     <input type="password" id="confirm_password" name="confirm_password" 
                                         class="peer w-full px-4 py-3 rounded-xl border-2 border-gray-200 placeholder-transparent focus:border-blue-500 focus:outline-none bg-white"
@@ -233,12 +241,18 @@
                             <button type="submit" 
                                 class="w-full bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold 
                                        transform transition-all duration-300 
-                                       hover:bg-blue-700 hover:scale-[1.02] hover:shadow-lg 
+                                       hover:bg-blue-700  hover:shadow-lg 
                                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                                 Daftar Sekarang
                             </button>
                         </div>
                     </form>
+                    <div class="flex items-center text-center justify-center mt-2">
+            <a href="<?php echo base_url('user/auth'); ?>" class="text-sm font-medium text-gray-800 ">
+               Sudah punya akun? <span class="text-blue-600 hover:text-text-blue-800 hover:underline transition-colors duration-200"> Masuk disini</span>
+            </a>
+
+        </div>
                 </div>
             </div>
         </div>
@@ -371,11 +385,7 @@
             const input = button.siblings('input');
             const icon = button.find('i');
             
-            // Animate icon rotation
-            icon.css({
-                'transform': 'rotate(180deg)',
-                'transition': 'transform 0.3s'
-            });
+           
             
             setTimeout(() => {
                 const type = input.attr('type') === 'password' ? 'text' : 'password';

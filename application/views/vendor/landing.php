@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <title>Document</title>
+    <title>SIMAS Landing</title>
     <style>
         @keyframes pulse-light {
             0%, 100% { opacity: 1; }
@@ -164,7 +164,7 @@
                 <!-- Menu List -->
                 <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                     <li>
-                        <a href="<?= base_url() ?>" class="block py-2 pl-3 pr-4 text-black bg-purple-700 rounded lg:bg-transparent lg:p-0 dark:text-white">Home</a>
+                        <a href="" class="block py-2 pl-3 pr-4 text-black bg-purple-700 rounded lg:bg-transparent lg:p-0 dark:text-white">Home</a>
                     </li>
                     <li>
                         <a href="#testimoni" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Testimoni</a>
@@ -265,7 +265,7 @@
 
     
   
-<section class="bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900">
+<section id="feature" class="bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900">
         <div class="max-w-screen-xl px-4 py-16 mx-auto space-y-16 lg:py-24 lg:px-6">
             <!-- First Feature Section -->
             <div class="relative">
@@ -432,10 +432,10 @@
                     <h3 class="mb-2 text-2xl font-bold dark:text-white">100+ Seminar Berhasil Dikelola</h3>
                     <p class="font-light text-gray-500 dark:text-gray-400">Mulai dari seminar pendidikan hingga konferensi bisnis berskala besar, SIMAS telah menjadi solusi utama bagi penyelenggara.</p>
                 </div>
-                <div>
+                <div >
                     <svg class="w-10 h-10 mb-2 text-purple-600 md:w-12 md:h-12 dark:text-purple-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path></svg>
                     <h3 class="mb-2 text-2xl font-bold dark:text-white">50+ Institusi dan Perusahaan</h3>
-                    <p class="font-light text-gray-500 dark:text-gray-400">"Berbagai institusi pendidikan, organisasi, dan perusahaan telah menggunakan SIMAS untuk menyelenggarakan acara mereka dengan mudah.</p>
+                    <p id="price" class="font-light text-gray-500 dark:text-gray-400">"Berbagai institusi pendidikan, organisasi, dan perusahaan telah menggunakan SIMAS untuk menyelenggarakan acara mereka dengan mudah.</p>
                 </div>
             </div>
         </div>
@@ -443,7 +443,7 @@
     
   
     
-      <section class="bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 py-16">
+      <section  class="bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="max-w-3xl mx-auto text-center mb-16">
@@ -458,7 +458,7 @@
         <!-- Pricing Cards -->
         <div class="grid lg:grid-cols-3 gap-8 lg:gap-12">
     <!-- Starter Plan -->
-    <div class="pricing-card rounded-2xl bg-white dark:bg-gray-800 shadow-lg p-8 transition-all duration-300 hover:shadow-xl">
+    <div  class="pricing-card rounded-2xl bg-white dark:bg-gray-800 shadow-lg p-8 transition-all duration-300 hover:shadow-xl">
         <div class="text-center">
             <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Starter</h3>
             <p class="text-gray-500 dark:text-gray-400 mb-6">
@@ -498,9 +498,11 @@
             </li>
         </ul>
 
-        <button class="w-full py-4 px-6 rounded-xl font-medium transition-colors duration-200 bg-purple-100 hover:bg-purple-200 text-purple-600 dark:bg-purple-900 dark:hover:bg-purple-800 dark:text-purple-100">
-            Mulai Sekarang
+        <a href="<?= site_url('daftar/vendor'); ?>">
+        <button  class="w-full py-4 px-6 rounded-xl font-medium transition-colors duration-200 bg-purple-100 hover:bg-purple-200 text-purple-600 dark:bg-purple-900 dark:hover:bg-purple-800 dark:text-purple-100">
+        Mulai Sekarang
         </button>
+        </a>
     </div>
 
     <!-- Popular Plan -->
@@ -547,10 +549,11 @@
                 </span>
             </li>
         </ul>
-
-        <button class="w-full py-4 px-6 rounded-xl font-medium transition-colors duration-200 bg-purple-600 hover:bg-purple-700 text-white">
-            Mulai Sekarang
+        <a href="<?= site_url('daftar/vendor'); ?>">
+        <button  class="w-full py-4 px-6 rounded-xl font-medium transition-colors duration-200 bg-purple-600 hover:bg-purple-200 text-white dark:bg-purple-900 dark:hover:bg-purple-800 dark:text-purple-100">
+        Mulai Sekarang
         </button>
+        </a>
     </div>
 
     <!-- Professional Plan -->
@@ -594,9 +597,12 @@
             </li>
         </ul>
 
-        <button class="w-full py-4 px-6 rounded-xl font-medium transition-colors duration-200 bg-purple-100 hover:bg-purple-200 text-purple-600 dark:bg-purple-900 dark:hover:bg-purple-800 dark:text-purple-100">
-            Mulai Sekarang
+        <a href="<?= site_url('daftar/vendor'); ?>">
+        <button  class="w-full py-4 px-6 rounded-xl font-medium transition-colors duration-200 bg-purple-100 hover:bg-purple-200 text-purple-600 dark:bg-purple-900 dark:hover:bg-purple-800 dark:text-purple-100">
+        Mulai Sekarang
         </button>
+        </a>
+       
     </div>
 </div>
 
@@ -679,13 +685,16 @@
             </div>
         </div>
     </section>
-    <footer class="bg-white text-black py-8">
-  <div class="container mx-auto">
+
+
+<footer class="bg-white text-black py-8">
+  <div class="container mx-auto px-4">
     <div class="flex flex-wrap -mx-4">
-      <div class="w-full lg:w-1/4 px-4 mb-8">
+      <!-- Section 1 -->
+      <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8">
         <img src="<?php echo base_url('assets/backend/template/assets/images/SIMAS.png'); ?>" alt="Logo" class="mb-4 md:w-full w-56">
         <p class="text-gray-600">Sistem Manajemen Seminar</p>
-        <div class="flex space-x-4 mt-4">
+        <div class="flex flex-wrap space-x-4 mt-4">
           <a href="#" class="hover:opacity-80 transition-opacity duration-200">
             <img src="<?php echo base_url('assets/images/appstore.svg'); ?>" alt="App Store" class="h-12">
           </a>
@@ -694,7 +703,8 @@
           </a>
         </div>
       </div>
-      <div class="w-full lg:w-1/4 px-4 mb-8">
+      <!-- Section 2 -->
+      <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8">
         <h5 class="mb-4 text-xl font-bold">Menu</h5>
         <ul class="space-y-2">
           <li><a href="#" class="text-gray-600 hover:text-black transition-colors duration-200">Beranda</a></li>
@@ -703,12 +713,14 @@
           <li><a href="#" class="text-gray-600 hover:text-black transition-colors duration-200">Kontak</a></li>
         </ul>
       </div>
-      <div class="w-full lg:w-1/4 px-4 mb-8">
+      <!-- Section 3 -->
+      <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8">
         <h5 class="mb-4 text-xl font-bold">Kontak Kami</h5>
         <p class="text-gray-600 mb-2">Jl. Raya Jatiwaringin No.2, RT.8/RW.13, Cipinang Melayu, Kec. Makasar, Kota Jakarta Timur, DKI Jakarta 13620</p>
         <p class="text-gray-600">Email: info@simaseminar.com<br>Telp: +62 571 1297 160</p>
       </div>
-      <div class="w-full lg:w-1/4 px-4 mb-8">
+      <!-- Section 4 -->
+      <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8">
         <h5 class="mb-4 text-xl font-bold">Ikuti Kami</h5>
         <div class="flex space-x-4">
           <a href="#" class="text-gray-400 hover:text-black transition-colors duration-200">
@@ -732,6 +744,7 @@
     </div>
   </div>
 </footer>
+
 </body>
 <script>
     function toggleMenu() {
