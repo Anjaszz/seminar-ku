@@ -288,8 +288,11 @@
                                 
                                 <!-- Info Vendor -->
                                 <p class="text-sm text-gray-500 mb-2">
-                                    Oleh: <span class="text-gray-700 font-medium"><?php echo $seminar->nama_vendor; ?></span>
-                                </p>
+    Oleh: <span class="text-gray-700 font-medium"><?php echo $seminar->nama_vendor; ?></span>
+</p>
+<div class="text-sm text-gray-500 <?php echo strtolower($seminar->nama_jenis) === 'offline' ? 'bg-purple-300' : 'bg-green-300'; ?> rounded-full py-1 px-3 w-fit mb-4">
+    <p class="text-gray-600"><?php echo $seminar->nama_jenis ?? 'Tidak ada jenis'; ?></p>
+</div>
                                 
                                 <!-- Tanggal dan Countdown -->
                                 <div class="flex items-center justify-between mb-3">
@@ -388,13 +391,45 @@
                         <?php echo $seminar->nama_seminar; ?>
                     </h3>
                     <!-- Nama Vendor -->
-                    <p class="text-sm text-gray-500 mb-4">
-                        Oleh: <span class="text-gray-700 font-medium"><?php echo $seminar->nama_vendor; ?></span>
-                    </p>
-                    <div class="flex items-center space-x-2 text-sm text-gray-600 mb-4">
-                        <i class="fas fa-calendar"></i>
-                        <span><?php echo date('d M Y', strtotime($seminar->tgl_pelaksana)); ?></span>
-                    </div>
+                    <!-- Info Vendor dan Jenis -->
+<p class="text-sm text-gray-500 mb-2">
+    Oleh: <span class="text-gray-700 font-medium"><?php echo $seminar->nama_vendor; ?></span>
+</p>
+<div class="text-sm text-gray-500 <?php echo strtolower($seminar->nama_jenis) === 'offline' ? 'bg-purple-300' : 'bg-green-300'; ?> rounded-full py-1 px-3 w-fit mb-4">
+    <p class="text-gray-600"><?php echo $seminar->nama_jenis ?? 'Tidak ada jenis'; ?></p>
+</div>
+                   <!-- Tanggal dan Countdown -->
+                   <div class="flex items-center justify-between mb-3">
+                                    <div class="flex items-center text-sm text-gray-600">
+                                        <i class="fas fa-calendar mr-2"></i>
+                                        <span><?php echo date('d M Y', strtotime($seminar->tgl_pelaksana)); ?></span>
+                                    </div>
+                                    <div class="text-sm">
+                                        <?php if ($seminar->remaining_days == 0): ?>
+                                            <span class="text-red-500 font-medium">Hari ini</span>
+                                        <?php else: ?>
+                                            <span class="text-blue-500 font-medium"><?php echo $seminar->remaining_days; ?> hari lagi</span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+
+                                <!-- Progress Bar -->
+                                <div class="flex items-center space-x-3 bg-gray-50 rounded-lg p-3 mb-4">
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                        <div class="h-full rounded-full transition-all duration-500
+                                            <?php   
+                                                if ($seminar->remaining_days <= 7) {  
+                                                    echo 'bg-red-500';  
+                                                } else if ($seminar->remaining_days <= 14) {  
+                                                    echo 'bg-yellow-500';  
+                                                } else {  
+                                                    echo 'bg-green-500';  
+                                                }  
+                                            ?>"
+                                            style="width: <?php echo number_format($seminar->progress, 0); ?>%">
+                                        </div>
+                                    </div>
+                                </div>
 
                     <!-- Price and Action Buttons -->
                     <div class="flex flex-col items-start justify-between w-full gap-3">
@@ -407,6 +442,7 @@
         Rp <?php echo number_format($seminar->harga_tiket, 0, ',', '.'); ?>
     </span>
 <?php endif; ?>
+
                         <div class="flex flex-row gap-3 items-center w-full">
                             <?php if ($seminar->is_slot_habis): ?>
                                 <button class="px-4 py-2 bg-red-100 text-red-600 rounded-lg cursor-not-allowed" disabled>
@@ -734,11 +770,6 @@ function filterToday() {
 function filterFree() {
     window.location.href = '<?php echo base_url('user/home/index'); ?>?price_range=free';
 }   
-<<<<<<< HEAD
-    </script>  
-
-</html> 
-=======
 
 document.addEventListener('DOMContentLoaded', function() {
     const chatbotIcon = document.getElementById('chatbot-icon');
@@ -868,4 +899,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
     </script>  
->>>>>>> ec194f26fe61d73f115ff1f23d4114b74ebe2da0
+

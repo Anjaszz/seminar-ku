@@ -210,11 +210,14 @@ public function get_data_offline()
             seminar.nama_seminar, 
             seminar.tgl_pelaksana, 
             seminar.lampiran, 
+            seminar.id_jenis,
             tiket.harga_tiket, 
             tiket.slot_tiket, 
             users.nama_vendor AS nama_vendor
         ');
         $this->db->from('seminar');
+        
+    $this->db->join('jenis_seminar', 'jenis_seminar.id_jenis = seminar.id_jenis', 'left');
         $this->db->join('tiket', 'seminar.id_seminar = tiket.id_seminar', 'inner'); // Ganti ke INNER JOIN
         $this->db->join('users', 'seminar.id_vendor = users.id_vendor', 'left');   // Tetap gunakan LEFT JOIN untuk tabel users
         $query = $this->db->get();
@@ -295,6 +298,21 @@ public function get_data_offline()
             return null; // Jika tidak ada data ditemukan
         }
     }
+
+    public function getJenisSeminarById($id_jenis) {
+        if (!$id_jenis) {
+            return null;
+        }
+        
+        $this->db->select('nama_jenis');
+        $this->db->from('jenis_seminar');
+        $this->db->where('id_jenis', $id_jenis);
+        $result = $this->db->get()->row();
+        
+        return $result;
+    }
+    // Modify the existing getSeminarData method in Seminar_model to include join with jenis_seminar:
+   
 
 
 

@@ -157,37 +157,44 @@ class Home extends CI_Controller {
      $this->load->view('user/home', $data);
      $this->load->view('template/user/footer');
  }
- 
- private function _processSeminarData(&$seminar) {
-     $id_mahasiswa = $this->session->userdata('id_mahasiswa');
-     
-     if ($this->session->userdata('user_data')) {
-         $registration = $this->Pendaftaran_model->isRegistered($seminar->id_seminar, $id_mahasiswa);
-         $seminar->is_registered = $registration ? true : false;
-         $seminar->id_stsbyr = $registration ? $registration->id_stsbyr : null;
-         $seminar->id_pendaftaran = $registration ? $registration->id_pendaftaran : null;
-         $seminar->is_history = $this->User_model->isHistory($seminar->id_seminar, $id_mahasiswa);
-     } else {
-         $seminar->is_registered = false;
-         $seminar->id_stsbyr = null;
-         $seminar->id_pendaftaran = null;
-         $seminar->is_history = false;
-     }
- 
-     $tiket_info = $this->User_model->getSlotTiketAndTiketTerjual($seminar->id_seminar);
-     $seminar->is_slot_habis = ($tiket_info && $tiket_info->tiket_terjual >= $tiket_info->slot_tiket);
- 
-     $today = new DateTime();
-     $seminar_date = new DateTime($seminar->tgl_pelaksana);
-     $interval = $today->diff($seminar_date);
-     $remaining_days = $interval->days;
- 
-     $total_duration = 100;
-     $progress = 100 - (($remaining_days / $total_duration) * 100);
- 
-     $seminar->remaining_days = $remaining_days;
-     $seminar->progress = round(max(0, min(100, $progress)));
- }
+ // In Controller (update the _processSeminarData method):
+private function _processSeminarData(&$seminar) {
+    $id_mahasiswa = $this->session->userdata('id_mahasiswa');
+    
+    if ($this->session->userdata('user_data')) {
+        $registration = $this->Pendaftaran_model->isRegistered($seminar->id_seminar, $id_mahasiswa);
+        $seminar->is_registered = $registration ? true : false;
+        $seminar->id_stsbyr = $registration ? $registration->id_stsbyr : null;
+        $seminar->id_pendaftaran = $registration ? $registration->id_pendaftaran : null;
+        $seminar->is_history = $this->User_model->isHistory($seminar->id_seminar, $id_mahasiswa);
+    } else {
+        $seminar->is_registered = false;
+        $seminar->id_stsbyr = null;
+        $seminar->id_pendaftaran = null;
+        $seminar->is_history = false;
+    }
+
+    // Get seminar type name
+    $jenis_seminar = $this->Seminar_model->getJenisSeminarById($seminar->id_jenis);
+    $seminar->nama_jenis = $jenis_seminar ? $jenis_seminar->nama_jenis : null;
+
+    $tiket_info = $this->User_model->getSlotTiketAndTiketTerjual($seminar->id_seminar);
+    $seminar->is_slot_habis = ($tiket_info && $tiket_info->tiket_terjual >= $tiket_info->slot_tiket);
+
+    $today = new DateTime();
+    $seminar_date = new DateTime($seminar->tgl_pelaksana);
+    $interval = $today->diff($seminar_date);
+    $remaining_days = $interval->days;
+
+    $total_duration = 100;
+    $progress = 100 - (($remaining_days / $total_duration) * 100);
+
+    $seminar->remaining_days = $remaining_days;
+    $seminar->progress = round(max(0, min(100, $progress)));
+}
+
+// In Seminar_model (add this new method):
+
     
     public function profil() {
         // Ambil id_mahasiswa dari session
