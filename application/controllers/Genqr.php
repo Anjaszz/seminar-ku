@@ -1,123 +1,115 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
- class Genqr extends MY_Controller {
-
+class Genqr extends MY_Controller {
     public function __construct() {
         parent::__construct();
         if (!$this->session->userdata('id_vendor')) {
-            redirect('auth'); // Redirect ke halaman login
+            redirect('auth');
         } 
+        $this->load->model([
+            'Seminar_model' => 'sm',
+            'Scan_model' => 'sc',
+            'Pendaftaran_model' => 'pf',
+        ]);
         $this->load->model('Genqr_model', 'gen');
         $this->load->library('ciqrcode');
+        $this->load->library('encryption');
     }
 
-    public function index() {
-        $title = "Generate QR Code";
-        $restitle = 'Hasil QR Code';
-        $formopen = form_open('genqr/process');
-        $formclose = form_close();
-        $attrqr = array(
-            'type' => 'text',
-            'name' => 'nim',
-            'id' => 'id',
-            'class' => 'form-control',
-        );
-        $attrsubmit = array(
-            'type' => 'button',
-            'onClick' => 'ready()',
-            'onFocus' => 'ready()',
-            'id' => 'submit',
-            'class' => 'btn btn-gradient-info',
-            'content' => 'Generate'
-        );
+    public function index()
+    {
+        $title = 'QRCode Presensi Online';
+        $get_seminar_online = $this->sm->get_data_online();
+        $latest_seminar_id = $this->sc->get_latest_seminar_id(); 
 
-        $lqr = form_label('Input NIM mahasiswa disini', 'nama_qr');
-        $iqr = form_input($attrqr);
-        $submit = form_button($attrsubmit);
-        $data = array(
-            'formopen' => $formopen,
-            'formclose' => $formclose,
+        $data = [
             'title' => $title,
-            'restitle' => $restitle,
-            'lqr' => $lqr,
-            'iqr' => $iqr,
-            'submit' => $submit,
-        );
+            'seminar' => $get_seminar_online,
+            'latest_seminar_id' => $latest_seminar_id, 
+        ];
+
         $this->template->load('template/template_v', 'genqr/genqr_v', $data);
     }
 
-    public function search() {
-        $term = $this->input->get('term');
-        if (isset($term)) {
-            $caridata = $this->gen->find_data($term);
-            if ($caridata->num_rows() > 0) {
-                $hasil = $caridata->result();
-                foreach ($hasil as $r) {
-                    $arr_hasil[] = array(
-                        'label' => $r->nim
-                    );
-                    echo json_encode($arr_hasil);
-                }
-            }
-        }
-    }
-
-    public function generate() {
-        $id = $this->input->post('id');
-        $cek_qr = $this->gen->generate_qr($id);
-        if ($cek_qr->num_rows() > 0) {
-            $qr = $cek_qr->row();
-            $id_mahasiswa = $qr->id_mahasiswa;
-            $nama_mhs = $qr->nama_mhs;
-            $nim = $qr->nim;
-            $nama_fakultas = $qr->nama_fakultas;
-            $nama_prodi = $qr->nama_prodi;
-            $nama_jenjang = $qr->nama_jenjang;
-            $params['data'] = $nim;
+    public function generate($id_seminar) {
+        // Ambil data seminar
+        $seminar = $this->db->get_where('seminar', ['id_seminar' => $id_seminar])->row();
+        
+        if ($seminar) {
+            // Generate URL untuk presensi dengan IP tetap dan endpoint baru
+            $verification_url = 'http://192.168.0.8/seminar-ku/user/presensi/hadir/' . $id_seminar;
+    
+            // Generate QR Code dengan URL presensi
+            $params['data'] = $verification_url;
             $params['level'] = 'H';
-            $params['size'] = 4;
-            $params['savename'] = FCPATH . "uploads/qr_image/" . $nim . 'code.png';
-            $this->ciqrcode->generate($params);
-            $data = array(
-                'id_mahasiswa' => $id_mahasiswa,
-                'nim' => $nim,
-                'nama_mhs' => $nama_mhs,
-                'nama_fakultas' => $nama_fakultas,
-                'nama_prodi' => $nama_prodi,
-                'nama_jenjang' => $nama_jenjang,
-            );
-            $this->load->view('genqr/result_v', $data);
-        } else {
-            $this->load->view('genqr/empty_v');
-        }
-    }
-
-
-    public function generate_all() {
-        $all_mahasiswa = $this->gen->get_all_mahasiswa();
-        if ($all_mahasiswa->num_rows() > 0) {
-            foreach ($all_mahasiswa->result() as $mhs) {
-                $id_mahasiswa = isset($mhs->id_mahasiswa) ? $mhs->id_mahasiswa : '';
-                $nama_mhs = isset($mhs->nama_mhs) ? $mhs->nama_mhs : '';
-                $nim = isset($mhs->nim) ? $mhs->nim : '';
-                $nama_fakultas = isset($mhs->nama_fakultas) ? $mhs->nama_fakultas : '';
-                $nama_prodi = isset($mhs->nama_prodi) ? $mhs->nama_prodi : '';
-                $nama_jenjang = isset($mhs->nama_jenjang) ? $mhs->nama_jenjang : '';
-    
-                $params['data'] = $nim;
-                $params['level'] = 'H';
-                $params['size'] = 4;
-                $params['savename'] = FCPATH . "uploads/qr_image/" . $nim . 'code.png';
-                $this->ciqrcode->generate($params);
+            $params['size'] = 10;
+            $qr_image = 'seminar_' . $id_seminar . '_qr.png';
+            $params['savename'] = FCPATH . "uploads/qr_image/" . $qr_image;
+            
+            // Buat direktori jika belum ada
+            if (!file_exists(FCPATH . "uploads/qr_image/")) {
+                mkdir(FCPATH . "uploads/qr_image/", 0777, true);
             }
-            $this->load->view('genqr/result_all_v', ['mahasiswa' => $all_mahasiswa->result()]);
+            
+            $this->ciqrcode->generate($params);
+            
+            $data = array(
+                'title' => 'QR Code Presensi',
+                'seminar' => $seminar,
+                'qr_image' => $qr_image,
+                'verification_url' => $verification_url // URL untuk debugging
+            );
+            
+            $this->template->load('template/template_v', 'genqr/result_v', $data);
         } else {
-            $this->load->view('genqr/empty_v');
+            $this->session->set_flashdata('error', 'Seminar tidak ditemukan');
+            redirect('seminar');
         }
     }
-    
+    public function toggle_scan() {
+        // Set header JSON
+        header('Content-Type: application/json');
+        
+        $id_seminar = $this->input->post('id_seminar');
+        $current_status = $this->input->post('current_status');
+        
+        if (!$id_seminar) {
+            $response = [
+                'success' => false,
+                'message' => 'ID Seminar tidak valid'
+            ];
+            echo json_encode($response);
+            return;
+        }
+        
+        try {
+            $new_status = $current_status == 1 ? 0 : 1;
+            
+            $this->db->where('id_seminar', $id_seminar);
+            $update = $this->db->update('seminar', ['id_scan' => $new_status]);
+            
+            if ($update) {
+                $response = [
+                    'success' => true,
+                    'status' => $new_status,
+                    'message' => $new_status == 1 ? 'Presensi berhasil diaktifkan' : 'Presensi berhasil dinonaktifkan'
+                ];
+            } else {
+                $response = [
+                    'success' => false,
+                    'message' => 'Gagal mengubah status presensi'
+                ];
+            }
+            
+        } catch (Exception $e) {
+            $response = [
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ];
+        }
+        
+        echo json_encode($response);
+        exit;
+    }
 }
-
-
-

@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class ChatModel extends CI_Model {
     public function getChats($id_vendor, $id_seminar) {
         $this->db->select('chat_komunitas.*, mahasiswa.nama_mhs');
@@ -13,8 +12,21 @@ class ChatModel extends CI_Model {
     }
 
     public function saveChat($data) {
+        $data['created_at'] = date('Y-m-d H:i:s');
         return $this->db->insert('chat_komunitas', $data);
     }
 
-    
+    public function updateChat($id_chat, $data) {
+        $this->db->where('id_chat', $id_chat);
+        return $this->db->update('chat_komunitas', $data);
+    }
+
+    public function deleteChat($id_chat) {
+        $this->db->where('id_chat', $id_chat);
+        return $this->db->delete('chat_komunitas');
+    }
+
+    public function getChatById($id_chat) {
+        return $this->db->get_where('chat_komunitas', ['id_chat' => $id_chat])->row_array();
+    }
 }

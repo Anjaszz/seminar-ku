@@ -125,78 +125,82 @@ class Seminar extends MY_Controller
 
 
 
-    public function add() {
-        $data['title'] = 'Form Tambah Seminar';
-        $data['kategori_seminar'] = $this->sm->get_all_kategori();
-        $data['lokasi_seminar'] = $this->sm->get_all_lokasi();
-        $data['fakultas'] = $this->sm->get_all_fakultas();
-        $data['seminar'] = array('lampiran' => null); // Tambahkan ini
-        
-        $this->template->load('template/template_v', 'seminar/seminar_form', $data);
-    }
+    // Update fungsi add di controller
+public function add() {
+    $data['title'] = 'Form Tambah Seminar';
+    $data['kategori_seminar'] = $this->sm->get_all_kategori();
+    $data['lokasi_seminar'] = $this->sm->get_all_lokasi();
+    $data['fakultas'] = $this->sm->get_all_fakultas();
+    $data['jenis_seminar'] = $this->sm->get_all_jenis(); // Tambahkan ini
+    $data['seminar'] = array('lampiran' => null);
+    
+    $this->template->load('template/template_v', 'seminar/seminar_form', $data);
+}
 
-    public function addaction()
-    {
-        if (!$this->session->userdata('id_vendor')) {
-            redirect('auth');
-        }
+// Update fungsi addaction untuk menambah field baru
+public function addaction() {
+    if (!$this->session->userdata('id_vendor')) {
+        redirect('auth');
+    }
     
-        
-            // Konfigurasi upload
-            $config['upload_path']   = FCPATH . '/uploads/poster/';
-            $config['allowed_types'] = 'gif|jpg|png';
-            $config['max_size']      = '1000';
-            $config['max_width']     = '5000';
-            $config['max_height']    = '5000';
-            $config['encrypt_name']  = TRUE;
+    // Konfigurasi upload
+    $config['upload_path']   = FCPATH . '/uploads/poster/';
+    $config['allowed_types'] = 'gif|jpg|png';
+    $config['max_size']      = '1000';
+    $config['max_width']     = '5000';
+    $config['max_height']    = '5000';
+    $config['encrypt_name']  = TRUE;
     
-            $this->upload->initialize($config);
+    $this->upload->initialize($config);
     
-            $lampiran_path = null; // Default null jika file tidak diunggah
+    $lampiran_path = null;
     
-            if ($this->upload->do_upload('lampiran')) {
-                $upload_data = $this->upload->data();
-                $lampiran_path = $upload_data['file_name'];
-            } else {
-                $this->session->set_flashdata('warning', 'Kesalahan Upload: ' . $this->upload->display_errors());
-            }
+    if ($this->upload->do_upload('lampiran')) {
+        $upload_data = $this->upload->data();
+        $lampiran_path = $upload_data['file_name'];
+    } else {
+        $this->session->set_flashdata('warning', 'Kesalahan Upload: ' . $this->upload->display_errors());
+    }
     
-            // Ambil data dari input
-            $tgl_dan_jam = $this->input->post('tgl_pelaksana') . ' ' . $this->input->post('jam_mulai') . ':00';
-            $data = [
-                'nama_seminar' => $this->input->post('nama_seminar', TRUE),
-                'id_kategori'  => $this->input->post('id_kategori', TRUE),
-                'id_lokasi'    => $this->input->post('id_lokasi', TRUE),
-                'lokasi'       => $this->input->post('lokasi', TRUE),
-                'id_fakultas'  => $this->input->post('id_fakultas', TRUE),
-                'tgl_pelaksana'=> $tgl_dan_jam,
-                'deskripsi'    => $this->input->post('deskripsi', TRUE),
-                'lampiran'     => $lampiran_path,
-                'id_vendor'     => $this->session->userdata('id_vendor')
-            ];
+    // Ambil data dari input
+    $tgl_dan_jam = $this->input->post('tgl_pelaksana') . ' ' . $this->input->post('jam_mulai') . ':00';
+    $data = [
+        'nama_seminar' => $this->input->post('nama_seminar', TRUE),
+        'id_jenis'     => $this->input->post('id_jenis', TRUE), // Tambahkan ini
+        'id_kategori'  => $this->input->post('id_kategori', TRUE),
+        'id_lokasi'    => $this->input->post('id_lokasi', TRUE),
+        'lokasi'       => $this->input->post('lokasi', TRUE),
+        'id_fakultas'  => $this->input->post('id_fakultas', TRUE),
+        'tgl_pelaksana'=> $tgl_dan_jam,
+        'deskripsi'    => $this->input->post('deskripsi', TRUE),
+        'link_seminar' => $this->input->post('link_seminar', TRUE), // Tambahkan ini
+        'lampiran'     => $lampiran_path,
+        'id_vendor'    => $this->session->userdata('id_vendor')
+    ];
     
-            if ($this->sm->insert_data($data)) {
-                $this->session->set_flashdata('success', 'Data seminar berhasil ditambahkan!');
-            } else {
-                $db_error = $this->db->error();
-                $this->session->set_flashdata('error', 'Gagal menambahkan data seminar. Error: ' . $db_error['message']);
-            }
+    if ($this->sm->insert_data($data)) {
+        $this->session->set_flashdata('success', 'Data seminar berhasil ditambahkan!');
+    } else {
+        $db_error = $this->db->error();
+        $this->session->set_flashdata('error', 'Gagal menambahkan data seminar. Error: ' . $db_error['message']);
+    }
     
-            redirect('seminar');
-        }
+    redirect('seminar');
+}
     
     
 // Fungsi untuk aturan validasi
-private function _rules()
-{
+private function _rules() {
     $this->form_validation->set_rules('nama_seminar', 'Nama Seminar', 'required');
+    $this->form_validation->set_rules('id_jenis', 'Jenis Seminar', 'required');
     $this->form_validation->set_rules('id_kategori', 'Kategori', 'required');
     $this->form_validation->set_rules('id_lokasi', 'Lokasi', 'required');
-    $this->form_validation->set_rules('detail_lokasi', 'Detail Lokasi', 'required');
+    $this->form_validation->set_rules('lokasi', 'Detail Lokasi', 'required');
     $this->form_validation->set_rules('id_fakultas', 'Departemen', 'required');
-    $this->form_validation->set_rules('tanggal_pelaksanaan', 'Tanggal Pelaksanaan', 'required');
+    $this->form_validation->set_rules('tgl_pelaksana', 'Tanggal Pelaksanaan', 'required');
     $this->form_validation->set_rules('jam_mulai', 'Jam Mulai', 'required');
     $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required');
+    // Add conditional validation for link_seminar if needed
 }
 
 
@@ -219,89 +223,110 @@ private function _rules()
         }
     }
 
-    public function update($id)
-{
-    // Mengecek apakah pengguna sudah login
-    if (!$this->session->userdata('id_vendor')) {
-        redirect('auth'); // Redirect ke halaman login jika belum login
+    public function update($id) {
+        // Mengecek apakah pengguna sudah login
+        if (!$this->session->userdata('id_vendor')) {
+            redirect('auth');
+        }
+        
+        // Variabel untuk judul halaman
+        $data['title'] = 'Form Edit Seminar';
+        
+        // Mengambil data seminar berdasarkan ID
+        $data['seminar'] = $this->sm->get_seminar_id($id);
+        
+        // Mengambil semua data yang diperlukan
+        $data['kategori_seminar'] = $this->sm->get_all_kategori();
+        $data['lokasi_seminar'] = $this->sm->get_all_lokasi();
+        $data['fakultas'] = $this->sm->get_all_fakultas();
+        $data['jenis_seminar'] = $this->sm->get_all_jenis(); // Tambahkan ini
+        
+        // Pastikan seminar ditemukan
+        if (!$data['seminar']) {
+            $this->session->set_flashdata('error', 'Seminar tidak ditemukan.');
+            redirect('seminar');
+        }
+        
+        // Pisahkan tanggal dan jam dari tgl_pelaksana
+        $tanggal_pelaksanaan = new DateTime($data['seminar']['tgl_pelaksana']);
+        $data['tgl_pelaksana'] = $tanggal_pelaksanaan->format('Y-m-d');
+        $data['jam_mulai'] = $tanggal_pelaksanaan->format('H:i');
+        
+        // Load view
+        $this->template->load('template/template_v', 'seminar/seminar_form', $data);
     }
-
-    // Variabel untuk judul halaman
-    $data['title'] = 'Form Edit Seminar';
-
-    // Mengambil data seminar berdasarkan ID
-    $data['seminar'] = $this->sm->get_seminar_id($id);
-
-    // Mengambil data untuk kategori seminar, lokasi seminar, dan fakultas
-    $data['kategori_seminar'] = $this->sm->get_all_kategori();
-    $data['lokasi_seminar'] = $this->sm->get_all_lokasi();
-    $data['fakultas'] = $this->sm->get_all_fakultas();
-
-    // Pastikan seminar ditemukan
-    if (!$data['seminar']) {
-        $this->session->set_flashdata('error', 'Seminar tidak ditemukan.');
+    
+    public function updateAction() {
+        $id_seminar = $this->input->post('id_seminar');
+        
+        // Validasi id_lokasi
+        $id_lokasi = $this->input->post('id_lokasi', TRUE);
+        if (empty($id_lokasi)) {
+            $this->session->set_flashdata('error', 'Lokasi seminar harus dipilih');
+            redirect('seminar/update/' . $id_seminar);
+            return;
+        }
+        
+        // Menggabungkan tanggal dan jam
+        $tgl_pelaksana = $this->input->post('tgl_pelaksana', true);
+        $jam_mulai = $this->input->post('jam_mulai', true);
+        
+        if ($tgl_pelaksana && $jam_mulai) {
+            $tgl_dan_jam = $tgl_pelaksana . ' ' . $jam_mulai . ':00';
+        } else {
+            $this->session->set_flashdata('error', 'Tanggal dan jam pelaksanaan harus diisi');
+            redirect('seminar/update/' . $id_seminar);
+            return;
+        }
+        
+        // Data yang akan diupdate
+        $data = [
+            'nama_seminar' => $this->input->post('nama_seminar', true),
+            'id_jenis'     => $this->input->post('id_jenis', true), // Tambahkan ini
+            'id_kategori'  => $this->input->post('id_kategori', true),
+            'id_lokasi'    => $id_lokasi,
+            'lokasi'       => $this->input->post('lokasi', true),
+            'id_fakultas'  => $this->input->post('id_fakultas', true),
+            'tgl_pelaksana'=> $tgl_dan_jam,
+            'deskripsi'    => $this->input->post('deskripsi', true),
+            'link_seminar' => $this->input->post('link_seminar', true) // Tambahkan ini
+        ];
+        
+        // Proses upload lampiran jika ada
+        if (!empty($_FILES['lampiran']['name'])) {
+            $config['upload_path'] = './uploads/poster/';
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config['max_size'] = '1000';
+            $config['max_width'] = '5000';
+            $config['max_height'] = '5000';
+            $config['encrypt_name'] = true;
+            
+            $this->upload->initialize($config);
+            
+            if ($this->upload->do_upload('lampiran')) {
+                // Hapus file lama jika ada
+                $old_data = $this->sm->get_seminar_id($id_seminar);
+                if ($old_data['lampiran'] && file_exists('./uploads/poster/' . $old_data['lampiran'])) {
+                    unlink('./uploads/poster/' . $old_data['lampiran']);
+                }
+                
+                $uploadData = $this->upload->data();
+                $data['lampiran'] = $uploadData['file_name'];
+            } else {
+                $this->session->set_flashdata('warning', 'Kesalahan Upload: ' . $this->upload->display_errors());
+            }
+        }
+        
+        // Update data seminar
+        if ($this->sm->update_seminar($id_seminar, $data)) {
+            $this->session->set_flashdata('success', 'Seminar berhasil diperbarui!');
+        } else {
+            $db_error = $this->db->error();
+            $this->session->set_flashdata('error', 'Gagal memperbarui data seminar. Error: ' . $db_error['message']);
+        }
+        
         redirect('seminar');
     }
-
-    // Pisahkan tanggal dan jam dari tgl_pelaksana
-    $tanggal_pelaksanaan = new DateTime($data['seminar']['tgl_pelaksana']);
-    $data['tgl_pelaksana'] = $tanggal_pelaksanaan->format('Y-m-d'); // Format tanggal (YYYY-MM-DD)
-    $data['jam_mulai'] = $tanggal_pelaksanaan->format('H:i'); // Format jam (HH:MM)
-
-    // Load view dengan data yang sudah dikirim
-    $this->template->load('template/template_v', 'seminar/seminar_form', $data);
-}
-
-
-public function updateAction()
-{
-    $id_seminar = $this->input->post('id_seminar');
-
-    // Menggabungkan tanggal dan jam menjadi format datetime
-    $tgl_pelaksana = $this->input->post('tgl_pelaksana', true);
-    $jam_mulai = $this->input->post('jam_mulai', true);
-    
-    // Pastikan tanggal dan jam valid sebelum menggabungkan
-    if ($tgl_pelaksana && $jam_mulai) {
-        $tgl_dan_jam = $tgl_pelaksana . ' ' . $jam_mulai . ':00'; // Format YYYY-MM-DD HH:MM:SS
-    } else {
-        // Jika tidak ada tanggal atau jam, tetap simpan null atau bisa sesuaikan dengan kebutuhan
-        $tgl_dan_jam = null;
-    }
-
-    // Data yang akan diupdate
-    $data = [
-        'nama_seminar' => $this->input->post('nama_seminar', true),
-        'id_kategori' => $this->input->post('id_kategori', true),
-        'id_lokasi' => $this->input->post('id_lokasi', true),
-        'lokasi' => $this->input->post('lokasi', true),
-        'id_fakultas' => $this->input->post('id_fakultas', true),
-        'tgl_pelaksana' => $tgl_dan_jam, // Simpan hasil gabungan tanggal dan jam
-        'deskripsi' => $this->input->post('deskripsi', true)
-    ];
-
-    // Proses upload lampiran jika ada
-    if (!empty($_FILES['lampiran']['name'])) {
-        $config['upload_path'] = './uploads/poster/';
-        $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['encrypt_name'] = true;
-
-        $this->load->library('upload', $config);
-
-        if ($this->upload->do_upload('lampiran')) {
-            $uploadData = $this->upload->data();
-            $data['lampiran'] = $uploadData['file_name'];
-        }
-    }
-
-    // Update data seminar
-    $this->sm->update_seminar($id_seminar, $data);
-    $this->session->set_flashdata('success', 'Seminar berhasil diperbarui!');
-    redirect('seminar');
-}
-
-
-
    
     public function updatke($id)
     {

@@ -20,6 +20,14 @@ class Scan_model extends CI_Model
         $result = $query->row();
         return isset($result->id_scan) ? $result->id_scan : null;
     }
+    public function get_id_scan_status_online($id_seminar) {
+        $this->db->select('id_scan');
+        $this->db->from('seminar');
+        $this->db->where('id_seminar', $id_seminar);
+        $query = $this->db->get();
+        $result = $query->row();
+        return isset($result->id_scan) ? $result->id_scan : null;
+    }
     
     public function get_sm_id($id)
     {
@@ -96,5 +104,7 @@ class Scan_model extends CI_Model
     public function insert_data_history($history_data) {
         return $this->db->insert('history_seminar', $history_data);
     }
+
+    
     
 }

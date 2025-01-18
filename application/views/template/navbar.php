@@ -70,13 +70,20 @@
                     </ul>
                 </li>
 
-                <!-- Scan Presensi -->
                 <li class="nav-item">
-                    <a href="<?= site_url('scan') ?>" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
-                        <i data-feather="clipboard" class="w-5 h-5"></i>
-                        <span class="ml-3 nav-text">Scan Presensi</span>
-                    </a>
+                    <button onclick="toggleMenu('presensiMenu')" class="w-full flex items-center justify-between px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                        <div class="flex items-center">
+                            <i data-feather="clipboard" class="w-5 h-5"></i>
+                            <span class="ml-3 nav-text">Presensi Seminar</span>
+                        </div>
+                        <i data-feather="chevron-down" class="w-4 h-4 transition-transform"></i>
+                    </button>
+                    <ul id="presensiMenu" class="hidden bg-gray-800">
+                        <li><a href="<?= site_url('scan') ?>" class="block px-4 py-2 text-gray-400 hover:text-white pl-12">Scan Seminar Offline</a></li>
+                        <li><a href="<?= site_url('genqr') ?>" class="block px-4 py-2 text-gray-400 hover:text-white pl-12">QRCode Seminar Online</a></li>
+                        </ul>
                 </li>
+               
 
                 <!-- Laporan dan Cetak Dropdown -->
                 <li class="nav-item">

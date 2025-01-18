@@ -1,120 +1,117 @@
-<style>
-    .ui-autocomplete {
-        opacity: 0;
-        display: none;
-        transition: opacity 0.5s;
-        -moz-transition: opacity 0.5s;
-        -webkit-transition: opacity 0.5s;
-        -o-transition: opacity 0.5s;
-    }
+<!-- Header Section -->
+<div class="bg-white rounded-xl shadow-sm mb-6 p-6">
+    <div class="flex flex-col md:flex-row md:items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800"><?= $title ?></h1>
+            <nav class="flex mt-2" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-2">
+                    <li class="inline-flex items-center">
+                        <a href="<?php echo site_url('home') ?>" class="text-gray-500 hover:text-blue-600">
+                            <i class="feather icon-home mr-2"></i>
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <i class="feather icon-chevron-right text-gray-400 text-sm mx-2"></i>
+                            <span class="text-gray-500"><?= $title ?></span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
 
-    .ui-autocomplete.opened {
-        opacity: 1;
-    }
-    #form-row{
-        display:flex;
-        gap: 10px;
-    }
-</style>
-<body class="hold-transition skin-blue layout-top-nav" onLoad="pindah()">
-
-<div class="page-header">
-    <div class="page-block">
-        <div class="row align-items-center">
-            <div class="col-md-12">
-                <div class="page-header-title">
-                    <h5 class="m-b-10"><?= $title ?></h5>
-                </div>
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="<?php echo site_url('home') ?>"><i class="feather icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="#!"><?= $title ?></a></li>
+<!-- Table Section -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+    <div class="p-6">
+        <!-- Card Header with Options -->
+        <div class="flex justify-between items-center mb-6">
+            <h5 class="text-xl font-semibold text-gray-800"><?= $title ?></h5>
+            <div class="relative">
+                <button type="button" class="p-2 hover:bg-gray-100 rounded-full focus:outline-none" data-toggle="dropdown">
+                    <i class="feather icon-more-horizontal"></i>
+                </button>
+                <ul class="hidden absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl z-20">
+                    <li><a href="#!" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <i class="feather icon-maximize mr-2"></i> Maximize
+                    </a></li>
+                    <li><a href="#!" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <i class="feather icon-minus mr-2"></i> Collapse
+                    </a></li>
+                    <li><a href="#!" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <i class="feather icon-refresh-cw mr-2"></i> Reload
+                    </a></li>
+                    <li><a href="#!" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                        <i class="feather icon-trash mr-2"></i> Remove
+                    </a></li>
                 </ul>
             </div>
         </div>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-header">
-                <h5><?= $title ?></h5>
-            </div>
-            <div class="card-body">
-                <div class="form-row">
-                    <?= $lqr ?>
-                    <?= $iqr ?>
-                </div>
-                <div class="form-row pt-2">
-                    <?= $submit ?>
-
-                    <button type="button" id="generateAll" class="btn btn-gradient-success">Generate Semua Mahasiswa</button>
-                </div>
-            </div>
+        <!-- Table Content -->
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                    <tr class="bg-gray-50">
+                        <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">No</th>
+                        <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Nama Seminar</th>
+                        <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Tanggal Pelaksanaan</th>
+                        <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Lampiran</th>
+                        <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <?php
+                    $no = 1;
+                    foreach ($seminar as $s) { ?>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center"><?php echo $no++ ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-center"><?php echo $s->nama_seminar ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center"><?php echo $s->tgl_pelaksana ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <div class="flex justify-center">
+                                    <a href="<?php echo base_url("uploads/poster/{$s->lampiran}") ?>" 
+                                       data-lightbox="example-set" 
+                                       data-title="<?php echo $s->nama_seminar ?>"
+                                       class="block">
+                                        <img src="<?php echo base_url("uploads/poster/{$s->lampiran}") ?>" 
+                                             class="h-20 w-20 object-cover rounded-lg" 
+                                             alt="<?php echo $s->nama_seminar ?>">
+                                    </a>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
+                                <a href="<?php echo site_url("genqr/generate/{$s->id_seminar}") ?>" 
+                                   class="inline-flex items-center px-3 py-1 bg-yellow-100 text-yellow-700 hover:bg-yellow-200 rounded-lg transition-colors duration-200">
+                                    <i class="feather icon-grid mr-1"></i>
+                                    Pilih
+                                </a>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-header">
-                <h5><?= $restitle ?></h5>
-            </div>
-            <div class="card-body ajax-content" id="showResult"></div>
-        </div>
-    </div>
-</div>
 
-<script src="<?php echo base_url() ?>assets/backend/template/assets/plugins/jquery-ui/js/jquery-ui.js"></script>
-
-<script type="text/javascript">
-    function pindah() {
-        $('#id').focus();
-    };
-
-    function ready() {
-        var id = $('#id').val();
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo base_url('genqr/generate') ?>',
-            data: `id=${id}`,
-            beforeSend: function(msg) {
-                $('#showResult').html('<h1><i class="fa fa-spin fa-refresh" /></h1>');
-            },
-            success: function(msg) {
-                $('#showResult').html(msg);
-                $('#id').focus();
-            }
-        });
-    }
-
-    function generateAll() {
-        $.ajax({
-            type: 'GET',
-            url: '<?php echo base_url('genqr/generate_all') ?>',
-            beforeSend: function(msg) {
-                $('#showResult').html('<h1><i class="fa fa-spin fa-refresh" /></h1>');
-            },
-            success: function(msg) {
-                $('#showResult').html(msg);
-            }
-        });
-    }
-
-    $(document).ready(function() {
-        $('#id').autocomplete({
-            source: "<?php echo site_url('genqr/search'); ?>",
-            open: function() {
-                $('ul.ui-autocomplete').addClass('opened')
-            },
-            close: function() {
-                $('ul.ui-autocomplete').removeClass('opened').css('display', 'block');
-            },
-            select: function(event, ui) {
-                $('[name="qr"]').val(ui.item.label);
-            }
-        });
-
-        $('#generateAll').click(generateAll);
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle dropdown menu
+    const dropdownButton = document.querySelector('[data-toggle="dropdown"]');
+    const dropdownMenu = dropdownButton.nextElementSibling;
+    
+    dropdownButton.addEventListener('click', function() {
+        dropdownMenu.classList.toggle('hidden');
     });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!dropdownButton.contains(event.target)) {
+            dropdownMenu.classList.add('hidden');
+        }
+    });
+});
 </script>

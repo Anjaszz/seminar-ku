@@ -66,6 +66,8 @@ class Home extends CI_Controller {
         $data['jumlah_komunitas'] = $this->User_model->getJumlahKomunitas($id_mahasiswa);
         $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
         $data['lokasi_seminar'] = $this->Seminar_model->getLokasiSeminar();
+        $data['kategori_seminar'] = $this->Seminar_model->getKategoriSeminar();
+        $data['jenis_seminar'] = $this->Seminar_model->getJenisSeminar();
     } else {
         $data['jumlah_seminar'] = 0;
         $data['jumlah_belum_bayar'] = 0;
@@ -73,6 +75,8 @@ class Home extends CI_Controller {
         $data['jumlah_komunitas'] = 0;
         $data['nama_mahasiswa'] = null;
         $data['lokasi_seminar'] = $this->Seminar_model->getLokasiSeminar();
+        $data['kategori_seminar'] = $this->Seminar_model->getKategoriSeminar();
+        $data['jenis_seminar'] = $this->Seminar_model->getJenisSeminar();
     }
 
     // Tangani filter tambahan
@@ -83,6 +87,7 @@ class Home extends CI_Controller {
     $lat = $this->input->get('lat');
     $lng = $this->input->get('lng');
     $id_kategori = $this->input->get('id_kategori');
+    $id_jenis = $this->input->get('id_jenis'); // Tambahkan ini
 
     // Mulai query filter
     $filtered_data = $this->Seminar_model->getSeminarData();
@@ -90,7 +95,7 @@ class Home extends CI_Controller {
     if ($search) {
         $filtered_data = $this->Seminar_model->searchSeminars($search);
     }
-    if ($id_lokasi && $id_lokasi != 0) {
+    if ($id_lokasi) {
         $filtered_data = $this->Seminar_model->getSeminarDataByLocation($id_lokasi);
     }
     if ($price_range) {
@@ -104,6 +109,13 @@ class Home extends CI_Controller {
     }
     if ($id_kategori) {
         $filtered_data = $this->Seminar_model->getSeminarsByCategory($id_kategori);
+    }
+    if ($id_kategori) {
+        $filtered_data = $this->Seminar_model->getSeminarDataByCategory($id_kategori);
+    }
+
+    if ($id_jenis) {
+        $filtered_data = $this->Seminar_model->getSeminarDataByType($id_jenis);
     }
 
     $data['categories'] = $this->Seminar_model->getCategories();
@@ -566,7 +578,7 @@ class Home extends CI_Controller {
         $data['nama_mahasiswa'] = $mahasiswa->nama_mhs;
         // Mendapatkan id_mahasiswa dari session
         $id_mahasiswa = $this->session->userdata('id_mahasiswa');
-        $komunitas_chats = $this->Komunitas_model->get_komunitas_chats($id_mahasiswa);
+        $komunitas_chats = $this->Komunitas_model->get_seminar_by_mahasiswa($id_mahasiswa);
         // Pastikan id_mahasiswa ada dalam session
       
         $data['komunitas_chats'] = $komunitas_chats;
@@ -577,6 +589,37 @@ class Home extends CI_Controller {
         $this->load->view('user/komunitas', $data);
         $this->load->view('template/user/footer');
         
+    }
+
+    public function keluar() {
+        if (!$this->session->userdata('user_data')) {
+            $response = array('success' => false, 'message' => 'Unauthorized access');
+            echo json_encode($response);
+            return;
+        }
+    
+        $id_seminar = $this->input->post('id_seminar');
+        $id_mahasiswa = $this->input->post('id_mahasiswa');
+    
+        // Validasi input
+        if (!$id_seminar || !$id_mahasiswa) {
+            $response = array('success' => false, 'message' => 'Invalid input');
+            echo json_encode($response);
+            return;
+        }
+    
+        // Hapus data dari tabel komunitas
+        $this->db->where('id_seminar', $id_seminar);
+        $this->db->where('id_mahasiswa', $id_mahasiswa);
+        $result = $this->db->delete('komunitas');
+    
+        if ($result) {
+            $response = array('success' => true, 'message' => 'Berhasil keluar dari grup');
+        } else {
+            $response = array('success' => false, 'message' => 'Gagal keluar dari grup');
+        }
+    
+        echo json_encode($response);
     }
 
 

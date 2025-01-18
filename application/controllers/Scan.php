@@ -18,8 +18,8 @@ class Scan extends MY_Controller
 
     public function index()
     {
-        $title = 'Data Pendaftaran';
-        $get_seminar = $this->sm->get_data();
+        $title = 'Scan Presensi Offline';
+        $get_seminar = $this->sm->get_data_offline();
         $latest_seminar_id = $this->sc->get_latest_seminar_id(); 
 
         $data = [

@@ -102,6 +102,20 @@ header {
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Tambahkan ini di template view, sebelum closing body tag -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    <?php if($this->session->flashdata('swal_icon')): ?>
+    Swal.fire({
+        icon: '<?= $this->session->flashdata('swal_icon') ?>',
+        title: '<?= $this->session->flashdata('swal_title') ?>',
+        text: '<?= $this->session->flashdata('swal_text') ?>',
+        timer: 2000,
+        showConfirmButton: false
+    });
+    <?php endif; ?>
+});
+</script>
 
 <body>
 
