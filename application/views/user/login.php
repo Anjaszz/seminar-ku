@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full">
 <head>
-    <title>Halaman Login</title>
+    <title>Login Peserta</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="shortcut icon" href="<?php echo base_url('assets/images/fav.png') ?>" />
 
     <style>
         @keyframes float {
@@ -167,11 +168,19 @@
                 <div>
                     <?php echo form_button([
                         'type' => 'submit',
-                        'class' => 'group relative w-full flex justify-center py-3 px-4 border border-transparent rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 transform hover:scale-[1.02]'
-                    ], '<i class="fas fa-sign-in-alt mr-2"></i> LOGIN'); ?>
+                        'class' => 'group relative w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 transform hover:scale-[1.02]'
+                    ], '<i class="fas fa-sign-in-alt mr-2"></i> MASUK'); ?>
                 </div>
+
             <?php echo form_close(); ?>
+            <div class="flex items-center text-center justify-center">
+            <a href="<?php echo base_url('daftar/user'); ?>" class="text-sm font-medium text-gray-800 ">
+               Belum punya akun? <span class="text-blue-600 hover:text-text-blue-800 hover:underline transition-colors duration-200"> Daftar disini</span>
+            </a>
+
         </div>
+        </div>
+       
     </div>
 
     <?php if ($this->session->flashdata('login_success')) : ?>

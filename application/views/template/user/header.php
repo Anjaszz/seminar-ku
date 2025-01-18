@@ -6,6 +6,7 @@
     <title>Beranda</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="shortcut icon" href="<?php echo base_url('assets/images/fav.png') ?>" />
     <style>
        .navbar {
     background: white; /* Gradien dari biru muda ke biru */
