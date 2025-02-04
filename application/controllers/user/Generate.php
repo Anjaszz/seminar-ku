@@ -57,6 +57,7 @@ class Generate extends CI_Controller {
         $data['jumlah_seminar'] = $this->User_model->getJumlahSeminarDiikuti($id_mahasiswa);
         $data['jumlah_belum_bayar'] = $this->User_model->getJumlahBelumBayar($id_mahasiswa);
         $data['jumlah_history'] = $this->User_model->getJumlahHistory($id_mahasiswa);
+        $data['jumlah_komunitas'] = $this->User_model->getJumlahKomunitas($id_mahasiswa);
     
         if ($nim) {
             // Pengaturan QR Code

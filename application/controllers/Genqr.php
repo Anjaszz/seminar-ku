@@ -38,7 +38,7 @@ class Genqr extends MY_Controller {
         
         if ($seminar) {
             // Generate URL untuk presensi dengan IP tetap dan endpoint baru
-            $verification_url = 'http://192.168.0.8/seminar-ku/user/presensi/hadir/' . $id_seminar;
+            $verification_url = 'http://192.168.0.238/seminar-ku/user/presensi/hadir/' . $id_seminar;
     
             // Generate QR Code dengan URL presensi
             $params['data'] = $verification_url;
