@@ -104,6 +104,8 @@ class Pembicara extends MY_Controller
         $data = array(
             'title' => $title,
             'parent' => $parent,
+            
+            'id_vendor' => $this->session->userdata('id_vendor'),
             'form_open' => $form_open,
             'form_close' => $form_close,
             'label_nama' => $label_nama,
@@ -262,6 +264,7 @@ class Pembicara extends MY_Controller
                     'latar_belakang' => $latar_belakang,
                     'id_seminar' => $seminar,
                     'foto' => $foto,
+                    'id_vendor' => $this->session->userdata('id_vendor'),
                 );
                 $this->pm->insert_data($data);
                 $this->session->set_flashdata('success', 'Data berhasil disimpan!');

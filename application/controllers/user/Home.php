@@ -231,66 +231,35 @@ private function _processSeminarData(&$seminar) {
     }
 
     public function updateProfil() {
-        // Ambil id_mahasiswa dari session
         $id_mahasiswa = $this->session->userdata('id_mahasiswa');
-        
-        if (empty($id_mahasiswa)) {
-            $this->session->set_flashdata('error', 'Anda belum login.');
-            redirect('user/auth');
+        if (!$id_mahasiswa) {
+            redirect('user/auth/login');
         }
-    
-        // Ambil data mahasiswa berdasarkan id_mahasiswa
-        $mahasiswa = $this->User_model->getMahasiswaProfile($id_mahasiswa);
-        
-        // Cek apakah data mahasiswa ditemukan
-        if (!$mahasiswa) {
-            $this->session->set_flashdata('error', 'Data mahasiswa tidak ditemukan.');
-            redirect('user/home');
+
+        $nama_mhs = $this->input->post('nama_mhs');
+        $email = $this->input->post('email');
+        $no_telp = $this->input->post('no_telp');
+        $id_prodi = $this->input->post('id_prodi');
+
+        // Handle file upload
+        $config['upload_path'] = './assets/images/profil/';
+        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['max_size'] = 2048;
+        $config['file_name'] = 'profil_' . $id_mahasiswa;
+
+        $this->load->library('upload', $config);
+
+        if ($this->upload->do_upload('foto')) {
+            $upload_data = $this->upload->data();
+            $foto = $upload_data['file_name'];
+        } else {
+            $foto = null;
         }
-    
-        // Tangani pengiriman formulir untuk pembaruan profil
-        if ($this->input->post('submit')) {
-            // Debug: Cek data yang diterima
-            log_message('info', 'Data POST: ' . print_r($this->input->post(), true));
-    
-            // Tangani unggahan file untuk foto profil
-            $config['upload_path'] = './uploads/profil/';
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['max_size'] = 2048; // 2MB
-    
-            $this->load->library('upload', $config);
-            $foto = $mahasiswa->foto; // Simpan foto lama jika tidak ada upload baru
-    
-            if ($this->upload->do_upload('foto')) {
-                $upload_data = $this->upload->data();
-                $foto = $upload_data['file_name'];
-            } else {
-                // Jika upload gagal, log error
-                log_message('error', 'Upload foto gagal: ' . $this->upload->display_errors());
-            }
-    
-            // Data yang akan diperbarui
-            $update_data = [
-                'nama_mhs' => $this->input->post('nama_mhs'),
-                'email' => $this->input->post('email'),
-                'no_telp' => $this->input->post('no_telp'),
-                'id_prodi' => $this->input->post('id_prodi'),
-                'foto' => $foto,
-            ];
-    
-            // Simpan data ke database
-            $update_result = $this->User_model->updateMahasiswa($id_mahasiswa, $update_data);
-    
-            if ($update_result) {
-                $this->session->set_flashdata('message_success', 'Profil berhasil diperbarui.');
-            } else {
-                $this->session->set_flashdata('message_error', 'Gagal memperbarui profil.');
-            }
-    
-            redirect('user/home/profil');
-        }
+
+        $this->User_model->updateMahasiswa($id_mahasiswa, $nama_mhs, $email, $no_telp, $id_prodi, $foto);
+        $this->session->set_flashdata('success', 'Profil berhasil diperbarui!');
+        redirect('user/profil');
     }
-    
 
     public function detail($id_seminar) {
         // Ambil data seminar berdasarkan ID

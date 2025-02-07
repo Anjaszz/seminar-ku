@@ -77,10 +77,19 @@ class User_model extends CI_Model {
 
     
 
-    public function updateMahasiswa($id_mahasiswa, $data) {
+    public function updateMahasiswa($id_mahasiswa, $nama_mhs, $email, $no_telp, $id_prodi, $foto) {
+        $data = [
+            'nama_mhs' => $nama_mhs,
+            'email' => $email,
+            'no_telp' => $no_telp,
+            'id_prodi' => $id_prodi,
+            'foto' => $foto // Pastikan ini ada agar foto diupdate
+        ];
+    
         $this->db->where('id_mahasiswa', $id_mahasiswa);
-        return $this->db->update('mahasiswa', $data); // Perbarui tabel mahasiswa
+        $this->db->update('mahasiswa', $data);
     }
+    
     
 
     public function getAllProdi() {

@@ -88,83 +88,100 @@
 
         <!-- Edit Profile Modal -->
         <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content rounded-lg shadow-xl">
-                    <div class="modal-header border-b border-gray-200 p-4">
-                        <h5 class="text-xl font-bold text-gray-700">Edit Profil</h5>
-                        <button type="button" class="text-gray-400 hover:text-gray-500" data-dismiss="modal">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form id="editProfileForm" action="<?php echo base_url('user/home/updateProfil'); ?>" method="post" enctype="multipart/form-data">
-                        <div class="modal-body p-4">
-                            <div class="space-y-4">
-                                <div>
-                                    <label for="nama_mhs" class="block text-sm font-medium text-gray-700 mb-1">Nama Mahasiswa</label>
-                                    <input type="text" 
-                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
-                                           id="nama_mhs" 
-                                           name="nama_mhs" 
-                                           value="<?php echo $mahasiswa->nama_mhs; ?>" 
-                                           required>
-                                </div>
-                                <div>
-                                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                                    <input type="email" 
-                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
-                                           id="email" 
-                                           name="email" 
-                                           value="<?php echo $mahasiswa->email; ?>" 
-                                           required>
-                                </div>
-                                <div>
-                                    <label for="no_telp" class="block text-sm font-medium text-gray-700 mb-1">No HP</label>
-                                    <input type="text" 
-                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
-                                           id="no_telp" 
-                                           name="no_telp" 
-                                           value="<?php echo $mahasiswa->no_telp; ?>" 
-                                           required>
-                                </div>
-                                <div>
-                                    <label for="id_prodi" class="block text-sm font-medium text-gray-700 mb-1">Jurusan</label>
-                                    <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
-                                            id="id_prodi" 
-                                            name="id_prodi" 
-                                            required>
-                                        <option value="">Pilih Jurusan</option>
-                                        <?php foreach ($prodi as $p): ?>
-                                            <option value="<?php echo $p->id_prodi; ?>" 
-                                                    <?php echo ($p->id_prodi == $mahasiswa->id_prodi) ? 'selected' : ''; ?>>
-                                                <?php echo $p->nama_prodi; ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="foto" class="block text-sm font-medium text-gray-700 mb-1">Unggah Foto Profil</label>
-                                    <input type="file" 
-                                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
-                                           id="foto" 
-                                           name="foto" 
-                                           accept="image/*">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer border-t border-gray-200 p-4">
-                            <button type="button" 
-                                    class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors" 
-                                    data-dismiss="modal">Batal</button>
-                            <button type="submit" 
-                                    name="submit" 
-                                    class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors ml-2">
-                                Simpan
-                            </button>
-                        </div>
-                    </form>
-                </div>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-lg shadow-lg border-0">
+            <div class="modal-header bg-blue-500 text-white rounded-t-lg p-4">
+                <h5 class="text-xl font-semibold">Edit Profil</h5>
+                <button type="button" class="text-white hover:text-gray-200 text-2xl font-bold transition duration-200" data-dismiss="modal">
+                    &times;
+                </button>
             </div>
+
+            <!-- Flash Message untuk Error atau Sukses -->
+            <div class="p-4">
+                <?php if ($this->session->flashdata('error')): ?>
+                    <div class="alert alert-danger flex items-center text-sm p-3 rounded-lg">
+                        <svg class="w-5 h-5 mr-2 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 115.636 5.636a9 9 0 0112.728 12.728z"></path>
+                        </svg>
+                        <?php echo $this->session->flashdata('error'); ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if ($this->session->flashdata('success')): ?>
+                    <div class="alert alert-success flex items-center text-sm p-3 rounded-lg">
+                        <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"></path>
+                        </svg>
+                        <?php echo $this->session->flashdata('success'); ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            <form id="editProfileForm" action="<?php echo base_url('user/home/updateProfil'); ?>" method="post" enctype="multipart/form-data">
+                <div class="modal-body p-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="nama_mhs" class="block text-sm font-semibold text-gray-700 mb-1">Nama Mahasiswa</label>
+                            <input type="text" 
+                                   class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400" 
+                                   id="nama_mhs" 
+                                   name="nama_mhs" 
+                                   value="<?php echo $mahasiswa->nama_mhs; ?>" 
+                                   required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
+                            <input type="email" 
+                                   class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400" 
+                                   id="email" 
+                                   name="email" 
+                                   value="<?php echo $mahasiswa->email; ?>" 
+                                   required>
+                        </div>
+                        <div>
+                            <label for="no_telp" class="block text-sm font-semibold text-gray-700 mb-1">No HP</label>
+                            <input type="text" 
+                                   class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400" 
+                                   id="no_telp" 
+                                   name="no_telp" 
+                                   value="<?php echo $mahasiswa->no_telp; ?>" 
+                                   required>
+                        </div>
+                        <div>
+                            <label for="id_prodi" class="block text-sm font-semibold text-gray-700 mb-1">Jurusan</label>
+                            <select class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400" 
+                                    id="id_prodi" 
+                                    name="id_prodi" 
+                                    required>
+                                <option value="">Pilih Jurusan</option>
+                                <?php foreach ($prodi as $p): ?>
+                                    <option value="<?php echo $p->id_prodi; ?>" 
+                                            <?php echo ($p->id_prodi == $mahasiswa->id_prodi) ? 'selected' : ''; ?>>
+                                        <?php echo $p->nama_prodi; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-gray-100 rounded-b-lg p-4 flex justify-end">
+                    <button type="button" 
+                            class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors" 
+                            data-dismiss="modal">Batal</button>
+                    <button type="submit" 
+                            name="submit" 
+                            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors ml-2">
+                        Simpan
+                    </button>
+                </div>
+            </form>
         </div>
+    </div>
+</div>
+
+
     </div>
 
     <!-- Scripts -->

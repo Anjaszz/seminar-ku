@@ -24,7 +24,7 @@
                            <p class="text-sm font-medium text-gray-900">Admin Panel</p>
                            <p class="text-sm text-gray-500"><?php echo isset($admin_email) ? $admin_email : 'Email tidak ditemukan'; ?></p> <!-- Ganti dengan email dari database -->
                        </div>
-                       <a href="<?php echo site_url('logout') ?>" class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-50">
+                       <a href="<?php echo site_url('master/auth/logout') ?>" class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-50">
                            <i class="bi bi-box-arrow-right mr-2"></i>
                            Logout
                        </a>
