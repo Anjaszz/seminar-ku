@@ -312,4 +312,5 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
+ob_start();
 require_once BASEPATH.'core/CodeIgniter.php';

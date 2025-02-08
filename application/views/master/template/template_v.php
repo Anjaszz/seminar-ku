@@ -26,20 +26,16 @@
     <?php $this->load->view('master/template/navbar'); ?>
     <?php $this->load->view('master/template/header'); ?> <!-- Mengirimkan admin_email ke header -->
 
-    <div class="pcoded-main-container" id="padding">
-        <div class="pcoded-wrapper">
-            <div class="pcoded-content">
-                <div class="pcoded-inner-content">
-                    <div class="main-body">
-                        <div class="page-wrapper">
-                            <!-- start content here -->
-                            <?php echo $contents; ?>
-                            <!-- end content -->
-                        </div>
-                    </div>
+    <div class="flex min-h-screen "> <!-- pt-16 accounts for fixed header height -->
+        <!-- Main Container -->
+        <main class="flex-1 transition-all duration-300" id="mainContent">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="">
+                    <!-- Dynamic Content -->
+                    <?php echo $contents ?>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
 
     <?php $this->load->view('template/js'); ?>

@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full">
 <head>
-    <title>Login Page</title>
+    <title>Vendor Login | Simaseminar – Solusi Manajemen Seminar & Webinar</title>
+    <meta name="description" content="Simaseminar adalah platform manajemen seminar berbasis web yang membantu peserta menemukan dan mendaftar seminar dengan mudah. Vendor dapat mengelola acara, registrasi, dan sertifikat secara otomatis dalam satu sistem efisien. Kunjungi sekarang">
+    <meta property="og:title" content="Simaseminar – Solusi Manajemen Seminar & Webinar">
+<meta property="og:description" content="Kelola seminar dengan mudah! Simaseminar membantu peserta menemukan dan mendaftar seminar, serta mempermudah vendor mengelola acara, registrasi, dan sertifikat secara otomatis.">
+<meta property="og:image" content="https://simaseminar.web.id/assets/backend/template/assets/images/SIMAS.png">
+<meta property="og:url" content="https://simaseminar.web.id">
+<meta property="og:type" content="website">
+<meta name="keywords" content="manajemen seminar, platform seminar, pendaftaran seminar, event management, sertifikat online, webinar, Simaseminar">
+<meta name="robots" content="index, follow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />

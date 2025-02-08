@@ -5,7 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <title>SIMAS Landing</title>
+    <title>Landing Vendor | Simaseminar – Solusi Manajemen Seminar & Webinar</title>
+    <meta name="description" content="Simaseminar adalah platform manajemen seminar berbasis web yang membantu peserta menemukan dan mendaftar seminar dengan mudah. Vendor dapat mengelola acara, registrasi, dan sertifikat secara otomatis dalam satu sistem efisien. Kunjungi sekarang">
+    <meta property="og:title" content="Simaseminar – Solusi Manajemen Seminar & Webinar">
+<meta property="og:description" content="Kelola seminar dengan mudah! Simaseminar membantu peserta menemukan dan mendaftar seminar, serta mempermudah vendor mengelola acara, registrasi, dan sertifikat secara otomatis.">
+<meta property="og:image" content="https://simaseminar.web.id/assets/backend/template/assets/images/SIMAS.png">
+<meta property="og:url" content="https://simaseminar.web.id">
+<meta property="og:type" content="website">
+<meta name="keywords" content="manajemen seminar, platform seminar, pendaftaran seminar, event management, sertifikat online, webinar, Simaseminar">
+<meta name="robots" content="index, follow">
     <style>
         @keyframes pulse-light {
             0%, 100% { opacity: 1; }
@@ -687,14 +695,13 @@
     </section>
 
 
-<footer class="bg-white text-black py-8">
-  <div class="container mx-auto px-4">
+    <footer class="bg-white text-black py-8">
+  <div class="container mx-auto">
     <div class="flex flex-wrap -mx-4">
-      <!-- Section 1 -->
-      <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8">
-        <img src="<?php echo base_url('assets/backend/template/assets/images/SIMAS.png'); ?>" alt="Logo" class="mb-4 md:w-full w-56">
+      <div class="w-full lg:w-1/4 px-4 mb-8">
+        <img src="<?php echo base_url('assets/backend/template/assets/images/SIMAS.png'); ?>" alt="Logo" class="mb-4 max-w-[150px]">
         <p class="text-gray-600">Sistem Manajemen Seminar</p>
-        <div class="flex flex-wrap space-x-4 mt-4">
+        <div class="flex space-x-4 mt-4">
           <a href="#" class="hover:opacity-80 transition-opacity duration-200">
             <img src="<?php echo base_url('assets/images/appstore.svg'); ?>" alt="App Store" class="h-12">
           </a>
@@ -703,36 +710,42 @@
           </a>
         </div>
       </div>
-      <!-- Section 2 -->
-      <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8">
+      <div class="w-full lg:w-1/4 px-4 mb-8">
         <h5 class="mb-4 text-xl font-bold">Menu</h5>
         <ul class="space-y-2">
-          <li><a href="#" class="text-gray-600 hover:text-black transition-colors duration-200">Beranda</a></li>
-          <li><a href="#" class="text-gray-600 hover:text-black transition-colors duration-200">Seminar</a></li>
-          <li><a href="#" class="text-gray-600 hover:text-black transition-colors duration-200">Tentang Kami</a></li>
-          <li><a href="#" class="text-gray-600 hover:text-black transition-colors duration-200">Kontak</a></li>
+          <li><a href="/landingVendor" class="text-gray-600 hover:text-black transition-colors duration-200">Beranda</a></li>
+          <li><a href="/user/home" class="text-gray-600 hover:text-black transition-colors duration-200">Cari Seminar</a></li>
+          <li><a href="/landingVendor" class="text-gray-600 hover:text-black transition-colors duration-200">Tentang Kami</a></li>
+          <li><a href="https://wa.me/6285711297160" class="text-gray-600 hover:text-black transition-colors duration-200">Kontak</a></li>
         </ul>
       </div>
-      <!-- Section 3 -->
-      <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8">
+      <div class="w-full lg:w-1/4 px-4 mb-8">
         <h5 class="mb-4 text-xl font-bold">Kontak Kami</h5>
         <p class="text-gray-600 mb-2">Jl. Raya Jatiwaringin No.2, RT.8/RW.13, Cipinang Melayu, Kec. Makasar, Kota Jakarta Timur, DKI Jakarta 13620</p>
-        <p class="text-gray-600">Email: info@simaseminar.com<br>Telp: +62 571 1297 160</p>
+        <p class="text-gray-600">
+    Email: <a href="mailto:admin@simaseminar.web.id" class="text-blue-600 hover:underline">
+    admin@simaseminar.web.id
+    </a>
+    <br>
+    Telp: <a href="tel:+625711297160" class="text-blue-600 hover:underline">
+        +62 571 1297 160
+    </a>
+</p>
+
       </div>
-      <!-- Section 4 -->
-      <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8">
+      <div class="w-full lg:w-1/4 px-4 mb-8">
         <h5 class="mb-4 text-xl font-bold">Ikuti Kami</h5>
         <div class="flex space-x-4">
-          <a href="#" class="text-gray-400 hover:text-black transition-colors duration-200">
+          <a href="https://www.facebook.com/profile.php?id=61573009317299" class="text-gray-400 hover:text-black transition-colors duration-200">
             <i class="fab fa-facebook text-2xl"></i>
           </a>
-          <a href="#" class="text-gray-400 hover:text-black transition-colors duration-200">
+          <a href="https://x.com/SimasSeminar"  class="text-gray-400 hover:text-black transition-colors duration-200">
             <i class="fab fa-twitter text-2xl"></i>  
           </a>
-          <a href="#" class="text-gray-400 hover:text-black transition-colors duration-200">
+          <a href="https://www.instagram.com/simaseminar" class="text-gray-400 hover:text-black transition-colors duration-200">
             <i class="fab fa-instagram text-2xl"></i>
           </a>
-          <a href="#" class="text-gray-400 hover:text-black transition-colors duration-200">
+          <a href="https://youtube.com/@simaseminar" class="text-gray-400 hover:text-black transition-colors duration-200">
             <i class="fab fa-youtube text-2xl"></i>
           </a>
         </div>
@@ -740,7 +753,7 @@
     </div>
     <hr class="border-gray-800 my-8">
     <div class="text-center text-gray-600">
-      <p>&copy; 2024 Sistem Manajemen Seminar. All rights reserved.</p>
+      <p>&copy; 2025 Sistem Manajemen Seminar. All rights reserved.</p>
     </div>
   </div>
 </footer>

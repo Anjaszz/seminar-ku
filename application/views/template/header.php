@@ -15,7 +15,7 @@
             <img src="<?php echo base_url() ?>assets/images/widget/user.png" alt="Profile" class="w-full h-full object-cover">
         </div>
         <div class="hidden md:flex items-center space-x-2">
-            <span class="font-medium text-gray-800">Master Admin</span>
+            <span class="font-medium text-gray-800">Admin Vendor</span>
             <i class="bi bi-chevron-down text-sm transition-transform duration-200" id="dropdownArrow"></i>
         </div>
     </button>
@@ -29,7 +29,7 @@
                     <img src="<?php echo base_url() ?>assets/images/widget/user.png" alt="Profile" class="w-full h-full object-cover">
                 </div>
                 <div class="flex-1 overflow-hidden">
-                    <p class="text-sm font-semibold text-gray-800">Admin Panel</p>
+                    <p class="text-sm font-semibold text-gray-800"> <?php echo isset($nama_vendor) ? $nama_vendor : 'SIMAS'; ?></p>
                     <p class="text-sm text-gray-500 truncate">
                         <?php echo isset($admin_email) ? $admin_email : 'Email tidak ditemukan'; ?>
                     </p>

@@ -266,8 +266,7 @@
 			<div class="loader-fill"></div>
 		</div>
 	</div>
-	<?php $this->load->view('template/navbar') ?>
-	<?php $this->load->view('template/header') ?>
+	
 
 
 	<div class="pcoded-main-container">

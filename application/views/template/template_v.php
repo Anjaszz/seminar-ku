@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Manajemen Seminar</title>
+    <title>Dashboard Vendor | Simaseminar – Solusi Manajemen Seminar & Webinar</title>
+    <meta name="description" content="Simaseminar adalah platform manajemen seminar berbasis web yang membantu peserta menemukan dan mendaftar seminar dengan mudah. Vendor dapat mengelola acara, registrasi, dan sertifikat secara otomatis dalam satu sistem efisien. Kunjungi sekarang">
+    <meta property="og:title" content="Simaseminar – Solusi Manajemen Seminar & Webinar">
+<meta property="og:description" content="Kelola seminar dengan mudah! Simaseminar membantu peserta menemukan dan mendaftar seminar, serta mempermudah vendor mengelola acara, registrasi, dan sertifikat secara otomatis.">
+<meta property="og:image" content="https://simaseminar.web.id/assets/backend/template/assets/images/SIMAS.png">
+<meta property="og:url" content="https://simaseminar.web.id">
+<meta property="og:type" content="website">
+<meta name="keywords" content="manajemen seminar, platform seminar, pendaftaran seminar, event management, sertifikat online, webinar, Simaseminar">
+<meta name="robots" content="index, follow">
     
     <!-- Favicon -->
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/fav.png') ?>" />

@@ -77,14 +77,14 @@ class Home extends CI_Controller
                 'total'     => $this->Home_model->total('seminar'), // Memanggil method total dari model
                 'title'        => 'Total Seminar',
                 'icon'        => 'layer-group',
-                'link' => site_url('seminar')
+                'link' => site_url('master/home')
             ],
             [
                 'color'         => 'red',
                 'total'     => $this->Laporan_master_model->total_pemasukan(), // Memanggil method total dari model
                 'title'        => 'Total Pemasukan',
                 'icon'        => 'money-bill-wave',
-                'link' => site_url('seminar')
+                'link' => site_url('master/laporan/keuangan')
             ],
         ];
         $info_box = json_decode(json_encode($box), FALSE);
