@@ -1,0 +1,394 @@
+
+@keyframes float {  
+    0% { transform: translateY(0px); }  
+    50% { transform: translateY(-10px); }  
+    100% { transform: translateY(0px); }  
+}  
+  
+.animate-float {  
+    animation: float 3s ease-in-out infinite;  
+}  
+
+.gradient-text {  
+    background: linear-gradient(to right, #3b82f6, #8b5cf6);  
+    -webkit-background-clip: text;  
+    -webkit-text-fill-color: transparent;  
+}  
+
+.scrollbar-hide::-webkit-scrollbar {  
+    display: none;  
+}  
+
+.card-shadow {  
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);  
+}  
+.bot-message, .user-message {
+opacity: 0;
+transform: translateY(20px);
+animation: fadeInUp 0.3s ease forwards;
+}
+
+@keyframes fadeInUp {
+to {
+    opacity: 1;
+    transform: translateY(0);
+}
+}
+
+#chat-messages::-webkit-scrollbar {
+width: 6px;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+background: #f1f1f1;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+background: #bbbbbb;
+border-radius: 3px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb:hover {
+background: #999999;
+}
+
+/* Animasi untuk header */
+@keyframes gradientFlow {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes waveHand {
+    0% { transform: rotate(0deg); }
+    10% { transform: rotate(14deg); }
+    20% { transform: rotate(-8deg); }
+    30% { transform: rotate(14deg); }
+    40% { transform: rotate(-4deg); }
+    50% { transform: rotate(10deg); }
+    60% { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+  }
+  
+  .animate-header-gradient {
+    background-size: 200% 200%;
+    animation: gradientFlow 15s ease infinite;
+  }
+  
+  .animate-title {
+    animation: fadeInUp 0.8s ease-out;
+  }
+  
+  .animate-subtitle {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+    animation-delay: 0.2s;
+  }
+  
+  .animate-buttons {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+    animation-delay: 0.4s;
+  }
+  
+  .animate-wave {
+    display: inline-block;
+    animation: waveHand 2.5s ease infinite;
+    transform-origin: 70% 70%;
+  }
+  
+  .animate-stats-card {
+    opacity: 0;
+    animation: scaleIn 0.6s ease-out forwards;
+  }
+  
+  .animate-stats-card:nth-child(1) { animation-delay: 0.6s; }
+  .animate-stats-card:nth-child(2) { animation-delay: 0.8s; }
+  .animate-stats-card:nth-child(3) { animation-delay: 1s; }
+  
+  .stats-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .stats-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Animasi untuk kategori populer */
+@keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes floatIcon {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  .category-title {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+  
+  .category-card {
+    opacity: 0;
+    animation: fadeInScale 0.6s ease-out forwards;
+  }
+  
+  .category-card:nth-child(1) { animation-delay: 0.2s; }
+  .category-card:nth-child(2) { animation-delay: 0.4s; }
+  .category-card:nth-child(3) { animation-delay: 0.6s; }
+  .category-card:nth-child(4) { animation-delay: 0.8s; }
+  
+  .category-icon {
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+  
+  .category-card:hover .category-icon {
+    animation: floatIcon 1s ease infinite;
+  }
+  
+  .category-hover {
+    transition: all 0.3s ease;
+  }
+  
+  .category-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Animasi untuk Why Choose Us section */
+@keyframes slideInBottom {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes rotateInScale {
+    from {
+      opacity: 0;
+      transform: scale(0) rotate(-180deg);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) rotate(0);
+    }
+  }
+  
+  @keyframes floating {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  .why-us-title {
+    opacity: 0;
+    animation: slideInBottom 0.8s ease-out forwards;
+  }
+  
+  .feature-item {
+    opacity: 0;
+    animation: slideInBottom 0.8s ease-out forwards;
+  }
+  
+  .feature-item:nth-child(1) { animation-delay: 0.2s; }
+  .feature-item:nth-child(2) { animation-delay: 0.4s; }
+  .feature-item:nth-child(3) { animation-delay: 0.6s; }
+  
+  .feature-icon-wrapper {
+    opacity: 0;
+    animation: rotateInScale 0.8s ease-out forwards;
+  }
+  
+  .feature-item:nth-child(1) .feature-icon-wrapper { animation-delay: 0.4s; }
+  .feature-item:nth-child(2) .feature-icon-wrapper { animation-delay: 0.6s; }
+  .feature-item:nth-child(3) .feature-icon-wrapper { animation-delay: 0.8s; }
+  
+  .feature-item:hover .feature-icon-wrapper {
+    animation: floating 2s ease-in-out infinite;
+  }
+
+  /* Animasi untuk testimonial slider */
+.testimonial-container {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+  
+  .testimonial-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    gap: 2rem;
+  }
+  
+  .testimonial-slide {
+    flex: 0 0 auto;
+    width: calc(33.333% - 1.333rem); /* Untuk 3 card dalam viewport */
+    opacity: 0;
+    transform: translateX(50px);
+    animation: slideIn 0.5s ease forwards;
+  }
+  
+  @media (max-width: 768px) {
+    .testimonial-slide {
+      width: calc(100% - 2rem); /* Untuk 1 card dalam viewport di mobile */
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .testimonial-card {
+    transition: all 0.3s ease;
+  }
+  
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .rating-stars {
+    display: inline-flex;
+    animation: sparkle 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes sparkle {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  /* Animasi untuk CTA section */
+@keyframes gradientFlow {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  @keyframes floatingBlur {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(-20px, -20px) scale(1.1);
+    }
+  }
+  
+  @keyframes contentFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .cta-gradient {
+    background-size: 200% 200%;
+    animation: gradientFlow 15s ease infinite;
+  }
+  
+  .cta-blur {
+    animation: floatingBlur 20s ease-in-out infinite;
+  }
+  
+  .cta-content {
+    opacity: 0;
+    animation: contentFadeIn 0.8s ease-out forwards;
+  }
+  
+  .cta-title {
+    animation-delay: 0.2s;
+  }
+  
+  .cta-description {
+    animation-delay: 0.4s;
+  }
+  
+  .cta-buttons {
+    animation-delay: 0.6s;
+  }
+  
+  .cta-features {
+    animation-delay: 0.8s;
+  }
+  
+  .cta-button {
+    transition: all 0.3s ease;
+  }
+  
+  .cta-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .cta-feature-item {
+    transition: all 0.3s ease;
+  }
+  
+  .cta-feature-item:hover {
+    transform: translateX(5px);
+  }

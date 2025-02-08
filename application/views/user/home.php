@@ -7,99 +7,46 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>  
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">  
     <link rel="icon" type="image/x-icon" href="assets/logo.svg">
-    <style>  
-        @keyframes float {  
-            0% { transform: translateY(0px); }  
-            50% { transform: translateY(-10px); }  
-            100% { transform: translateY(0px); }  
-        }  
-          
-        .animate-float {  
-            animation: float 3s ease-in-out infinite;  
-        }  
-  
-        .gradient-text {  
-            background: linear-gradient(to right, #3b82f6, #8b5cf6);  
-            -webkit-background-clip: text;  
-            -webkit-text-fill-color: transparent;  
-        }  
-  
-        .scrollbar-hide::-webkit-scrollbar {  
-            display: none;  
-        }  
-  
-        .card-shadow {  
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);  
-        }  
-        .bot-message, .user-message {
-        opacity: 0;
-        transform: translateY(20px);
-        animation: fadeInUp 0.3s ease forwards;
-    }
-
-    @keyframes fadeInUp {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    #chat-messages::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    #chat-messages::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-
-    #chat-messages::-webkit-scrollbar-thumb {
-        background: #bbbbbb;
-        border-radius: 3px;
-    }
-
-    #chat-messages::-webkit-scrollbar-thumb:hover {
-        background: #999999;
-    }
-    </style>  
+    <link href="<?= base_url('assets/css/animation-user-home.css'); ?>" rel="stylesheet">
 </head>  
 <body class="bg-gray-50 mt-20">  
     <!-- Hero Section with Stats -->  
-    <header class="relative bg-gradient-to-r from-blue-600 to-purple-600 py-20">  
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
-            <div class="text-center">  
-                <h1 class="text-4xl font-extrabold text-white sm:text-5xl lg:text-6xl animate-float">  
-                    Selamat datang, <?php echo $nama_mahasiswa; ?>👋 
-                </h1>  
-                <p class="mt-4 text-xl text-gray-100">  
-                    Platform Seminar Terbaik untuk Pengembangan Karirmu  
-                </p>  
-                <div class="mt-8 flex justify-center space-x-4">  
-                    <a href="#upcoming" class="bg-white text-blue-600 px-3 sm:px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">  
-                        Lihat Seminar  
-                    </a>  
-                    <a href="#about" class="bg-transparent border-2 border-white text-white px-4 sm:px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition">  
-                        Pelajari Lebih Lanjut  
-                    </a>  
-                </div>  
-            </div>  
-              
-            <!-- Stats Cards -->  
-            <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">  
-                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 text-white">  
-                    <div class="text-3xl font-bold"><?php echo number_format($total_seminars); ?>+</div>  
-                    <div class="text-gray-200">Seminar Tersedia</div>  
-                </div>  
-                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 text-white">  
-                    <div class="text-3xl font-bold"><?php echo number_format($total_participants); ?>+</div>  
-                    <div class="text-gray-200">Peserta Aktif</div>  
-                </div>  
-                <div class="bg-white/10 backdrop-blur-lg rounded-xl p-6 text-white">  
-                    <div class="text-3xl font-bold"><?php echo number_format($success_rate); ?>%</div>  
-                    <div class="text-gray-200">Tingkat Kepuasan</div>  
-                </div>  
+    <header class="relative bg-gradient-to-r from-blue-600 to-purple-600 animate-header-gradient py-20">  
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
+        <div class="text-center">  
+            <h1 class="animate-title text-4xl font-extrabold text-white sm:text-5xl lg:text-6xl">  
+                Selamat datang, <?php echo $nama_mahasiswa; ?><span class="animate-wave">👋</span>
+            </h1>  
+            <p class="animate-subtitle mt-4 text-xl text-gray-100">  
+                Platform Seminar Terbaik untuk Pengembangan Karirmu  
+            </p>  
+            <div class="animate-buttons mt-8 flex justify-center space-x-4">  
+                <a href="#upcoming" class="bg-white text-blue-600 px-3 sm:px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition duration-300 transform hover:scale-105">  
+                    Lihat Seminar  
+                </a>  
+                <a href="#about" class="bg-transparent border-2 border-white text-white px-4 sm:px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition duration-300 transform hover:scale-105">  
+                    Pelajari Lebih Lanjut  
+                </a>  
             </div>  
         </div>  
-    </header>  
+          
+        <!-- Stats Cards -->  
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">  
+            <div class="animate-stats-card stats-hover bg-white/10 backdrop-blur-lg rounded-xl p-6 text-white">  
+                <div class="text-3xl font-bold"><?php echo number_format($total_seminars); ?>+</div>  
+                <div class="text-gray-200">Seminar Tersedia</div>  
+            </div>  
+            <div class="animate-stats-card stats-hover bg-white/10 backdrop-blur-lg rounded-xl p-6 text-white">  
+                <div class="text-3xl font-bold"><?php echo number_format($total_participants); ?>+</div>  
+                <div class="text-gray-200">Peserta Aktif</div>  
+            </div>  
+            <div class="animate-stats-card stats-hover bg-white/10 backdrop-blur-lg rounded-xl p-6 text-white">  
+                <div class="text-3xl font-bold"><?php echo number_format($success_rate); ?>%</div>  
+                <div class="text-gray-200">Tingkat Kepuasan</div>  
+            </div>  
+        </div>  
+    </div>  
+</header>
   
     <!-- Search and Filter Section -->  
     <!-- Modifikasi bagian filter di view -->
@@ -202,40 +149,41 @@
         </form>  
     </div>  
 </section>
+
     <!-- Featured Categories -->  
-    <section class="py-12 bg-white">
+<section class="py-12 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-gray-900 mb-8">Kategori Populer</h2>
+        <h2 class="category-title text-3xl font-bold text-gray-900 mb-8">Kategori Populer</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <!-- Teknologi -->
             <div 
                 onclick="window.location.href='?id_kategori=1';" 
-                class="bg-blue-50 rounded-xl p-6 text-center hover:bg-blue-100 transition cursor-pointer">
-                <i class="fas fa-laptop-code text-3xl text-blue-600 mb-3"></i>
+                class="category-card category-hover bg-blue-50 rounded-xl p-6 text-center hover:bg-blue-100 transition cursor-pointer">
+                <i class="category-icon fas fa-laptop-code text-3xl text-blue-600 mb-3"></i>
                 <h3 class="font-semibold">Teknologi</h3>
             </div>
             
             <!-- Bisnis -->
             <div 
                 onclick="window.location.href='?id_kategori=5';" 
-                class="bg-green-50 rounded-xl p-6 text-center hover:bg-green-100 transition cursor-pointer">
-                <i class="fas fa-chart-line text-3xl text-green-600 mb-3"></i>
+                class="category-card category-hover bg-green-50 rounded-xl p-6 text-center hover:bg-green-100 transition cursor-pointer">
+                <i class="category-icon fas fa-chart-line text-3xl text-green-600 mb-3"></i>
                 <h3 class="font-semibold">Bisnis</h3>
             </div>
             
             <!-- Desain -->
             <div 
                 onclick="window.location.href='?id_kategori=11';" 
-                class="bg-purple-50 rounded-xl p-6 text-center hover:bg-purple-100 transition cursor-pointer">
-                <i class="fas fa-paint-brush text-3xl text-purple-600 mb-3"></i>
+                class="category-card category-hover bg-purple-50 rounded-xl p-6 text-center hover:bg-purple-100 transition cursor-pointer">
+                <i class="category-icon fas fa-paint-brush text-3xl text-purple-600 mb-3"></i>
                 <h3 class="font-semibold">Desain</h3>
             </div>
             
             <!-- Kesehatan -->
             <div 
                 onclick="window.location.href='?id_kategori=4';" 
-                class="bg-red-50 rounded-xl p-6 text-center hover:bg-red-100 transition cursor-pointer">
-                <i class="fas fa-heartbeat text-3xl text-red-600 mb-3"></i>
+                class="category-card category-hover bg-red-50 rounded-xl p-6 text-center hover:bg-red-100 transition cursor-pointer">
+                <i class="category-icon fas fa-heartbeat text-3xl text-red-600 mb-3"></i>
                 <h3 class="font-semibold">Kesehatan</h3>
             </div>
         </div>
@@ -262,7 +210,7 @@
                 ?>
                 <div class="text-center py-4">
                     <p class="text-gray-800 font-semibold">
-                        Ada <span class="text-blue-600"><?php echo count($available_seminars); ?></span> seminar dengan slot tersedia
+                        Ada <span class="text-blue-600"><?php echo count($available_seminars); ?></span> seminar dengan kuota tersedia
                     </p>
                 </div>
             <?php endif; ?>
@@ -473,111 +421,129 @@
 </section>
 
   
-    <!-- Why Choose Us -->  
-    <section class="py-12 bg-white">  
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
-            <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Mengapa Memilih Kami?</h2>  
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">  
-                <div class="text-center">  
-                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">  
-                        <i class="fas fa-certificate text-2xl text-blue-600"></i>  
-                    </div>  
-                    <h3 class="text-xl font-semibold mb-2">Sertifikat Resmi</h3>  
-                    <p class="text-gray-600">Dapatkan sertifikat resmi yang diakui untuk setiap seminar yang Anda ikuti</p>  
-                </div>  
-                <div class="text-center">  
-                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">  
-                        <i class="fas fa-users text-2xl text-green-600"></i>  
-                    </div>  
-                    <h3 class="text-xl font-semibold mb-2">Pembicara Ahli</h3>  
-                    <p class="text-gray-600">Belajar langsung dari para ahli dan praktisi terbaik di bidangnya</p>  
-                </div>  
-                <div class="text-center">  
-                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">  
-                        <i class="fas fa-clock text-2xl text-purple-600"></i>  
-                    </div>  
-                    <h3 class="text-xl font-semibold mb-2">Fleksibel</h3>  
-                    <p class="text-gray-600">Ikuti seminar sesuai jadwal dan kebutuhan Anda</p>  
-                </div>  
-            </div>  
-        </div>  
-    </section>  
-  
-    <!-- Testimonials -->  
-    <section class="py-12 bg-gray-50 mx-6">  
+  <!-- Why Choose Us -->  
+<section class="py-12 bg-white">  
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">  
+        <h2 class="why-us-title text-3xl font-bold text-center text-gray-900 mb-12">
+            Mengapa Memilih Kami?
+        </h2>  
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">  
-            <?php foreach ($testimonials as $testimonial): ?>  
-            <div class="bg-white p-6 rounded-xl shadow-md">  
-                <div class="flex items-center mb-4">  
-                    <img src="<?php echo $testimonial['avatar']; ?>" class="w-12 h-12 rounded-full" alt="Avatar">  
-                    <div class="ml-4">  
-                        <h4 class="font-semibold"><?php echo $testimonial['name']; ?></h4>  
-                        <div class="flex text-yellow-400">  
-                            <?php for ($i = 0; $i < $testimonial['rating']; $i++): ?>  
-                                <i class="fas fa-star"></i>  
-                            <?php endfor; ?>  
+            <div class="feature-item text-center p-6 rounded-xl transition-all duration-300 hover:shadow-lg">  
+                <div class="feature-icon-wrapper bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">  
+                    <i class="fas fa-certificate text-2xl text-blue-600"></i>  
+                </div>  
+                <h3 class="text-xl font-semibold mb-2">Sertifikat Resmi</h3>  
+                <p class="text-gray-600">Dapatkan sertifikat resmi yang diakui untuk setiap seminar yang Anda ikuti</p>  
+            </div>  
+
+            <div class="feature-item text-center p-6 rounded-xl transition-all duration-300 hover:shadow-lg">  
+                <div class="feature-icon-wrapper bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">  
+                    <i class="fas fa-users text-2xl text-green-600"></i>  
+                </div>  
+                <h3 class="text-xl font-semibold mb-2">Pembicara Ahli</h3>  
+                <p class="text-gray-600">Belajar langsung dari para ahli dan praktisi terbaik di bidangnya</p>  
+            </div>  
+
+            <div class="feature-item text-center p-6 rounded-xl transition-all duration-300 hover:shadow-lg">  
+                <div class="feature-icon-wrapper bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">  
+                    <i class="fas fa-clock text-2xl text-purple-600"></i>  
+                </div>  
+                <h3 class="text-xl font-semibold mb-2">Fleksibel</h3>  
+                <p class="text-gray-600">Ikuti seminar sesuai jadwal dan kebutuhan Anda</p>  
+            </div>  
+        </div>  
+    </div>  
+</section> 
+  
+   <!-- Testimonials -->  
+<section class="py-12 bg-gray-50">  
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Apa Kata Mereka?</h2>
+        
+        <div class="testimonial-container">
+            <div class="testimonial-track" id="testimonialTrack">
+                <?php foreach ($testimonials as $index => $testimonial): ?>  
+                <div class="testimonial-slide" style="animation-delay: <?php echo $index * 0.2; ?>s">
+                    <div class="testimonial-card bg-white p-6 rounded-xl shadow-md h-full">  
+                        <div class="flex items-center mb-4">  
+                            <img 
+                                src="<?php echo $testimonial['avatar']; ?>" 
+                                class="w-12 h-12 rounded-full object-cover" 
+                                alt="<?php echo $testimonial['name']; ?>"
+                            >  
+                            <div class="ml-4">  
+                                <h4 class="font-semibold"><?php echo $testimonial['name']; ?></h4>  
+                                <div class="rating-stars flex text-yellow-400">  
+                                    <?php for ($i = 0; $i < $testimonial['rating']; $i++): ?>  
+                                        <i class="fas fa-star"></i>  
+                                    <?php endfor; ?>  
+                                </div>  
+                            </div>  
                         </div>  
+                        <p class="text-gray-600"><?php echo $testimonial['content']; ?></p>  
                     </div>  
                 </div>  
-                <p class="text-gray-600"><?php echo $testimonial['content']; ?></p>  
-            </div>  
-            <?php endforeach; ?>  
-        </div>  
-    </section>  
+                <?php endforeach; ?>  
+            </div>
+        </div>
+    </div>  
+</section>
   
-    <!-- CTA Section -->  
-    <section class="relative py-20 bg-gradient-to-br from-blue-600 to-purple-700 overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-700 opacity-75"></div>
-        
-        <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="relative z-10">
-                <div class="mb-8 space-y-4">
-                    <h2 class="text-4xl md:text-5xl font-extrabold text-white leading-tight tracking-tight">
-                        Transformasikan Seminar Anda dengan SIMAS
-                    </h2>
-                    <p class="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-                        Gabung sebagai vendor dan nikmati solusi manajemen seminar tercanggih. Tingkatkan pengalaman dan efisiensi acara Anda dalam satu platform cerdas.
-                    </p>
-                </div>
+   <!-- CTA Section -->  
+<section class="relative py-20 bg-gradient-to-br from-blue-600 to-purple-700 overflow-hidden cta-gradient">
+    <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-700 opacity-75"></div>
+    
+    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="relative z-10">
+            <div class="mb-8 space-y-4 cta-content cta-title">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-white leading-tight tracking-tight">
+                    Transformasikan Seminar Anda dengan SIMAS
+                </h2>
+                <p class="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
+                    Gabung sebagai vendor dan nikmati solusi manajemen seminar tercanggih. Tingkatkan pengalaman dan efisiensi acara Anda dalam satu platform cerdas.
+                </p>
+            </div>
 
-                <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <a href="<?php echo base_url('/landingVendor'); ?>" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-full text-blue-700 bg-white hover:bg-blue-50 transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
-                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        Daftar Jadi Vendor Sekarang
-                    </a>
-                    <a href="#" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border border-white text-base font-bold rounded-full text-white hover:bg-white/10 transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
-                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        Pelajari Lebih Lanjut
-                    </a>
-                </div>
+            <div class="cta-content cta-buttons flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="<?php echo base_url('/landingVendor'); ?>" 
+                   class="cta-button w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-full text-blue-700 bg-white hover:bg-blue-50 transition-all duration-300">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Daftar Jadi Vendor Sekarang
+                </a>
+                <a href="#" 
+                   class="cta-button w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 border border-white text-base font-bold rounded-full text-white hover:bg-white/10 transition-all duration-300">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Pelajari Lebih Lanjut
+                </a>
+            </div>
 
-                <div class="mt-12 flex justify-center items-center space-x-4 opacity-70">
-                    <div class="flex items-center text-white">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m7.5 0c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3-1.346 3-3 3zm0 0c-1.954 0-3.5 1.546-3.5 3.5s1.546 3.5 3.5 3.5 3.5-1.546 3.5-3.5S22.454 9 20.5 9zM3 20v-4a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
-                        </svg>
-                        <span class="text-sm">Manajemen Seminar Profesional</span>
-                    </div>
-                    <div class="flex items-center text-white">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span class="text-sm">Keuntungan Finansial Maksimal</span>
-                    </div>
+            <div class="mt-12 flex justify-center items-center space-x-4 opacity-70 cta-content cta-features">
+                <div class="cta-feature-item flex items-center text-white">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m7.5 0c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3-1.346 3-3 3z"></path>
+                    </svg>
+                    <span class="text-sm">Manajemen Seminar Profesional</span>
+                </div>
+                <div class="cta-feature-item flex items-center text-white">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm">Keuntungan Finansial Maksimal</span>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Optional Background Shapes -->
-        <div class="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
-            <div class="absolute bottom-0 left-0 w-80 h-80 bg-white/10 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
-        </div>
-    </section>
+    <!-- Background Shapes -->
+    <div class="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
+        <div class="cta-blur absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="cta-blur absolute bottom-0 left-0 w-80 h-80 bg-white/10 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
+    </div>
+</section>
   
  <!-- Chatbot Icon -->
 <div id="chatbot-icon" class="fixed bottom-6 right-6 bg-blue-600 w-14 h-14 rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:bg-blue-700 transition-all z-50">
@@ -897,6 +863,30 @@ document.addEventListener('DOMContentLoaded', function() {
         chatMessages.appendChild(messageDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
+});
+
+// riview animasi
+document.addEventListener('DOMContentLoaded', function() {
+    const track = document.getElementById('testimonialTrack');
+    let currentIndex = 0;
+    const slides = document.querySelectorAll('.testimonial-slide');
+    const slideCount = slides.length;
+    
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % slideCount;
+        updateSlider();
+    }
+    
+    function updateSlider() {
+        const slideWidth = slides[0].offsetWidth + 32; // Width + gap
+        track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+    }
+    
+    // Auto slide every 5 seconds
+    setInterval(nextSlide, 4000);
+    
+    // Recalculate on window resize
+    window.addEventListener('resize', updateSlider);
 });
     </script>  
 

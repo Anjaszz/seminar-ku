@@ -1,0 +1,438 @@
+
+@keyframes pulse-light {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+.button-wrapper {
+    position: relative;
+    display: inline-block;
+}
+.button-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    background: inherit;
+    filter: blur(8px);
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.3s;
+}
+.button-wrapper:hover::after {
+    opacity: 0.4;
+}
+.gradient-blur {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(139, 92, 246, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.price-badge {
+    animation: float 3s ease-in-out infinite;
+}
+
+.cta-button {
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -10px rgba(139, 92, 246, 0.5);
+}
+/* Animasi hover untuk card */
+.pricing-card {
+position: relative;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pricing-card:hover {
+transform: translateY(-10px);
+box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Efek hover untuk tombol */
+.pricing-button {
+position: relative;
+overflow: hidden;
+}
+
+.pricing-button::after {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(255, 255, 255, 0.3);
+transform: scale(0);
+transition: transform 0.3s ease;
+border-radius: inherit;
+}
+
+.pricing-button:hover::after {
+transform: scale(1);
+opacity: 0;
+}
+
+/* Efek highlight untuk popular plan */
+.popular-card {
+animation: highlight-popular 1s ease-in-out infinite alternate;
+}
+
+@keyframes highlight-popular {
+0% {
+box-shadow: 0 0 10px rgba(128, 90, 213, 0.2);
+}
+100% {
+box-shadow: 0 0 20px rgba(128, 90, 213, 0.4);
+}
+}
+
+/* Icon check animation */
+.check-icon {
+display: inline-block;
+transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.pricing-card:hover .check-icon {
+transform: scale(1.2);
+color: #2dd4bf; /* Warna hijau hover */
+}
+
+/* section 1 */
+@keyframes slideIn {
+from {
+opacity: 0;
+transform: translateX(-100px);
+}
+to {
+opacity: 1;
+transform: translateX(0);
+}
+}
+
+@keyframes slideInRight {
+from {
+opacity: 0;
+transform: translateX(100px);
+}
+to {
+opacity: 1;
+transform: translateX(0);
+}
+}
+
+@keyframes float {
+0%, 100% {
+transform: translateY(0);
+}
+50% {
+transform: translateY(-20px);
+}
+}
+
+.animate-slide-in {
+animation: slideIn 1s ease-out;
+}
+
+.animate-slide-in-right {
+animation: slideInRight 1s ease-out;
+}
+
+.animate-float {
+animation: float 6s ease-in-out infinite;
+}
+
+.hover-arrow:hover svg {
+transform: translateX(4px);
+}
+
+.hover-arrow svg {
+transition: transform 0.3s ease;
+}
+
+.scale-on-hover:hover {
+transform: scale(1.05);
+}
+
+.scale-on-hover {
+transition: all 0.3s ease;
+}
+
+/* Section 2 */
+@keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .sponsor-animate {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+  }
+  
+  .sponsor-animate:nth-child(1) {
+    animation-delay: 0.2s;
+  }
+  
+  .sponsor-animate:nth-child(2) {
+    animation-delay: 0.4s;
+  }
+  
+  .sponsor-animate:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+  
+  .sponsor-hover {
+    transition: all 0.3s ease;
+  }
+  
+  .sponsor-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+/* Animasi untuk section fitur */
+@keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .feature-card {
+    opacity: 0;
+    animation: fadeInScale 0.8s ease-out forwards;
+  }
+  
+  .feature-image-left {
+    opacity: 0;
+    animation: slideInLeft 1s ease-out forwards;
+  }
+  
+  .feature-image-right {
+    opacity: 0;
+    animation: slideInRight 1s ease-out forwards;
+  }
+  
+  .feature-item {
+    opacity: 0;
+    animation: slideInLeft 0.5s ease-out forwards;
+  }
+  
+  /* Animasi delay untuk list items */
+  .feature-item:nth-child(1) { animation-delay: 0.2s; }
+  .feature-item:nth-child(2) { animation-delay: 0.4s; }
+  .feature-item:nth-child(3) { animation-delay: 0.6s; }
+  .feature-item:nth-child(4) { animation-delay: 0.8s; }
+  .feature-item:nth-child(5) { animation-delay: 1s; }
+  
+  /* Hover effect untuk list items */
+  .feature-item {
+    transition: transform 0.3s ease;
+  }
+  
+  .feature-item:hover {
+    transform: translateX(10px);
+  }
+  
+  /* Hover effect untuk gambar */
+  .feature-image-hover {
+    transition: transform 0.5s ease;
+  }
+  
+  .feature-image-hover:hover {
+    transform: scale(1.02);
+  }
+
+  /* Animasi untuk section testimoni */
+@keyframes countUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes iconPop {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  .testimoni-header {
+    opacity: 0;
+    animation: fadeInScale 0.8s ease-out forwards;
+  }
+  
+  .testimoni-stats {
+    opacity: 0;
+    animation: countUp 0.8s ease-out forwards;
+  }
+  
+  .testimoni-icon {
+    opacity: 0;
+    animation: iconPop 0.6s ease-out forwards;
+  }
+  
+  /* Delay bertingkat untuk stats cards */
+  .testimoni-stats:nth-child(1) { animation-delay: 0.2s; }
+  .testimoni-stats:nth-child(2) { animation-delay: 0.4s; }
+  .testimoni-stats:nth-child(3) { animation-delay: 0.6s; }
+  .testimoni-stats:nth-child(4) { animation-delay: 0.8s; }
+  
+  /* Hover effect untuk stats cards */
+  .stats-card {
+    transition: all 0.3s ease;
+  }
+  
+  .stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+
+/* Animasi untuk section CTA */
+.gradient-blur {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.15), transparent 70%);
+    border-radius: 50%;
+    filter: blur(50px);
+    animation: pulseGlow 6s ease-in-out infinite;
+  }
+  
+  @keyframes pulseGlow {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.3;
+    }
+  }
+  
+  .price-badge {
+    animation: slideDown 0.6s ease-out;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .feature-box {
+    opacity: 0;
+    animation: slideUp 0.6s ease-out forwards;
+  }
+  
+  .feature-box:nth-child(1) { animation-delay: 0.2s; }
+  .feature-box:nth-child(2) { animation-delay: 0.4s; }
+  .feature-box:nth-child(3) { animation-delay: 0.6s; }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .cta-button {
+    animation: pulseButton 2s infinite;
+    transition: all 0.3s ease;
+  }
+  
+  @keyframes pulseButton {
+    0% {
+      box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+    }
+  }
+  
+  .cta-button:hover {
+    transform: translateY(-2px);
+    animation: none;
+  }

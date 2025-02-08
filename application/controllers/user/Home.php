@@ -35,7 +35,25 @@ class Home extends CI_Controller {
             'name' => 'Reza Prakasa',
             'rating' => 5,
             'content' => 'Platform seminar terbaik yang pernah saya ikuti. Sistem pendaftaran yang mudah dan materi yang berkualitas. Sangat direkomendasikan!'
-        ]
+        ],
+        [
+            'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png',
+            'name' => 'Putri Rahayu',
+            'rating' => 5,
+            'content' => 'SIMAS sangat membantu dalam mengelola seminar! Proses registrasi dan presensi jadi lebih cepat berkat fitur QR code.'
+        ],
+        [
+            'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png',
+            'name' => 'Amelia Putri',
+            'rating' => 5,
+            'content' => '"Sistem ini sangat menghemat waktu dan tenaga. Semua terorganisir dengan baik, dari registrasi hingga laporan akhir.'
+        ],
+        [
+            'avatar' => 'https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/man-user-circle-icon.png',
+            'name' => 'Daniel Wijaya',
+            'rating' => 5,
+            'content' => 'SIMAS adalah solusi terbaik untuk seminar modern! Tidak perlu kertas lagi, semua serba digital dan praktis.'
+        ],
     ];
 
     // Data statistik

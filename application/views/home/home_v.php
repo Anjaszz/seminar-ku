@@ -14,11 +14,11 @@
             ];
             $bgColor = $bgColors[$b->color] ?? $bgColors['facebook'];
             ?>
-            <div class="group <?= $bgColor ?> 2xl:rounded-xl xl:rounded-lg shadow-md overflow-hidden hover:shadow-2xl hover:scale-105 transform transition-all duration-300 ease-in-out">
-                <div class="xl:p-3 2xl:p-6 relative">
+            <div class="group <?= $bgColor ?> 2xl:rounded-xl lg:rounded-lg shadow-md overflow-hidden hover:shadow-2xl hover:scale-105 transform transition-all duration-300 ease-in-out">
+                <div class="lg:p-3 2xl:p-6 relative">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h3 class="2xl:text-3xl xl:text-lg font-extrabold text-white">
+                            <h3 class="2xl:text-3xl lg:text-lg font-extrabold text-white">
                                 <?php if ($b->title === 'Total Uang Masuk'): ?>
                                     Rp <?= number_format($b->total, 0, ',', '.') ?>
                                 <?php else: ?>

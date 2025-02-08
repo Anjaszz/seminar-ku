@@ -133,11 +133,11 @@ class Auth extends CI_Controller {
             // Simpan token dan waktu kadaluarsa ke database
             $this->User_model->save_reset_token($email, $reset_token, $expiry_time);
     
-            $reset_link = 'http://192.168.198.130/SIMAS/SIMAS/user/auth/reset_password/' . urlencode($reset_token) . '?email=' . urlencode($email);
+            $reset_link = 'https://simaseminar.web.id/user/auth/reset_password/' . urlencode($reset_token) . '?email=' . urlencode($email);
     
             // Kirim email dengan link reset password
             $this->load->library('email');
-            $this->email->from('sistemmanajemenseminar@gmail.com', 'Admin SIMAS');
+            $this->email->from('admin@simaseminar.web.id', 'Admin SIMAS');
             $this->email->to($email);
             $this->email->subject('Reset Password Akun SIMAS Anda');
             $this->email->message('Klik link berikut untuk mereset password Anda: <a href="'.$reset_link.'">Reset Password</a>');
