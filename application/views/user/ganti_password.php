@@ -237,7 +237,7 @@ function checkPasswordStrength(password) {
         caseCheck.className = 'fas fa-times text-red-500';
     }
     
-    // Special character check
+   
     if (password.match(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/)) {
         strength += 1;
         specialCheck.className = 'fas fa-check text-green-500';
