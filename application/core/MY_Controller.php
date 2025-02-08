@@ -13,7 +13,7 @@ class MY_Controller extends CI_Controller
         }
 
         // Load model
-        $this->load->model('Home_Model', 'home');
+        $this->load->model('Home_model', 'home');
         
         // Ambil id_vendor dari session
         $id_vendor = $this->session->userdata('id_vendor');
