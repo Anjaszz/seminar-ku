@@ -258,7 +258,7 @@ private function _processSeminarData(&$seminar) {
 
         $this->User_model->updateMahasiswa($id_mahasiswa, $nama_mhs, $email, $no_telp, $id_prodi, $foto);
         $this->session->set_flashdata('success', 'Profil berhasil diperbarui!');
-        redirect('user/profil');
+        redirect('user/home/profil');
     }
 
     public function detail($id_seminar) {
