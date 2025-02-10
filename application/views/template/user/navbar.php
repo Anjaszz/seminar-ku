@@ -229,7 +229,7 @@ Grup Komunitas
        <span class="ml-3">Masuk</span>
    </a>
    
-   <a href="<?php echo base_url('daftar'); ?>"
+   <a href="<?php echo base_url('daftar/user'); ?>"
       class="flex items-center w-full px-4 text-center justify-center py-2.5 rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-all">
        <i class="fas fa-user-plus w-5"></i>
        <span class="ml-3">Daftar</span>
